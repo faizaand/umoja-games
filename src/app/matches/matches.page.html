@@ -1,0 +1,15 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Matches</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="">
+
+    <ion-segment scrollable (ionChange)="segmentChanged($event)">
+        <ion-segment-button *ngFor="let teamCat of teamCategories" [attr.checked]="teamCat === selectedTeam">
+            <ion-label>{{ teamCat }}</ion-label>
+        </ion-segment-button>
+    </ion-segment>
+
+</ion-content>
