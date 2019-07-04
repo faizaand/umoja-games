@@ -6,7 +6,8 @@ const routes: Routes = [
   { path: 'matches', loadChildren: './matches/matches.module#MatchesPageModule' },
   { path: 'rosters', loadChildren: './rosters/rosters.module#RostersPageModule' },
   { path: 'info', loadChildren: './info/info.module#InfoPageModule' },
-  { path: 'nearby', loadChildren: './nearby/nearby.module#NearbyPageModule' }
+  { path: 'nearby', loadChildren: './nearby/nearby.module#NearbyPageModule' },  { path: 'match-detail', loadChildren: './matches/match-detail/match-detail.module#MatchDetailPageModule' }
+
 
 ];
 @NgModule({
