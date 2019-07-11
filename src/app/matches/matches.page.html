@@ -12,4 +12,27 @@
         </ion-segment-button>
     </ion-segment>
 
+    <ion-card *ngFor="let match of matchList | category:selectedTeam">
+        <ion-item style="text-align: center;">
+            <ion-grid>
+                <ion-row *ngIf="match.special">
+                    <span>{{ match.special }}</span>
+                </ion-row>
+                <ion-row>
+                    <ion-col class="ion-float-left">{{ match.team1 }}</ion-col>
+                    <ion-col class="ion-float-right">{{ match.score1 }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col class="ion-float-left">{{ match.team2 }}</ion-col>
+                    <ion-col class="ion-float-right">{{ match.score2 }}</ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>{{ match.field }}</ion-col>
+                    <ion-col>{{ match.date }}</ion-col>
+                    <ion-col>{{ match.time }}</ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-item>
+    </ion-card>
+
 </ion-content>

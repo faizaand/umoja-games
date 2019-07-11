@@ -1,35 +1,34 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {MatchService} from '../match.service';
 
 @Component({
-  selector: 'app-matches',
-  templateUrl: './matches.page.html',
-  styleUrls: ['./matches.page.scss'],
+    selector: 'app-matches',
+    templateUrl: './matches.page.html',
+    styleUrls: ['./matches.page.scss'],
 })
 export class MatchesPage implements OnInit {
 
-  teamCategories = [
-      `Men's open`,
-      `Men's over 35`,
-      `Women's open`,
-      `Boy's under 8`,
-      `Boy's under 12`,
-      `Boys under 16`,
-      `Toddlers`,
-      `Girl's under 10`,
-      `Girl's under 14`,
-  ];
+    teamCategories: any;
+    matchList: any;
+    selectedTeam: string;
 
-  selectedTeam = this.teamCategories[0];
+    constructor(public matchService: MatchService) {
+    }
 
-  constructor() { }
+    ngOnInit() {
+        this.matchService.getCategories().then(value => {
+            this.teamCategories = value;
+            this.selectedTeam = this.teamCategories[0];
+        });
+        this.matchService.getMatchList().then(value => {
+            console.log(value);
+            this.matchList = value;
+        });
+    }
 
-  ngOnInit() {
-    console.log(this.selectedTeam);
-  }
-
-  segmentChanged($event) {
-    // ion-sb-1
-    const id = $event.detail.value.substr(-1, 1);
-    console.log(this.teamCategories[id]);
-  }
+    segmentChanged($event) {
+        // ion-sb-1
+        const id = $event.detail.value.substr(-1, 1);
+        this.selectedTeam = this.teamCategories[id];
+    }
 }
