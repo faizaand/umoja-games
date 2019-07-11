@@ -10,6 +10,8 @@ import {IonicStorageModule} from '@ionic/storage';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
+import {MatchService} from './match.service';
+import {PipeModule} from './pipe/pipe.module';
 
 @NgModule({
     declarations: [AppComponent],
@@ -18,13 +20,16 @@ import {AppComponent} from './app.component';
         BrowserModule,
         IonicModule.forRoot(),
         AppRoutingModule,
+        PipeModule.forRoot(),
         IonicStorageModule.forRoot()
     ],
     providers: [
         StatusBar,
         SplashScreen,
+        MatchService,
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
     ],
+    exports: [],
     bootstrap: [AppComponent]
 })
 export class AppModule {

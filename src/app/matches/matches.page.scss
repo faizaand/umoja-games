@@ -1,6 +1,6 @@
 ion-content {
-  --background: #0F2027;  /* fallback for old browsers */
-  --background: -webkit-linear-gradient(to bottom, #2C5364, #203A43, #0F2027);  /* Chrome 10-25, Safari 5.1-6 */
+  --background: #0F2027; /* fallback for old browsers */
+  --background: -webkit-linear-gradient(to bottom, #2C5364, #203A43, #0F2027); /* Chrome 10-25, Safari 5.1-6 */
   --background: linear-gradient(to bottom, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
@@ -18,4 +18,23 @@ ion-toolbar {
 
 ion-tab-bar {
   --background: black;
+}
+
+.match-card {
+  padding: 20px;
+  background: white;
+
+  .team {
+    text-transform: uppercase;
+    font-size: 3.5vw;
+  }
+
+  .score {
+    font-size: 8vw;
+    text-align: center;
+  }
+
+  .divider {
+    text-align: center;
+  }
 }
