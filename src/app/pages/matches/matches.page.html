@@ -1,9 +1,30 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>matches</ion-title>
+    <ion-title>Matches</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <!-- Scrollable Segment -->
+  <ion-segment scrollable (ionChange)="segmentChanged($event)">
+    <ion-segment-button *ngFor="let category of categories" [attr.checked]="category === selectedCategory">
+      {{ category }}
+    </ion-segment-button>
+  </ion-segment>
 
+  <!-- Match cards -->
+  <ion-card *ngFor="let match of matches | matchCategory:selectedCategory">
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>{{ match.team1 }}</ion-col>
+          <ion-col>{{ match.score1 }}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>{{ match.team2 }}</ion-col>
+          <ion-col>{{ match.score2 }}</ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
