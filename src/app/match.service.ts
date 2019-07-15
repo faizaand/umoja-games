@@ -25,7 +25,7 @@ export class MatchService {
         return [
             {
                 id: 0,
-                team1: 'Allentown Allentowners',
+                team1: 'Jaffery sports club & FRIENDS',
                 team2: 'Orlando Orlandians',
                 score1: 3,
                 score2: 1,
@@ -35,7 +35,7 @@ export class MatchService {
                 time: '3:00p',
             },
             {
-                id: 0,
+                id: 1,
                 team1: 'Japanese Tokyans',
                 team2: 'Pyongyang Koreans',
                 score1: 2,
@@ -46,7 +46,7 @@ export class MatchService {
                 time: '6:00p',
             },
             {
-                id: 0,
+                id: 2,
                 team1: 'Bob Bobbers',
                 team2: 'Steve Stevers',
                 score1: 0,
@@ -58,7 +58,7 @@ export class MatchService {
             },
 
             {
-                id: 0,
+                id: 3,
                 team1: 'Allentown Allentowners',
                 team2: 'Orlando Orlandians',
                 score1: 3,
@@ -70,5 +70,8 @@ export class MatchService {
                 special: 'finals'
             }
         ];
+    }
+    getMatchById(id: number): object {
+        return this.getMatches()[id];
     }
 }

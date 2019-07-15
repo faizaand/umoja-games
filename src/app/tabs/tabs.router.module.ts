@@ -22,6 +22,10 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: '../pages/matches/matches.module#MatchesPageModule'
+          },
+          {
+            path: ':id',
+            loadChildren: '../pages/matches/match-detail/match-detail.module#MatchDetailPageModule'
           }
         ]
       },

@@ -6,14 +6,15 @@
 
 <ion-content>
   <!-- Scrollable Segment -->
-  <ion-segment scrollable (ionChange)="segmentChanged($event)">
-    <ion-segment-button *ngFor="let category of categories" [attr.checked]="category === selectedCategory">
+  <!-- Apple styles just look bad for segments so I set it to MD -->
+  <ion-segment scrollable mode="md" (ionChange)="segmentChanged($event)">
+    <ion-segment-button mode="md" *ngFor="let category of categories" [attr.checked]="category === selectedCategory">
       {{ category }}
     </ion-segment-button>
   </ion-segment>
 
   <!-- Match cards -->
-  <ion-card *ngFor="let match of matches | matchCategory:selectedCategory">
+  <ion-card *ngFor="let match of matches | matchCategory:selectedCategory" routerLink="{{match.id}}">
     <ion-card-content>
       <ion-grid>
         <ion-row>
