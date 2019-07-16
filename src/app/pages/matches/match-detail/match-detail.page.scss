@@ -1,6 +1,6 @@
 ion-content {
-  --background: #0F2027;  /* fallback for old browsers */
-  --background: -webkit-linear-gradient(to bottom, #2C5364, #203A43, #0F2027);  /* Chrome 10-25, Safari 5.1-6 */
+  --background: #0F2027; /* fallback for old browsers */
+  --background: -webkit-linear-gradient(to bottom, #2C5364, #203A43, #0F2027); /* Chrome 10-25, Safari 5.1-6 */
   --background: linear-gradient(to bottom, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
@@ -46,6 +46,14 @@ ion-grid {
 }
 
 div.activity {
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8) !important;
+  overflow-y: hidden;
+
+  ion-list {
+    background: transparent !important;
+  }
+
   .loading {
     width: 100%;
     height: 100%;
@@ -54,10 +62,42 @@ div.activity {
     align-items: center;
     margin-top: 20px;
   }
+
+  ion-item {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    --background: rgba(0, 0, 0, 0);
+    --border-color: rgba(0, 0, 0, 0);
+  }
+
+  .item-content {
+    background: transparent !important;
+  }
+
+  .activity-timeline {
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .time {
+    color: #b8b8b8;
+  }
 }
 
+
 @keyframes flickerAnimation {
-  0%   { opacity:1; }
-  50%  { opacity:0.1; }
-  100% { opacity:1; }
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.1;
+  }
+  100% {
+    opacity: 1;
+  }
 }

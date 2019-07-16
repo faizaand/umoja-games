@@ -1,75 +1,109 @@
 <ion-header translucent="true">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Match Details</ion-title>
 
-    <ion-title>Match Details</ion-title>
-  </ion-toolbar>
+        <!-- todo make admin only -->
+        <ion-buttons slot="end">
+            <ion-button routerLink="admin" routerDirection="forward">
+                <ion-icon slot="icon-only" name="create"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content fullscreen="true">
 
-  <ion-grid>
-    <ion-row>
-      <ion-col class="team" style="float: left;">
-        <span class="team-town">{{ team1.subtitle }}</span>
-        <br/>
-        <span class="team-name">{{ team1.title }}</span>
-      </ion-col>
+    <ion-grid>
+        <ion-row>
+            <ion-col class="team" style="float: left;">
+                <span class="team-town">{{ team1.subtitle }}</span>
+                <br/>
+                <span class="team-name">{{ team1.title }}</span>
+            </ion-col>
 
-      <ion-col class="team" float-right style="text-align: right;">
-        <span class="team-town">{{ team2.subtitle }}</span>
-        <br/>
-        <span class="team-name">{{ team2.title }}</span>
-      </ion-col>
-    </ion-row>
+            <ion-col class="team" float-right style="text-align: right;">
+                <span class="team-town">{{ team2.subtitle }}</span>
+                <br/>
+                <span class="team-name">{{ team2.title }}</span>
+            </ion-col>
+        </ion-row>
 
-    <ion-row>
-      <ion-col class="team-score" style="text-align: right;">
-        {{match.score1}}
-      </ion-col>
-      <ion-col>
-        <div class="sep">
-          •
+        <ion-row>
+            <ion-col class="team-score" style="text-align: right;">
+                {{match.score1}}
+            </ion-col>
+            <ion-col>
+                <div class="sep">
+                    •
+                </div>
+            </ion-col>
+            <ion-col class="team-score">
+                {{match.score2}}
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <hr>
+
+    <ion-segment (ionChange)="segmentChanged($event)">
+        <ion-segment-button checked>
+            Activity
+        </ion-segment-button>
+        <ion-segment-button>
+            Rosters
+        </ion-segment-button>
+    </ion-segment>
+
+    <div class="activity" *ngIf="segment==='activity'">
+        <div class="loading" *ngIf="activityLoading">
+            <ion-spinner></ion-spinner>
         </div>
-      </ion-col>
-      <ion-col class="team-score">
-        {{match.score2}}
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-  <hr>
-
-  <ion-segment (ionChange)="segmentChanged($event)">
-    <ion-segment-button checked>
-      Activity
-    </ion-segment-button>
-    <ion-segment-button>
-      Rosters
-    </ion-segment-button>
-  </ion-segment>
-
-  <div class="activity" *ngIf="segment==='activity'">
-    <div class="loading" *ngIf="activityLoading">
-      <ion-spinner></ion-spinner>
+        <div *ngIf="!activityLoading">
+            <ion-list>
+                <ion-list-header>
+                    Match Activity
+                </ion-list-header>
+                <ion-item>
+                    <ion-avatar slot="start" class="activity-timeline" style="background-color: #0ec254">
+                        <ion-icon name="trophy" style="font-size: 24px;"></ion-icon>
+                    </ion-avatar>
+                    <ion-text>
+                        {{match.team1}} won the match.
+                        <span class="time">11s ago</span>
+                    </ion-text>
+                </ion-item>
+                <ion-item>
+                    <ion-avatar slot="start" class="activity-timeline" style="background-color: #0bb8cc">
+                        <ion-icon name="football" style="font-size: 24px;"></ion-icon>
+                    </ion-avatar>
+                    <ion-text>
+                        {{match.team2}} scored a goal.
+                        <span class="time">32m ago</span>
+                    </ion-text>
+                </ion-item>
+                <ion-item>
+                    <ion-avatar slot="start" class="activity-timeline" style="background-color: #0ec254">
+                        <ion-icon name="football" style="font-size: 24px;"></ion-icon>
+                    </ion-avatar>
+                    <ion-text>
+                        {{match.team1}} scored a goal.
+                        <span class="time">45m ago</span>
+                    </ion-text>
+                </ion-item>
+                <ion-item>
+                    <ion-avatar slot="start" class="activity-timeline" style="background-color: #0ec254">
+                        <ion-icon name="football" style="font-size: 24px;"></ion-icon>
+                    </ion-avatar>
+                    <ion-text>
+                        {{match.team1}} scored a goal.
+                        <span class="time">52m ago</span>
+                    </ion-text>
+                </ion-item>
+            </ion-list>
+        </div>
     </div>
-    <div *ngIf="!activityLoading">
-      <ion-list>
-        <ion-list-header>
-          Match Activity
-        </ion-list-header>
-        <ion-item>
-          <ion-avatar slot="start">
-            <ion-icon name="football" style="font-size: 24px;"></ion-icon>
-          </ion-avatar>
-          <ion-text>
-            {{match.team1}} scored a goal.
-          </ion-text>
-        </ion-item>
-      </ion-list>
-    </div>
-  </div>
 
 </ion-content>

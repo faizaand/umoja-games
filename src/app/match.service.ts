@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
+import {AngularFirestore} from '@angular/fire/firestore';
 
 @Injectable({
     providedIn: 'root'
 })
 export class MatchService {
 
-    constructor() {
+    constructor(private firestore: AngularFirestore) {
     }
 
     getCategories(): string[] {
@@ -21,6 +22,7 @@ export class MatchService {
             'Toddlers'
         ];
     }
+
     getMatches(): object[] {
         return [
             {
@@ -71,6 +73,7 @@ export class MatchService {
             }
         ];
     }
+
     getMatchById(id: number): object {
         return this.getMatches()[id];
     }

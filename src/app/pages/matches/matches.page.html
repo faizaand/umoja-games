@@ -1,6 +1,11 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Matches</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="admin" routerDirection="forward">
+        <ion-icon slot="icon-only" name="construct"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -14,7 +19,7 @@
   </ion-segment>
 
   <!-- Match cards -->
-  <ion-card *ngFor="let match of matches | matchCategory:selectedCategory" routerLink="{{match.id}}">
+  <ion-card *ngFor="let match of matches | async | matchCategory:selectedCategory" routerLink="{{match.id}}">
     <ion-card-content>
       <ion-grid>
         <ion-row>

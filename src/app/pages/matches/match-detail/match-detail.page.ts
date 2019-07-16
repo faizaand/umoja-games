@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {MatchService} from '../../../match.service';
+import {AngularFirestore} from '@angular/fire/firestore';
 
 @Component({
     selector: 'app-match-detail',
@@ -15,7 +16,7 @@ export class MatchDetailPage implements OnInit {
     segment: string;
     activityLoading = false;
 
-    constructor(private route: ActivatedRoute, private matchService: MatchService) {
+    constructor(private route: ActivatedRoute, private firestore: AngularFirestore, private matchService: MatchService) {
     }
 
     ngOnInit() {
@@ -30,6 +31,7 @@ export class MatchDetailPage implements OnInit {
         this.segment = segmentId ? 'rosters' : 'activity';
     }
 
+    // todo this should be done on the server side, when the matches are inputted
     computeTeamTitles(team: string) {
         const teamSplit = team.split(' ');
         let title = '';
