@@ -24,6 +24,11 @@ const routes: Routes = [
             loadChildren: '../pages/matches/matches.module#MatchesPageModule'
           },
           {
+            path: 'admin',
+            pathMatch: 'full',
+            loadChildren: '../pages/matches/match-admin/match-admin.module#MatchAdminPageModule'
+          },
+          {
             path: ':id',
             loadChildren: '../pages/matches/match-detail/match-detail.module#MatchDetailPageModule'
           }
