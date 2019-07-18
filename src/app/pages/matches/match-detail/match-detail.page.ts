@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {MatchService} from '../../../match.service';
 import {AngularFirestore} from '@angular/fire/firestore';
+import {Observable} from 'rxjs';
 
 @Component({
     selector: 'app-match-detail',
@@ -10,20 +11,26 @@ import {AngularFirestore} from '@angular/fire/firestore';
 })
 export class MatchDetailPage implements OnInit {
 
-    match: any;
-    team1: any;
-    team2: any;
+    match$: Observable<any>;
+    match: any = {};
+    team1: any = {title: '', subtitle: ''};
+    team2: any = {title: '', subtitle: ''};
     segment: string;
-    activityLoading = false;
+    activityLoading = true;
 
     constructor(private route: ActivatedRoute, private firestore: AngularFirestore, private matchService: MatchService) {
     }
 
     ngOnInit() {
-        const id = Number(this.route.snapshot.paramMap.get('id'));
-        this.match = this.matchService.getMatchById(id);
-        this.team1 = this.computeTeamTitles(this.match.team1);
-        this.team2 = this.computeTeamTitles(this.match.team2);
+        const id = this.route.snapshot.paramMap.get('id');
+        const matchDocument = this.firestore.doc('matches/' + id);
+        this.match = matchDocument.valueChanges();
+        this.match.subscribe(value => {
+            this.match = value;
+            this.team1 = this.computeTeamTitles(this.match.team1);
+            this.team2 = this.computeTeamTitles(this.match.team2);
+            this.computeTimeString(this.match.date, this.match.endDate);
+        });
     }
 
     segmentChanged($event) {
@@ -31,7 +38,6 @@ export class MatchDetailPage implements OnInit {
         this.segment = segmentId ? 'rosters' : 'activity';
     }
 
-    // todo this should be done on the server side, when the matches are inputted
     computeTeamTitles(team: string) {
         const teamSplit = team.split(' ');
         let title = '';
@@ -59,6 +65,24 @@ export class MatchDetailPage implements OnInit {
         return {
             title, subtitle
         };
+    }
+
+    computeTimeString(matchStartTimestamp, matchEndTimestamp) {
+        const matchStart = new Date(matchStartTimestamp.seconds * 1000);
+        const matchEnd = matchEndTimestamp == null ? null : new Date(matchEndTimestamp * 1000);
+        const now = new Date(2019, 7, 3, 15, 0, 0, 0);
+        console.log(matchStart);
+        console.log(matchEnd);
+        console.log(now);
+
+        /*
+        if(beforeTheMatch) {
+            if(today) {
+                // starting at 3:30pm
+            } else {
+                // Sunday 3:30pm
+            }
+        }*/
     }
 
 }

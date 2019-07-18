@@ -19,7 +19,6 @@ export class MatchesPage implements OnInit {
   ngOnInit() {
     this.categories = this.matchService.getCategories();
     this.selectedCategory = this.categories[0];
-    // this.matches = this.matchService.getMatches();
     this.matchesCollection = this.firestore.collection('matches');
     this.matches = this.matchesCollection.valueChanges();
   }
