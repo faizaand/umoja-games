@@ -14,19 +14,19 @@ import {AngularFireModule} from 'angularfire2';
 import {AngularFirestoreModule} from 'angularfire2/firestore';
 import {firebaseConfig} from './credentials';
 
-import { Camera } from '@ionic-native/camera/ngx';
+import {Camera} from '@ionic-native/camera/ngx';
 import {EmailComposer} from '@ionic-native/email-composer/ngx';
 
 @NgModule({
     declarations: [AppComponent],
-    entryComponents: [],
+    entryComponents: [ ],
     imports: [
         BrowserModule,
         IonicModule.forRoot(),
         AppRoutingModule,
         PipesModule,
         AngularFireModule.initializeApp(firebaseConfig),
-        AngularFirestoreModule
+        AngularFirestoreModule,
     ],
     providers: [
         StatusBar,
@@ -34,6 +34,8 @@ import {EmailComposer} from '@ionic-native/email-composer/ngx';
         Camera,
         EmailComposer,
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
+    ],
+    exports: [
     ],
     bootstrap: [AppComponent]
 })

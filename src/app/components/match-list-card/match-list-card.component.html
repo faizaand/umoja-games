@@ -1,3 +1,14 @@
-<p>
-  match-list-card works!
-</p>
+<ion-card routerLink="{{match.id}}">
+  <ion-card-content>
+    <ion-grid>
+      <ion-row>
+        <ion-col>{{ match.team1 }}</ion-col>
+        <ion-col>{{ match.score1 }}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>{{ match.team2 }}</ion-col>
+        <ion-col>{{ match.score2 }}</ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card-content>
+</ion-card>
