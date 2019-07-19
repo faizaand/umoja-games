@@ -1,0 +1,79 @@
+<ion-header translucent="true">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Check in</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true" drag-content="false">
+
+    <form #form="ngForm" (ngSubmit)="submit()">
+        <ion-grid>
+            <ion-row justify-content-center>
+                <ion-col align-self-center>
+                    <div text-center>
+                        <h5>Please enter all of the following information.</h5>
+                    </div>
+                    <div padding>
+                        <ion-item>
+                            <ion-input [(ngModel)]="checkInForm.name" name="name" type="text" placeholder="Full Name"
+                                       required></ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-select [(ngModel)]="checkInForm.category" name="category" placeholder="Category"
+                                        (ionChange)="categorySelected($event)" required>
+                                <ion-select-option
+                                        *ngFor="let category of this.categorizedTeams | keyvalue">{{ category.key }}</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                        <ion-item>
+                            <ion-select [(ngModel)]="checkInForm.team" name="team" placeholder="Team"
+                                        [disabled]="!this.selectedCategory"
+                                        required>
+                                <ion-select-option
+                                        *ngFor="let team of this.categorizedTeams[selectedCategory]">{{ team }}</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                        <ion-item>
+                            <ion-input name="email" type="email" placeholder="Email" [(ngModel)]="checkInForm.email"
+                                       required></ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-input name="phone" type="tel" placeholder="Phone number (optional)"
+                                       [(ngModel)]="checkInForm.phone"></ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-datetime name="dob" displayFormat="MMMM DD, YYYY" placeholder="Date of birth"
+                                          (ionChange)="dobSelected($event)"></ion-datetime>
+                        </ion-item>
+                    </div>
+                    <ion-grid>
+                        <ion-row>
+                            <ion-col sizeXs="6">
+                                <ion-button [color]="checkInForm.idPhoto === '' ? 'danger' : 'success'"
+                                            (click)="takeIdPhoto()" expand="block">
+                                    {{ checkInForm.idPhoto === '' ? "Take" : "Change" }} ID Photo
+                                </ion-button>
+                            </ion-col>
+                            <ion-col sizeXs="6">
+                                <ion-button [color]="checkInForm.playerPhoto === '' ? 'danger' : 'success'"
+                                            (click)="takePlayerPhoto()" expand="block">
+                                    {{ checkInForm.playerPhoto === '' ? "Take" : "Change" }} Player Photo
+                                </ion-button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                    <div padding>
+                        <ion-button size="large" type="submit"
+                                    [disabled]="form.invalid || checkInForm.idPhoto === '' || checkInForm.playerPhoto === '' || checkInForm.dob === ''"
+                                    expand="block">Submit
+                        </ion-button>
+                    </div>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </form>
+
+</ion-content>

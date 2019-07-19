@@ -24,11 +24,6 @@ const routes: Routes = [
             loadChildren: '../pages/matches/matches.module#MatchesPageModule'
           },
           {
-            path: 'admin',
-            pathMatch: 'full',
-            loadChildren: '../pages/matches/match-admin/match-admin.module#MatchAdminPageModule'
-          },
-          {
             path: ':id',
             loadChildren: '../pages/matches/match-detail/match-detail.module#MatchDetailPageModule'
           }
@@ -53,11 +48,15 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'near',
+        path: 'admin',
         children: [
           {
             path: '',
-            loadChildren: '../pages/near/near.module#NearPageModule'
+            loadChildren: '../pages/admin/admin.module#AdminPageModule'
+          },
+          {
+            path: 'check-in',
+            loadChildren: '../pages/admin/admin-check-in/admin-check-in.module#AdminCheckInPageModule'
           }
         ]
       },
