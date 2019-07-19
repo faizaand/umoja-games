@@ -5,12 +5,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { MatchAdminPage } from './match-admin.page';
+import { AdminCheckInPage } from './admin-check-in.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: MatchAdminPage
+    component: AdminCheckInPage
   }
 ];
 
@@ -21,6 +21,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [MatchAdminPage]
+  declarations: [AdminCheckInPage]
 })
-export class MatchAdminPageModule {}
+export class AdminCheckInPageModule {}
