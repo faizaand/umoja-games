@@ -1,18 +1,19 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {RouterModule, Routes} from '@angular/router';
 
-import { IonicModule } from '@ionic/angular';
+import {IonicModule} from '@ionic/angular';
 
-import { MatchesPage } from './matches.page';
+import {MatchesPage} from './matches.page';
 import {PipesModule} from '../../pipes/pipes.module';
+import {MatchListCardComponent} from '../../components/match-list-card/match-list-card.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: MatchesPage
-  }
+    {
+        path: '',
+        component: MatchesPage
+    }
 ];
 
 @NgModule({
@@ -21,8 +22,9 @@ const routes: Routes = [
         FormsModule,
         IonicModule,
         RouterModule.forChild(routes),
-        PipesModule
+        PipesModule,
     ],
-  declarations: [MatchesPage]
+    declarations: [MatchesPage, MatchListCardComponent]
 })
-export class MatchesPageModule {}
+export class MatchesPageModule {
+}
