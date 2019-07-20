@@ -2,7 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {MatchService} from '../../../match.service';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {Observable} from 'rxjs';
+import {Match} from '../../../data/match';
+import Timestamp = firebase.firestore.Timestamp;
+import * as firebase from 'firebase';
 
 @Component({
     selector: 'app-match-detail',
@@ -11,22 +13,30 @@ import {Observable} from 'rxjs';
 })
 export class MatchDetailPage implements OnInit {
 
-    match$: Observable<any>;
-    match: any = {};
+    match: Match = new class implements Match {
+        category: string;
+        date: Timestamp;
+        endDate: Timestamp;
+        ground: string;
+        redCards: number;
+        score1: number;
+        score2: number;
+        team1: string;
+        team2: string;
+        yellowCards: number;
+    };
     team1: any = {title: '', subtitle: ''};
     team2: any = {title: '', subtitle: ''};
     segment: string;
-    activityLoading = true;
 
     constructor(private route: ActivatedRoute, private firestore: AngularFirestore, private matchService: MatchService) {
     }
 
     ngOnInit() {
         const id = this.route.snapshot.paramMap.get('id');
-        const matchDocument = this.firestore.doc('matches/' + id);
-        this.match = matchDocument.valueChanges();
-        this.match.subscribe(value => {
-            this.match = value;
+        const matchDocument = this.firestore.doc('matches/' + id).valueChanges();
+        matchDocument.subscribe(value => {
+            this.match = value as Match;
             this.team1 = this.computeTeamTitles(this.match.team1);
             this.team2 = this.computeTeamTitles(this.match.team2);
             this.computeTimeString(this.match.date, this.match.endDate);

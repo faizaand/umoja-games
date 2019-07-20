@@ -14,5 +14,5 @@
   </ion-segment>
 
   <!-- Match cards -->
-  <app-match-list-card *ngFor="let match of matches | async | matchCategory:selectedCategory" [match]="match"></app-match-list-card>
+  <app-match-list-card *ngFor="let match of matches | matchCategory:selectedCategory" [match]="match"></app-match-list-card>
 </ion-content>
