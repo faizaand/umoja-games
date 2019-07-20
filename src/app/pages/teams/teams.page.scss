@@ -1,0 +1,13 @@
+ion-card {
+  text-align: center;
+  padding: 20px;
+
+  .subtitle {
+    font-weight: lighter;
+  }
+
+  .title {
+    text-transform: uppercase;
+    color: var(--ion-color-primary);
+  }
+}

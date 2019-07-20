@@ -1,9 +1,39 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>team-detail</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Team Details</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+
+  <ion-card>
+    <ion-card-title>
+      {{ team.name }}
+    </ion-card-title>
+    <ion-card-content>
+      {{ team.captain }}
+    </ion-card-content>
+  </ion-card>
+
+  <ion-segment [(ngModel)]="selectedScreen">
+    <ion-segment-button value="players">Players</ion-segment-button>
+    <ion-segment-button value="matches">Matches</ion-segment-button>
+  </ion-segment>
+
+  <div *ngIf="selectedScreen === 'players'">
+    <ion-list>
+      <ion-item *ngFor="let player of players">
+        <ion-img src="{{player.imageUrl}}"></ion-img>
+        {{ player.name }}
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <div *ngIf="selectedScreen === 'matches'">
+    Matches
+  </div>
 
 </ion-content>
