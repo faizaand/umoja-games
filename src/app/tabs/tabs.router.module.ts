@@ -35,6 +35,14 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: '../pages/teams/teams.module#TeamsPageModule'
+          },
+          {
+            path: 'team/:id',
+            loadChildren: '../pages/teams/team-detail/team-detail.module#TeamDetailPageModule'
+          },
+          {
+            path: 'player/:id',
+            loadChildren: '../pages/teams/player-detail/player-detail.module#PlayerDetailPageModule'
           }
         ]
       },

@@ -7,8 +7,8 @@
 <ion-content>
   <!-- Scrollable Segment -->
   <!-- Apple styles just look bad for segments so I set it to MD -->
-  <ion-segment scrollable mode="md" (ionChange)="segmentChanged($event)">
-    <ion-segment-button mode="md" *ngFor="let category of categories" [attr.checked]="category === selectedCategory">
+  <ion-segment scrollable mode="md" [(ngModel)]="selectedCategory">
+    <ion-segment-button mode="md" *ngFor="let category of categoryNames" [value]="category">
       {{ category }}
     </ion-segment-button>
   </ion-segment>

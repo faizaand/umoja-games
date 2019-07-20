@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {MatchService} from '../../match.service';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {Match} from '../../data/match';
+import {categories} from '../../data/categories';
 
 @Component({
     selector: 'app-matches',
@@ -10,8 +11,8 @@ import {Match} from '../../data/match';
 })
 export class MatchesPage implements OnInit {
 
-    categories: string[];
-    selectedCategory: string;
+    categoryNames: string[] = categories.map(value => value.name);
+    selectedCategory: string = this.categoryNames[0];
     matchesCollection;
     matches;
 
@@ -19,19 +20,17 @@ export class MatchesPage implements OnInit {
     }
 
     ngOnInit() {
-        this.categories = this.matchService.getCategories();
-        this.selectedCategory = this.categories[0];
         this.fetchMatches();
     }
 
     segmentChanged($event: CustomEvent<any>) {
         const selectedIndex = $event.detail.value.substr(-1, 1);
-        this.selectedCategory = this.categories[selectedIndex];
-        this.fetchMatches();
+        this.selectedCategory = this.categoryNames[selectedIndex];
     }
 
     fetchMatches() {
-        this.matchesCollection = this.firestore.collection('matches', ref => ref.where('category', '==', this.selectedCategory));
+        console.log(this.selectedCategory);
+        this.matchesCollection = this.firestore.collection('matches');
         this.matchesCollection.snapshotChanges().subscribe(actions => {
             this.matches = actions.map(a => {
                 const data = a.payload.doc.data() as Match;
