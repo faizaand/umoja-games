@@ -1,14 +1,41 @@
-<ion-card routerLink="{{match.id}}">
-  <ion-card-content>
-    <ion-grid>
-      <ion-row>
-        <ion-col>{{ match.team1 }}</ion-col>
-        <ion-col>{{ match.score1 }}</ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>{{ match.team2 }}</ion-col>
-        <ion-col>{{ match.score2 }}</ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-card-content>
+<ion-card routerLink="{{ match.id }}">
+  <ion-grid>
+    <ion-row class="top">
+      <ion-col class="team" style="float: left;">
+        <span class="team-town">{{ team1.subtitle }}</span>
+        <br/>
+        <span class="team-name">{{ team1.title }}</span>
+      </ion-col>
+
+      <ion-col class="team-score" style="text-align: right;">
+        {{match.score1}}
+      </ion-col>
+      <ion-col>
+        <div class="sep">
+          •
+        </div>
+      </ion-col>
+      <ion-col class="team-score">
+        {{match.score2}}
+      </ion-col>
+
+      <ion-col class="team" float-right style="text-align: right;">
+        <span class="team-town">{{ team2.subtitle }}</span>
+        <br/>
+        <span class="team-name">{{ team2.title }}</span>
+      </ion-col>
+    </ion-row>
+    <ion-row class="info-panel">
+      <div class="panel-content">
+        <div class="panel-item">
+          <ion-icon name="pin"></ion-icon>
+          <ion-text>{{ match.ground }}</ion-text>
+        </div>
+        <div class="panel-item">
+          <ion-icon name="clock"></ion-icon>
+          <ion-text>ended at 3:43p</ion-text>
+        </div>
+      </div>
+    </ion-row>
+  </ion-grid>
 </ion-card>
