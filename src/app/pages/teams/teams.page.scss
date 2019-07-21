@@ -1,9 +1,13 @@
+ion-content {
+  --background: var(--background-gradient);
+}
+
 ion-card {
   text-align: center;
   padding: 20px;
 
   .subtitle {
-    font-weight: lighter;
+    font-weight: normal;
   }
 
   .title {

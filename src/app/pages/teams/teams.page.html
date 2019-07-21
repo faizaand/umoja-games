@@ -15,10 +15,11 @@
   </ion-segment>
 
   <ion-card *ngFor="let team of teams | matchCategory:selectedCategory" routerLink="team/{{team.id}}">
-    <ion-card-title>
+    <ion-card-title style="background-color: transparent !important;">
       <span class="subtitle">{{ team.subtitle }} </span>
       <span class="title">{{ team.title }}</span>
     </ion-card-title>
+
   </ion-card>
 
 </ion-content>

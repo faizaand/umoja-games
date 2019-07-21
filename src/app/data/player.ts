@@ -1,5 +1,6 @@
 
 export interface Player {
+    id: string;
     name: string;
     nationality: string;
     imageUrl: string;
@@ -8,5 +9,7 @@ export interface Player {
     position: string;
     assists: number;
     goals: number;
+    pog: string; // player of game
+    ga: string; // goals against
 
 }
