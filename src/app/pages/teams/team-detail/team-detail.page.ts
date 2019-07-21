@@ -11,12 +11,7 @@ import {Player} from '../../../data/player';
 })
 export class TeamDetailPage implements OnInit {
 
-    team: Team = new class implements Team {
-        id: string;
-        captain: string;
-        category: string;
-        name: string;
-    };
+    team: Team = {} as any;
     players: Player[];
     selectedScreen: string = 'players';
 
