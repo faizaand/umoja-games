@@ -13,18 +13,7 @@ import * as firebase from 'firebase';
 })
 export class MatchDetailPage implements OnInit {
 
-    match: Match = new class implements Match {
-        category: string;
-        date: Timestamp;
-        endDate: Timestamp;
-        ground: string;
-        redCards: number;
-        score1: number;
-        score2: number;
-        team1: string;
-        team2: string;
-        yellowCards: number;
-    };
+    match: Match = {} as any;
     team1: any = {title: '', subtitle: ''};
     team2: any = {title: '', subtitle: ''};
     segment: string;
