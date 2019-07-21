@@ -4,7 +4,7 @@
 /** Ionic CSS Variables **/
 :root {
   /** primary **/
-  --ion-color-primary: #3880ff;
+  --ion-color-primary: #1e857b;
   --ion-color-primary-rgb: 56, 128, 255;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
@@ -75,9 +75,8 @@
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
 
-  --ion-background-color: rgba(255, 255, 255, 0.8);
-  --ion-item-background: var(--ion-background-color);
-
-  --background-gradient: linear-gradient(to bottom, #83a4d4, #b6fbff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
+  --ion-item-background: rgba(255, 255, 255, 0.8);
+  --ion-toolbar-background: var(--ion-color-primary);
+  --ion-toolbar-color: white;
+  --background-gradient: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
 }

@@ -41,7 +41,7 @@ const routes: Routes = [
             loadChildren: '../pages/teams/team-detail/team-detail.module#TeamDetailPageModule'
           },
           {
-            path: 'player/:id',
+            path: 'team/:id/player/:playerId',
             loadChildren: '../pages/teams/player-detail/player-detail.module#PlayerDetailPageModule'
           }
         ]

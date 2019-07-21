@@ -1,9 +1,29 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>player-detail</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Player Details</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
+
+
+    <ion-card style="padding: 20px;">
+        <div class="team-name-container">
+            <ion-card-title>
+                {{ player.name }}
+            </ion-card-title>
+        </div>
+
+        <div class="info-panel">
+            <div class="panel-content">
+                <div class="panel-item">
+                    Captain: {{ player.islamicCenter }}
+                </div>
+            </div>
+        </div>
+    </ion-card>
 
 </ion-content>

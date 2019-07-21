@@ -12,25 +12,33 @@ import {Player} from '../../../data/player';
 export class TeamDetailPage implements OnInit {
 
     team: Team = new class implements Team {
+        id: string;
         captain: string;
         category: string;
         name: string;
     };
     players: Player[];
-    selectedScreen: string = "players";
+    selectedScreen: string = 'players';
 
     constructor(private route: ActivatedRoute, private firestore: AngularFirestore) {
     }
 
     ngOnInit() {
-        const doc = this.firestore.doc('teams/' + this.route.snapshot.params.id).valueChanges();
-        const playerCol = this.firestore.collection('teams/' + this.route.snapshot.params.id + '/players').valueChanges();
-        doc.subscribe(value => {
-            this.team = value as Team;
+        const doc = this.firestore.doc<Team>('teams/' + this.route.snapshot.params.id);
+        const playerCol = this.firestore.collection('teams/' + this.route.snapshot.params.id + '/players');
+
+        doc.snapshotChanges().subscribe(a => {
+            const data = a.payload.data();
+            const id = a.payload.id;
+            this.team = {id, ...data};
         });
 
-        playerCol.subscribe(value => {
-            this.players = value as Player[];
+        playerCol.snapshotChanges().subscribe(actions => {
+            this.players = actions.map(a => {
+                const data = a.payload.doc.data() as Player;
+                const id = a.payload.doc.id;
+                return {id, ...data};
+            });
         });
     }
 
