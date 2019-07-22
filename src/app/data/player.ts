@@ -7,9 +7,11 @@ export interface Player {
     islamicCenter: string;
     jersey: number;
     position: string;
-    assists: number;
+    appearances: number;
     goals: number;
-    pog: string; // player of game
-    ga: string; // goals against
+    playerOfGame: string;
+    goalsAgainst: string; // position == goalkeeper only
+    yellowCards: string;
+    redCards: string;
 
 }

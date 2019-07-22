@@ -48,8 +48,8 @@
                         <span>{{ player.position | titlecase}}</span>
                     </h3>
                     <p>
-                        G: {{player.goals}} • A: {{player.assists}} • PoG: {{player.pog}}
-                        <span *ngIf="player.position === 'goalkeeper'">• GA: {{player.ga}}</span>
+                        App.: <b>{{player.appearances}}</b> • G.: <b>{{player.goals}}</b> • PoG: <b>{{player.playerOfGame}}</b>
+                        <span *ngIf="player.position === 'goalkeeper'">• <b>{{player.appearances}}</b></span>
                     </p>
                 </ion-label>
             </ion-item>
