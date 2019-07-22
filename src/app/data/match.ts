@@ -12,4 +12,5 @@ export interface Match {
     date: Timestamp;
     endDate: Timestamp;
     ground: string;
+    editing: boolean;
 }

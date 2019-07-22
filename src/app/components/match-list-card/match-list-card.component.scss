@@ -13,25 +13,28 @@ ion-grid {
   .team {
     color: black;
     display: block;
+    word-break: break-all;
   }
 
   .team-town {
     //color: white;
-    font-size: 14px;
+    font-size: 10px;
+    white-space: nowrap;
     text-transform: capitalize;
   }
 
   .team-name {
     //color: white;
     text-transform: uppercase;
-    font-size: 150%;
+    font-size: 16px;
+    white-space: nowrap;
     font-family: 'Squada One', serif;
   }
 
   .team-score {
     //color: white;
     text-transform: uppercase;
-    font-size: 40px;
+    font-size: 30px;
     color: black;
   }
 
@@ -41,8 +44,12 @@ ion-grid {
     display: flex;
     justify-content: center;
     align-items: center;
+    color: grey;
+    font-size: 30px;
+  }
+
+  .editing {
     color: orange;
-    font-size: 50px;
     animation: flickerAnimation 3s infinite;
   }
 
@@ -53,6 +60,8 @@ ion-grid {
   justify-content: center;
   align-items: center;
   width: 100%;
+  font-size: 14px;
+  margin-top: 10px;
 
   .panel-content {
     height: 100%;
