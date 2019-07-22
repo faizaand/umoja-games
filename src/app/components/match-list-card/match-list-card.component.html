@@ -1,25 +1,25 @@
 <ion-card routerLink="{{ match.id }}">
   <ion-grid>
     <ion-row class="top">
-      <ion-col class="team" style="float: left;" size="3">
+      <ion-col class="team" style="float: left;" size="4">
         <span class="team-town">{{ team1.subtitle }}</span>
         <br/>
         <span class="team-name">{{ team1.title }}</span>
       </ion-col>
 
-      <ion-col class="team-score" style="text-align: right;" size="2">
+      <ion-col class="team-score" style="text-align: right;" >
         {{match.score1}}
       </ion-col>
-      <ion-col size="2">
+      <ion-col size="1">
         <div class="sep">
           •
         </div>
       </ion-col>
-      <ion-col class="team-score" size="2">
+      <ion-col class="team-score" >
         {{match.score2}}
       </ion-col>
 
-      <ion-col class="team" float-right style="text-align: right;" size="3">
+      <ion-col class="team" float-right style="text-align: right;" size="4">
         <span class="team-town">{{ team2.subtitle }}</span>
         <br/>
         <span class="team-name">{{ team2.title }}</span>

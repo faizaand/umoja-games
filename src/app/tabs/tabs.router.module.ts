@@ -65,6 +65,14 @@ const routes: Routes = [
           {
             path: 'check-in',
             loadChildren: '../pages/admin/admin-check-in/admin-check-in.module#AdminCheckInPageModule'
+          },
+          {
+            path: 'match-edit',
+            loadChildren: '../pages/admin/admin-match-edit/admin-match-edit.module#AdminMatchEditModule'
+          },
+          {
+            path: 'team-edit',
+            loadChildren: '../pages/admin/admin-team-edit/admin-team-edit.module#AdminTeamEditModule'
           }
         ]
       },
