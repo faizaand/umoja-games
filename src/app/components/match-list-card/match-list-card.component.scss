@@ -18,8 +18,9 @@ ion-grid {
 
   .team-town {
     //color: white;
-    font-size: 10px;
-    white-space: nowrap;
+    font-size: 12px;
+    word-break: keep-all;
+    white-space: pre-wrap;
     text-transform: capitalize;
   }
 
@@ -27,7 +28,8 @@ ion-grid {
     //color: white;
     text-transform: uppercase;
     font-size: 16px;
-    white-space: nowrap;
+    white-space: pre-wrap;
+    word-break: keep-all;
     font-family: 'Squada One', serif;
   }
 
