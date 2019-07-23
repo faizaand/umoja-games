@@ -3,17 +3,22 @@ import Timestamp = firebase.firestore.Timestamp;
 
 export interface Match {
     id: string;
-    team1: string;
-    team1Id: string;
-    team2: string;
-    team2Id: string;
-    score1: number;
-    score2: number;
-    category: string;
-    redCards: number;
-    yellowCards: number;
+    team1: MatchStats;
+    team2: MatchStats;
+    categories: string[];
+    duration: number;
     date: Timestamp;
-    endDate: Timestamp;
-    ground: string;
-    editing: boolean;
+    field: string;
+    liveEditing: boolean;
+    hasEnded: boolean;
+}
+
+export interface MatchStats {
+    id: number; // id of the team
+    firstHalf: number;
+    secondHalf: number;
+    goals: number;
+    yellowCards: number;
+    redCards: number;
+    outcome: string;
 }
