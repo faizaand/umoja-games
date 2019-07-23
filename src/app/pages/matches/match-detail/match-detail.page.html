@@ -53,4 +53,36 @@
         </ion-grid>
     </ion-card>
 
+    <ion-card>
+        <ion-card-title style="padding: 20px;">Player Rosters</ion-card-title>
+        <ion-segment [(ngModel)]="rosterSegment" (ionChange)="changeRoster()">
+            <ion-segment-button [value]="match.team1Id">{{match.team1}}</ion-segment-button>
+            <ion-segment-button [value]="match.team2Id">{{match.team2}}</ion-segment-button>
+        </ion-segment>
+
+        <ion-list>
+            <ion-list-header>
+                <ion-label>Players</ion-label>
+            </ion-list-header>
+            <ion-item *ngFor="let player of players" [routerLink]="'player/' + player.id" routerDirection="forward">
+                <ion-avatar slot="start">
+                    <ion-img src="{{player.imageUrl}}"></ion-img>
+                </ion-avatar>
+                <ion-label>
+                    <h2>
+                        <span style="color: var(--ion-color-primary); font-weight: bold;">{{ player.jersey }} </span>
+                        <span>{{ player.name }}</span>
+                    </h2>
+                    <h3>
+                        <span>{{ player.position | titlecase}}</span>
+                    </h3>
+                    <p>
+                        App.: <b>{{player.appearances}}</b> • G.: <b>{{player.goals}}</b> • PoG: <b>{{player.playerOfGame}}</b>
+                        <span *ngIf="player.position === 'goalkeeper'">• <b>{{player.appearances}}</b></span>
+                    </p>
+                </ion-label>
+            </ion-item>
+        </ion-list>
+    </ion-card>
+
 </ion-content>
