@@ -68,11 +68,11 @@ const routes: Routes = [
           },
           {
             path: 'match-edit',
-            loadChildren: '../pages/admin/admin-match-edit/admin-match-edit.module#AdminMatchEditModule'
+            loadChildren: '../pages/admin/admin-match-edit/admin-match-edit.module#AdminMatchEditPageModule'
           },
           {
             path: 'team-edit',
-            loadChildren: '../pages/admin/admin-team-edit/admin-team-edit.module#AdminTeamEditModule'
+            loadChildren: '../pages/admin/admin-team-edit/admin-team-edit.module#AdminTeamEditPageModule'
           }
         ]
       },

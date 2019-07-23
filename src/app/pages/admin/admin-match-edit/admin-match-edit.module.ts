@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { AdminMatchEditPage } from './admin-match-edit.page';
+import {MatchEditorComponent} from '../../../components/match-editor/match-editor.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [AdminMatchEditPage]
+    declarations: [AdminMatchEditPage, MatchEditorComponent]
 })
 export class AdminMatchEditPageModule {}
