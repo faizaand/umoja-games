@@ -1,9 +1,19 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>admin-match-edit</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Match Scorecard</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="showTwo = !showTwo">
+        <ion-icon slot="icon-only" name="filing" [attr.color]="showTwo ? 'light' : 'dark'"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+
+    <app-match-editor></app-match-editor>
 
 </ion-content>

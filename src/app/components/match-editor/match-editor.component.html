@@ -1,0 +1,64 @@
+<ion-select [(ngModel)]="selectedField" (ionChange)="fieldSelected($event)">
+    <ion-select-option *ngFor="let field of fields">{{field}}</ion-select-option>
+</ion-select>
+
+<ion-select [(ngModel)]="selectedMatch" placeholder="Select match">
+<!--    todo this stupid thing is not clearing -->
+    <ion-select-option *ngFor="let match of matchesByField" [value]="match">{{ match.team1 }} vs. {{ match.team2}}</ion-select-option>
+</ion-select>
+
+<ion-card *ngIf="selectedMatch">
+    <ion-grid>
+        <ion-row>
+            <ion-col size="6">
+                <ion-grid>
+                    <ion-row>
+                        <ion-col>{{ selectedMatch.team1 }}</ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col style="text-align: center; font-size: 32px;">{{ selectedMatch.score1 }}</ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                            <ion-button (click)="selectedMatch.score1 = selectedMatch.score1 + 1">
+                                <ion-icon name="add"></ion-icon>
+                            </ion-button>
+                        </ion-col>
+                        <ion-col>
+                            <ion-button (click)="selectedMatch.score1 = selectedMatch.score1 - 1">
+                                <ion-icon name="remove"></ion-icon>
+                            </ion-button>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-col>
+            <ion-col size="6">
+                <ion-grid>
+                    <ion-row>
+                        <ion-col>{{ selectedMatch.team2 }}</ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col style="text-align: center; font-size: 32px;">{{ selectedMatch.score2 }}</ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                            <ion-button (click)="selectedMatch.score2 = selectedMatch.score2 + 1">
+                                <ion-icon name="add"></ion-icon>
+                            </ion-button>
+                        </ion-col>
+                        <ion-col>
+                            <ion-button (click)="selectedMatch.score2 = selectedMatch.score2 - 1">
+                                <ion-icon name="remove"></ion-icon>
+                            </ion-button>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-button expand="block" color="primary" (click)="update()">Update</ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-card>
