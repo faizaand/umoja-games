@@ -1,11 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {MatchService} from '../../../match.service';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {Match} from '../../../data/match';
 import {computeTeamTitles, computeTimeString} from '../../../match-helper';
 import {Player} from '../../../data/player';
-import {Team} from '../../../data/team';
 
 @Component({
     selector: 'app-match-detail',
@@ -21,7 +19,7 @@ export class MatchDetailPage implements OnInit {
     rosterSegment: string;
     showingRoster: Player[];
 
-    constructor(private route: ActivatedRoute, private firestore: AngularFirestore, private matchService: MatchService) {
+    constructor(private route: ActivatedRoute, private firestore: AngularFirestore) {
     }
 
     ngOnInit() {
@@ -29,9 +27,9 @@ export class MatchDetailPage implements OnInit {
         const matchDocument = this.firestore.doc('matches/' + id).valueChanges();
         matchDocument.subscribe(value => {
             this.match = value as Match;
-            this.team1 = computeTeamTitles(this.match.team1);
-            this.team2 = computeTeamTitles(this.match.team2);
-            computeTimeString(this.match.date, this.match.endDate);
+            // this.team1 = computeTeamTitles(this.match.team1.id);
+            // this.team2 = computeTeamTitles(this.match.team2.id);
+            // computeTimeString(this.match.date, this.match.endDate);
         });
     }
 

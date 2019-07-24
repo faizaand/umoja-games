@@ -7,12 +7,12 @@
 <ion-content fullscreen="true">
   <!-- Scrollable Segment -->
   <!-- Apple styles just look bad for segments so I set it to MD -->
-  <ion-segment scrollable mode="md" [(ngModel)]="selectedCategory">
+  <ion-segment scrollable mode="md" [(ngModel)]="selectedCategory" (ionChange)="segmentChanged($event)">
     <ion-segment-button mode="md" *ngFor="let category of categoryNames" [value]="category">
       {{ category }}
     </ion-segment-button>
   </ion-segment>
 
   <!-- Match cards -->
-  <app-match-list-card *ngFor="let match of matches | matchCategory:selectedCategory" [match]="match"></app-match-list-card>
+  <app-match-list-card *ngFor="let match of matches" [match]="match"></app-match-list-card>
 </ion-content>

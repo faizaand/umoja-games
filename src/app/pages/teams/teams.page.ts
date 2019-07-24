@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {Team} from '../../data/team';
-import {MatchService} from '../../match.service';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {categories} from '../../data/categories';
 
@@ -15,7 +14,7 @@ export class TeamsPage implements OnInit {
     selectedCategory: string = this.categoryNames[0];
     teams: Team[];
 
-    constructor(private matchService: MatchService, private firestore: AngularFirestore) {
+    constructor(private firestore: AngularFirestore) {
     }
 
     ngOnInit() {

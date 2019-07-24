@@ -1,5 +1,5 @@
 // Matches routes
-const { getAll, catMap } = require('./utils');
+const { getAll, catMap, venueMap } = require('./utils');
 const axios = require('axios');
 
 module.exports.registerMatchRoutes = function (app, db) {
@@ -39,9 +39,17 @@ function importOne(req, res, db) {
 }
 
 function processMatch(data, db) {
+    const date = new Date(data.date);
+    // only from this year
+    if(date.getFullYear() !== new Date().getFullYear()) {
+        return;
+    }
+
     const team1Stats = data.results[data.teams[0]] || {};
     const team2Stats = data.results[data.teams[1]] || {};
-    const categories = data.leagues.map(league => catMap[league] || 'unknown');
+    const categories = data.leagues.map(league => catMap[league] || 'Unknown');
+    let field = data.venues.length > 0 ? venueMap[data.venues[0]] : 'Unknown';
+    field = field ? field : 'Unknown';
 
     const finalMatch = {
         id: data.id,
@@ -49,6 +57,7 @@ function processMatch(data, db) {
         duration: data.minutes,
         date: data.date,
         categories: categories,
+        field: field,
         team1: {
             id: data.teams[0],
             firstHalf: team1Stats.firsthalf || 0,
@@ -69,7 +78,7 @@ function processMatch(data, db) {
         }
     };
 
-    db.collection('matches').doc(String(finalMatch.id)).set(finalMatch);
     console.log(finalMatch);
+    db.collection('matches').doc(String(finalMatch.id)).set(finalMatch);
     return finalMatch;
 }

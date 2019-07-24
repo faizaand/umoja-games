@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {MatchService} from '../../match.service';
-import {AngularFirestore} from '@angular/fire/firestore';
-import {Match} from '../../data/match';
 import {categories} from '../../data/categories';
+import {DataService} from '../../data/data.service';
+import {Match} from '../../data/match';
 
 @Component({
     selector: 'app-matches',
@@ -13,30 +12,17 @@ export class MatchesPage implements OnInit {
 
     categoryNames: string[] = categories.map(value => value.name);
     selectedCategory: string = this.categoryNames[0];
-    matchesCollection;
-    matches;
+    matches: Match[];
 
-    constructor(private matchService: MatchService, private firestore: AngularFirestore) {
+    constructor(private data: DataService) {
     }
 
     ngOnInit() {
-        this.fetchMatches();
+        this.segmentChanged(); // run it without an event so it sets it to a default
     }
 
-    segmentChanged($event: CustomEvent<any>) {
-        const selectedIndex = $event.detail.value.substr(-1, 1);
-        this.selectedCategory = this.categoryNames[selectedIndex];
+    segmentChanged() {
+        this.data.getMatchesByCategory$(this.selectedCategory).subscribe(value => this.matches = value);
     }
 
-    fetchMatches() {
-        console.log(this.selectedCategory);
-        this.matchesCollection = this.firestore.collection('matches');
-        this.matchesCollection.snapshotChanges().subscribe(actions => {
-            this.matches = actions.map(a => {
-                const data = a.payload.doc.data() as Match;
-                const id = a.payload.doc.id;
-                return { id, ...data };
-            });
-        });
-    }
 }

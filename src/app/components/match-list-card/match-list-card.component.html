@@ -8,7 +8,7 @@
       </ion-col>
 
       <ion-col class="team-score" style="text-align: right;" >
-        {{match.score1}}
+        {{match.team1.goals}}
       </ion-col>
       <ion-col size="1">
         <div class="sep">
@@ -16,7 +16,7 @@
         </div>
       </ion-col>
       <ion-col class="team-score" >
-        {{match.score2}}
+        {{match.team2.goals}}
       </ion-col>
 
       <ion-col class="team" float-right style="text-align: right;" size="4">
@@ -29,11 +29,11 @@
       <div class="panel-content">
         <div class="panel-item">
           <ion-icon name="pin"></ion-icon>
-          <ion-text>{{ match.ground }}</ion-text>
+          <ion-text>{{ match.field }}</ion-text>
         </div>
         <div class="panel-item">
           <ion-icon name="clock"></ion-icon>
-          <ion-text>ended at 3:43p</ion-text>
+          <ion-text>{{ match.date | date }}</ion-text>
         </div>
       </div>
     </ion-row>
