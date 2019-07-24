@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Team} from '../../../data/team';
-import {AngularFirestore} from '@angular/fire/firestore';
 import {ActivatedRoute} from '@angular/router';
 import {Player} from '../../../data/player';
+import {DataService} from '../../../data/data.service';
 
 @Component({
     selector: 'app-team-detail',
@@ -15,24 +15,24 @@ export class TeamDetailPage implements OnInit {
     players: Player[];
     selectedScreen: string = 'players';
 
-    constructor(private route: ActivatedRoute, private firestore: AngularFirestore) {
+    constructor(private route: ActivatedRoute, private db: DataService) {
     }
 
     ngOnInit() {
-        const doc = this.firestore.doc<Team>('teams/' + this.route.snapshot.params.id);
-        const playerCol = this.firestore.collection('teams/' + this.route.snapshot.params.id + '/players');
+        const id = this.route.snapshot.params.id;
 
-        doc.snapshotChanges().subscribe(a => {
-            const data = a.payload.data();
-            const id = a.payload.id;
-            this.team = {id, ...data};
+        this.db.getTeamById(id).then(team => {
+            this.team = team.data() as Team;
         });
 
-        playerCol.snapshotChanges().subscribe(actions => {
-            this.players = actions.map(a => {
-                const data = a.payload.doc.data() as Player;
-                const id = a.payload.doc.id;
-                return {id, ...data};
+        console.log(id);
+        this.db.getPlayersByTeam$(id).subscribe(value => {
+            console.log(value);
+            this.players = [];
+            value.forEach(player => {
+                this.db.getMediaById$(player.imageUrl).subscribe(img => {
+                    this.players.push({...player, imageUrl: img.url});
+                });
             });
         });
     }

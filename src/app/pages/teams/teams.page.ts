@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Team} from '../../data/team';
-import {AngularFirestore} from '@angular/fire/firestore';
 import {categories} from '../../data/categories';
+import {DataService} from '../../data/data.service';
+import {computeTeamTitles} from '../../match-helper';
 
 @Component({
     selector: 'app-teams',
@@ -14,55 +15,22 @@ export class TeamsPage implements OnInit {
     selectedCategory: string = this.categoryNames[0];
     teams: Team[];
 
-    constructor(private firestore: AngularFirestore) {
+    constructor(private db: DataService) {
     }
 
     ngOnInit() {
-        this.fetchTeams();
+        this.segmentChanged()
     }
 
-    segmentChanged($event: CustomEvent<any>) {
-        const selectedIndex = $event.detail.value.substr(-1, 1);
-        this.selectedCategory = this.categoryNames[selectedIndex];
-    }
-
-    fetchTeams() {
-        const teamsCollection = this.firestore.collection('teams');
-        teamsCollection.snapshotChanges().subscribe(actions => {
-            this.teams = actions.map(a => {
-                const data = a.payload.doc.data() as Team;
-                const id = a.payload.doc.id;
-                return {id, ...data, ...this.computeTeamTitles(data.name)};
+    segmentChanged() {
+        this.teams = [];
+        this.db.getTeamsByCategory(this.selectedCategory).forEach(teams => {
+            const teamsWithTitles = [];
+            teams.forEach(team => {
+                teamsWithTitles.push({...computeTeamTitles(team.name), ...team});
             });
+            this.teams = teamsWithTitles;
         });
     }
 
-    computeTeamTitles(team: string) {
-        const teamSplit = team.split(' ');
-        let title = '';
-        let subtitle = '';
-        if (teamSplit.length === 1) {
-            title = teamSplit[0];
-            subtitle = '';
-        } else if (teamSplit.length === 2) {
-            subtitle = teamSplit[0];
-            title = teamSplit[1];
-        } else {
-            const part1 = teamSplit.slice(0, teamSplit.length - 2);
-            const part2 = teamSplit.slice(teamSplit.length - 2);
-
-            if (part2[1].length < 3) {
-                // the last part of the name is under 3 letters so it'll probably fit
-                subtitle = part1.join(' ');
-                title = part2.join(' ');
-            } else {
-                subtitle = part1.join(' ') + ' ' + part2[0];
-                title = part2[1];
-            }
-        }
-
-        return {
-            title, subtitle
-        };
-    }
 }

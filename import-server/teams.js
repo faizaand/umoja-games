@@ -26,6 +26,12 @@ function importOne(req, res, db) {
 }
 
 function processTeam(data, db) {
+    const date = new Date(data.date);
+    if(date.getFullYear() !== new Date().getFullYear()) {
+        return {};
+        // skip it if it's not current
+    }
+
     let captain = data.content.rendered || 'Unknown';
     captain = captain.replace('<p>Team Captain: ', '')
         .replace('</p>', '')

@@ -41,6 +41,7 @@
     "hypher": "^0.2.5",
     "ng-country-flags": "^1.0.7",
     "rxjs": "~6.5.1",
+    "smartdate": "^0.9.1",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.29"
   },

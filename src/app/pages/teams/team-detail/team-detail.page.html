@@ -46,13 +46,13 @@
                 <ion-label>
                     <h2>
                         <span style="color: var(--ion-color-primary); font-weight: bold;">{{ player.jersey }} </span>
-                        <span>{{ player.name }}</span>
+                        <span>{{ player.name | titlecase}}</span>
                     </h2>
                     <h3>
                         <span>{{ player.position | titlecase}}</span>
                     </h3>
                     <p>
-                        App.: <b>{{player.appearances}}</b> • G.: <b>{{player.goals}}</b> • PoG: <b>{{player.playerOfGame}}</b>
+                        App.: <b>{{player.appearances}}</b> • G.: <b>{{player.goals}}</b> • PoG: <b>{{player.pog}}</b>
                         <span *ngIf="player.position === 'goalkeeper'">• <b>{{player.appearances}}</b></span>
                     </p>
                 </ion-label>

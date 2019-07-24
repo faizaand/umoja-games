@@ -7,7 +7,7 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="ready">
 
     <ion-card>
         <ion-grid>
@@ -27,22 +27,22 @@
 
             <ion-row>
                 <ion-col class="team-score" style="text-align: right;">
-                    {{match.score1}}
+                    {{match.team1.goals}}
                 </ion-col>
                 <ion-col>
-                    <div class="sep" [class.editing]="match.editing">
+                    <div class="sep" [class.editing]="match.liveEditing">
                         •
                     </div>
                 </ion-col>
                 <ion-col class="team-score">
-                    {{match.score2}}
+                    {{match.team2.goals}}
                 </ion-col>
             </ion-row>
             <ion-row class="info-panel">
                 <div class="panel-content">
                     <div class="panel-item">
                         <ion-icon name="pin"></ion-icon>
-                        <ion-text>{{ match.ground }}</ion-text>
+                        <ion-text>{{ match.field }}</ion-text>
                     </div>
                     <div class="panel-item">
                         <ion-icon name="clock"></ion-icon>
@@ -56,8 +56,8 @@
     <ion-card>
         <ion-card-title style="padding: 20px;">Player Rosters</ion-card-title>
         <ion-segment [(ngModel)]="rosterSegment" (ionChange)="changeRoster()">
-            <ion-segment-button [value]="match.team1Id">{{match.team1}}</ion-segment-button>
-            <ion-segment-button [value]="match.team2Id">{{match.team2}}</ion-segment-button>
+            <ion-segment-button [value]="team1.id">{{team1.subtitle}} {{team1.title}}</ion-segment-button>
+            <ion-segment-button [value]="team2.id">{{team2.subtitle}} {{team2.title}}</ion-segment-button>
         </ion-segment>
 
         <ion-list>

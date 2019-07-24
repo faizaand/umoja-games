@@ -9,65 +9,61 @@
 
 <ion-content>
 
+    <div *ngIf="!loading">
+        <ion-card style="padding: 20px;">
 
-    <ion-card style="padding: 20px;">
+            <ion-avatar>
+                <ion-img src="{{ player.imageUrl}}" style="width: 128px; height: 128px;"></ion-img>
+            </ion-avatar>
 
-        <ion-avatar>
-            <ion-img src="{{ player.imageUrl}}" style="width: 128px; height: 128px;"></ion-img>
-        </ion-avatar>
-
-        <div style="margin-top: 10px;">
-            <ion-card-title style="text-align: center;">
-                <ion-text color="tertiary">{{player.jersey}}</ion-text> {{ player.name }}
-            </ion-card-title>
-            <div style="text-align: center; padding-top: 5px; color: #969696;">
-                {{ player.position | uppercase}}
-            </div>
-        </div>
-
-        <div class="info-panel">
-            <div class="panel-content">
-                <div class="panel-item">
-                    Nationality: <b>{{ player.nationality }}</b>
-                </div>
-                <div class="panel-item">
-                    Islamic Center: <b>{{ player.islamicCenter }}</b>
-                </div>
-                <div class="panel-item">
-
+            <div style="margin-top: 10px;">
+                <ion-card-title style="text-align: center;">
+                    <ion-text color="tertiary">{{player.jersey}}</ion-text>
+                    {{ player.name }}
+                </ion-card-title>
+                <div style="text-align: center; padding-top: 5px; color: #969696;">
+                    {{ player.position | uppercase}}
                 </div>
             </div>
-        </div>
-    </ion-card>
 
-    <ion-list>
-        <ion-list-header>
-            <ion-title>Statistics</ion-title>
-        </ion-list-header>
-        <ion-item>
-            <span class="stat-name">Appearances</span>
-            <span slot="end" style="font-weight: bold;">{{ player.appearances }}</span>
-        </ion-item>
-        <ion-item>
-            <span class="stat-name">Goals</span>
-            <span slot="end" style="font-weight: bold;">{{ player.goals }}</span>
-        </ion-item>
-        <ion-item>
-            <span class="stat-name">Player of Game</span>
-            <span slot="end" style="font-weight: bold;">{{ player.playerOfGame }}</span>
-        </ion-item>
-        <ion-item *ngIf="player.position === 'goalkeeper'">
-            <span class="stat-name">Goals Against</span>
-            <span slot="end" style="font-weight: bold;">{{ player.goalsAgainst }}</span>
-        </ion-item>
-        <ion-item>
-            <span class="stat-name">Yellow cards</span>
-            <span slot="end" style="font-weight: bold;">{{ player.yellowCards }}</span>
-        </ion-item>
-        <ion-item>
-            <span class="stat-name">Red cards</span>
-            <span slot="end" style="font-weight: bold;">{{ player.redCards }}</span>
-        </ion-item>
-    </ion-list>
+            <div class="info-panel">
+                <div class="panel-content">
+                    <div class="panel-item">
+                        Nationality: <b>{{ countries[player.nationality] }}</b>
+                    </div>
+                </div>
+            </div>
+        </ion-card>
+
+        <ion-list>
+            <ion-list-header>
+                <ion-title>Statistics</ion-title>
+            </ion-list-header>
+            <ion-item>
+                <span class="stat-name">Appearances</span>
+                <span slot="end" style="font-weight: bold;">{{ player.appearances }}</span>
+            </ion-item>
+            <ion-item>
+                <span class="stat-name">Goals</span>
+                <span slot="end" style="font-weight: bold;">{{ player.goals }}</span>
+            </ion-item>
+            <ion-item>
+                <span class="stat-name">Player of Game</span>
+                <span slot="end" style="font-weight: bold;">{{ player.pog }}</span>
+            </ion-item>
+            <ion-item *ngIf="player.position === 'goalkeeper'">
+                <span class="stat-name">Goals Against</span>
+                <span slot="end" style="font-weight: bold;">{{ player.goalsAgainst }}</span>
+            </ion-item>
+            <ion-item>
+                <span class="stat-name">Yellow cards</span>
+                <span slot="end" style="font-weight: bold;">{{ player.yellowCards }}</span>
+            </ion-item>
+            <ion-item>
+                <span class="stat-name">Red cards</span>
+                <span slot="end" style="font-weight: bold;">{{ player.redCards }}</span>
+            </ion-item>
+        </ion-list>
+    </div>
 
 </ion-content>
