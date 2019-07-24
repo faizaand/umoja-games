@@ -41,12 +41,13 @@ function importOne(req, res, db) {
 
 function processPlayer(data, db) {
     const stats = getStatistics(data.statistics);
+    const teams = data.current_teams.map(team => team.toString());
 
     const finalPlayer = {
         id: data.id,
         name: data.title.rendered,
         nationality: data.nationalities[0] || 'usa',
-        team: data.current_teams[0] || 'Unknown',
+        teams: teams || ['Unknown'],
         imageUrl: data.featured_media,
         jersey: data.number || 0,
         position: data.positions[0] || 'Forward',
@@ -74,6 +75,17 @@ function getStatistics(statsArray) {
         };
     } else {
         const obj = statsArray[keys[0]];
+        if(obj.length === 1) {
+            // we only have the guide one so let's return nil
+            return {
+                appearances: 0,
+                goals: 0,
+                pog: 0,
+                yellowCards: 0,
+                redCards: 0,
+                goalsAgainst: 0
+            };
+        }
         for (const key in obj) {
             if (!obj.hasOwnProperty(key)) continue;
 

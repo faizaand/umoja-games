@@ -13,6 +13,7 @@ export class MatchListCardComponent implements OnInit {
     @Input() public match;
     team1: any = {title: '', subtitle: ''};
     team2: any = {title: '', subtitle: ''};
+    loading = true;
 
     constructor(private data: DataService) {
     }
@@ -30,6 +31,7 @@ export class MatchListCardComponent implements OnInit {
             if(data) {
                 this.team2 = computeTeamTitles(data.name);
             }
+            this.loading = false;
         });
         // computeTimeString(this.match.date, this.match.endDate);
     }

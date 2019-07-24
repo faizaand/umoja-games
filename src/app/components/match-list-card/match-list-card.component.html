@@ -1,5 +1,10 @@
 <ion-card routerLink="{{ match.id }}">
-  <ion-grid>
+
+  <div *ngIf="loading" style="text-align: center; margin-top: 20px;">
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <ion-grid *ngIf="!loading">
     <ion-row class="top">
       <ion-col class="team" style="float: left;" size="4">
         <span class="team-town">{{ team1.subtitle }}</span>

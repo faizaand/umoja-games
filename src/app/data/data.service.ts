@@ -4,6 +4,7 @@ import {Match} from './match';
 import {Player} from './player';
 import {Team} from './team';
 import {Media} from './media';
+import {take} from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -11,6 +12,11 @@ import {Media} from './media';
 export class DataService {
 
     constructor(private db: AngularFirestore) {
+    }
+
+    getMatchById$(matchId: number) {
+        const doc = this.db.doc<Match>('matches/' + matchId);
+        return doc.valueChanges();
     }
 
     getMatchesByCategory$(category: string) {
@@ -33,7 +39,7 @@ export class DataService {
             ref => ref.where('categories', 'array-contains', category)
         );
 
-        return col.get().toPromise();
+        return col.valueChanges().pipe(take(1));
     }
 
     getTeamById(teamId: number) {
@@ -46,12 +52,13 @@ export class DataService {
         return doc.set(team);
     }
 
-    getPlayersByTeam$(teamId: number) {
-        const col = this.db.collection<Player>(
-            'players',
-            ref => ref.where('team', '==', teamId)
-        );
+    getPlayerById$(player: number) {
+        const doc = this.db.doc<Player>('players/' + player);
+        return doc.valueChanges();
+    }
 
+    getPlayersByTeam$(teamId: number) {
+        const col = this.db.collection<Player>('players', ref => ref.where('teams', 'array-contains', teamId.toString()));
         return col.valueChanges();
     }
 
@@ -60,9 +67,9 @@ export class DataService {
         return doc.set(player);
     }
 
-    getMediaById(mediaId: number) {
+    getMediaById$(mediaId: number) {
         const doc = this.db.doc<Media>('media/' + mediaId);
-        return doc.get().toPromise();
+        return doc.valueChanges();
     }
 
 

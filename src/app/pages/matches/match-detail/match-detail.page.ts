@@ -4,6 +4,7 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import {Match} from '../../../data/match';
 import {computeTeamTitles, computeTimeString} from '../../../match-helper';
 import {Player} from '../../../data/player';
+import {DataService} from '../../../data/data.service';
 
 @Component({
     selector: 'app-match-detail',
@@ -13,22 +14,34 @@ import {Player} from '../../../data/player';
 export class MatchDetailPage implements OnInit {
 
     match: Match = {} as any;
-    team1: any = {title: '', subtitle: ''};
-    team2: any = {title: '', subtitle: ''};
+    team1: any = {id: 0, title: '', subtitle: ''};
+    team2: any = {id: 0, title: '', subtitle: ''};
     segment: string;
     rosterSegment: string;
-    showingRoster: Player[];
+    ready: boolean = false;
 
-    constructor(private route: ActivatedRoute, private firestore: AngularFirestore) {
+    constructor(private route: ActivatedRoute, private data: DataService) {
     }
 
     ngOnInit() {
-        const id = this.route.snapshot.paramMap.get('id');
-        const matchDocument = this.firestore.doc('matches/' + id).valueChanges();
-        matchDocument.subscribe(value => {
+        const id = Number(this.route.snapshot.paramMap.get('id'));
+        this.data.getMatchById$(id).subscribe(value => {
             this.match = value as Match;
-            // this.team1 = computeTeamTitles(this.match.team1.id);
-            // this.team2 = computeTeamTitles(this.match.team2.id);
+
+            this.data.getTeamById(this.match.team1.id).then(value => {
+                const data = value.data();
+                if(data) {
+                    this.team1 = {id: this.match.team1.id, ...computeTeamTitles(data.name)};
+                }
+            });
+
+            this.data.getTeamById(this.match.team2.id).then(value => {
+                const data = value.data();
+                if(data) {
+                    this.team2 = {id: this.match.team2.id, ...computeTeamTitles(data.name)};
+                }
+                this.ready = true;
+            });
             // computeTimeString(this.match.date, this.match.endDate);
         });
     }
@@ -40,12 +53,12 @@ export class MatchDetailPage implements OnInit {
 
     changeRoster() {
         // get the team
-        const teamColl = this.firestore.collection<Player>("teams/" + this.rosterSegment + "/players").valueChanges();
-        teamColl.subscribe(value => {
-            if(value.length > 0) {
-                const playerColl = this.firestore.collection<Player>("teams/" )
-            }
-        });
+        // const teamColl = this.firestore.collection<Player>("teams/" + this.rosterSegment + "/players").valueChanges();
+        // teamColl.subscribe(value => {
+        //     if(value.length > 0) {
+        //         const playerColl = this.firestore.collection<Player>("teams/" )
+        //     }
+        // });
     }
 
 }

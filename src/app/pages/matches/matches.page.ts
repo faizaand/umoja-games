@@ -13,6 +13,7 @@ export class MatchesPage implements OnInit {
     categoryNames: string[] = categories.map(value => value.name);
     selectedCategory: string = this.categoryNames[0];
     matches: Match[];
+    loading = true;
 
     constructor(private data: DataService) {
     }
@@ -22,7 +23,11 @@ export class MatchesPage implements OnInit {
     }
 
     segmentChanged() {
-        this.data.getMatchesByCategory$(this.selectedCategory).subscribe(value => this.matches = value);
+        this.loading = true;
+        this.data.getMatchesByCategory$(this.selectedCategory).subscribe(value => {
+            this.loading = false;
+            return this.matches = value;
+        });
     }
 
 }
