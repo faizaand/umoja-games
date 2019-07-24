@@ -3,8 +3,8 @@ export interface Player {
     id: string;
     name: string;
     nationality: string;
+    team: number;
     imageUrl: string;
-    islamicCenter: string;
     jersey: number;
     position: string;
     appearances: number;
