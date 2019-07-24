@@ -38,7 +38,7 @@ export class MatchEditorComponent implements OnInit {
                     return { id, ...data };
                 });
 
-                this.matchesByField = this.matches.filter(value => value.ground === this.selectedField);
+                this.matchesByField = this.matches.filter(value => value.field === this.selectedField);
                 this.selectedMatch = this.matches[0];
             });
     }
@@ -46,7 +46,7 @@ export class MatchEditorComponent implements OnInit {
     fieldSelected($event) {
         const val = $event.value;
         this.selectedMatch = undefined;
-        this.matchesByField = this.matches.filter(value => value.ground === val);
+        this.matchesByField = this.matches.filter(value => value.field === val);
         console.log(this.matchesByField);
     }
 

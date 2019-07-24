@@ -36,3 +36,17 @@ module.exports.catMap = {
     89: "Women's Open",
     92: "Toddlers",
 };
+
+module.exports.venueMap = {
+    175: "Field 1A",
+    176: "Field 1B",
+    177: "Field 2A",
+    211: "Field 2A",
+    178: "Field 2B",
+    182: "Field 3A",
+    183: "Field 3B",
+    174: "Field 4A",
+    179: "Field 4B",
+    180: "Outdoor A",
+    181: "Outdoor B",
+};

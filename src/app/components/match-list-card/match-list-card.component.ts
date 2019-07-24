@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {computeTeamTitles, computeTimeString} from '../../match-helper';
+import {DataService} from '../../data/data.service';
 
 @Component({
     selector: 'app-match-list-card',
@@ -13,13 +14,24 @@ export class MatchListCardComponent implements OnInit {
     team1: any = {title: '', subtitle: ''};
     team2: any = {title: '', subtitle: ''};
 
-    constructor() {
+    constructor(private data: DataService) {
     }
 
     ngOnInit() {
-        this.team1 = computeTeamTitles(this.match.team1);
-        this.team2 = computeTeamTitles(this.match.team2);
-        computeTimeString(this.match.date, this.match.endDate);
+        this.data.getTeamById(this.match.team1.id).then(value => {
+            const data = value.data();
+            if(data) {
+                this.team1 = computeTeamTitles(data.name);
+            }
+        });
+
+        this.data.getTeamById(this.match.team2.id).then(value => {
+            const data = value.data();
+            if(data) {
+                this.team2 = computeTeamTitles(data.name);
+            }
+        });
+        // computeTimeString(this.match.date, this.match.endDate);
     }
 
 }
