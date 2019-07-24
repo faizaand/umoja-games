@@ -17,6 +17,12 @@ registerMatchRoutes(app, db);
 const { registerTeamRoutes } = require('./teams');
 registerTeamRoutes(app, db);
 
+const { registerPlayerRoutes } = require('./players');
+registerPlayerRoutes(app, db);
+
+const { registerMediaRoutes } = require('./media');
+registerMediaRoutes(app, db);
+
 app.listen(3000, () => {
     console.log('Umoja Games Sportspress Import Server');
     console.log('Copyright (C) 2019 Faizaan Datoo and Umoja Outreach Foundation. All rights reserved.');

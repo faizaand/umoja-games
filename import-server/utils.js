@@ -9,13 +9,17 @@ const getAll = function (urlRoute, page, size, collection) {
         .then(response => response.data)
         .then(raw => {
             raw.forEach(item => collection.push(item));
-            if (raw.length < size) {
-                // All done return the compiled list.
-                return collection;
-            }
+
+            // if (raw.length < size) {
+            //     console.log("Done");
+            //     return collection;
+            // }
             // Recurse over the next set of matches by adding another promise to the chain.
             return getAll(urlRoute, page + 1, size, collection);
-        });
+        }).catch(reason => {
+            // All done return the compiled list.
+            return collection;
+        })
 };
 
 module.exports.getAll = getAll;
