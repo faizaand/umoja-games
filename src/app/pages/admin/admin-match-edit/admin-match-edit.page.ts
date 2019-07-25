@@ -23,7 +23,7 @@ export class AdminMatchEditPage implements OnInit {
         'Outdoor A',
         'Outdoor B',
     ];
-    selectedField = this.fields[0];
+    selectedField;
 
     matches = [];
     selectedMatch: Match;
@@ -35,7 +35,6 @@ export class AdminMatchEditPage implements OnInit {
     }
 
     ngOnInit() {
-        this.onFieldSelect()
     }
 
     onFieldSelect() {
@@ -44,8 +43,6 @@ export class AdminMatchEditPage implements OnInit {
             this.matches.sort((a, b) => {
                 return new Date(a.date).getTime() - new Date(b.date).getTime()
             });
-            this.selectedMatch = this.matches[1];
-            this.onMatchSelect()
         });
     }
 
@@ -62,7 +59,10 @@ export class AdminMatchEditPage implements OnInit {
     step(team: string, field: string, value: any) {
         if(this.selectedMatch[team][field] + value < 0) return;
         this.selectedMatch[team][field] = this.selectedMatch[team][field] + value;
-        this.db.updateMatch(this.selectedMatch);
+
+        // todo updateMatch makes selectedMatch disappear
+        const m = Object.assign({}, this.selectedMatch);
+        this.db.updateMatch(m);
     }
 
     crownWinner(team: string) {
@@ -82,7 +82,8 @@ export class AdminMatchEditPage implements OnInit {
                 this.selectedMatch['team1']['outcome'] = 'lose';
             }
 
-            this.db.updateMatch(this.selectedMatch);
+            const m = Object.assign({}, this.selectedMatch);
+            this.db.updateMatch(m);
         });
     }
 
