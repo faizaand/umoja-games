@@ -61,8 +61,9 @@ export class AdminMatchEditPage implements OnInit {
         this.selectedMatch[team][field] = this.selectedMatch[team][field] + value;
 
         // todo updateMatch makes selectedMatch disappear
-        const m = Object.assign({}, this.selectedMatch);
-        this.db.updateMatch(m);
+        this.selectedMatch.team1.goals = this.selectedMatch.team1.firstHalf + this.selectedMatch.team1.secondHalf;
+        this.selectedMatch.team2.goals = this.selectedMatch.team2.firstHalf + this.selectedMatch.team2.secondHalf;
+        this.db.updateMatch(this.selectedMatch);
     }
 
     crownWinner(team: string) {
