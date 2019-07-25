@@ -6,10 +6,12 @@ const serviceAccount = require("../../umoja-games-ab076-firebase-adminsdk-dqunb-
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://umoja-games-ab076.firebaseio.com"
+    databaseURL: "https://umoja-games-ab076.firebaseio.com",
+    storageBucket: "umoja-games-ab076.appspot.com",
 });
 
 const db = admin.firestore();
+var bucket = admin.storage().bucket();
 
 const {registerMatchRoutes} = require('./matches');
 registerMatchRoutes(app, db);
@@ -21,7 +23,7 @@ const { registerPlayerRoutes } = require('./players');
 registerPlayerRoutes(app, db);
 
 const { registerMediaRoutes } = require('./media');
-registerMediaRoutes(app, db);
+registerMediaRoutes(app, db, bucket);
 
 app.listen(3000, () => {
     console.log('Umoja Games Sportspress Import Server');
