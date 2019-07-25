@@ -39,9 +39,8 @@ function importOne(req, res, db) {
 }
 
 function processMatch(data, db) {
-    const date = new Date(data.date);
-    // only from this year
-    if(date.getFullYear() !== new Date().getFullYear()) {
+    if(!data.seasons.includes(76)) {
+        console.log("Skipping " + data.id + " because it's not in this season");
         return;
     }
 
