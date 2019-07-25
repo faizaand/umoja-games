@@ -28,6 +28,15 @@ export class DataService {
         return col.valueChanges();
     }
 
+    getMatchesByCategory(category: string) {
+        const col = this.db.collection<Match>(
+            'matches',
+            ref => ref.where('categories', 'array-contains', category)
+        );
+
+        return col.get().toPromise();
+    }
+
     getMatchesByField$(field: string) {
         const col = this.db.collection<Match>(
             'matches',

@@ -24,9 +24,13 @@ export class MatchesPage implements OnInit {
 
     segmentChanged() {
         this.loading = true;
-        this.data.getMatchesByCategory$(this.selectedCategory).subscribe(value => {
+        this.data.getMatchesByCategory(this.selectedCategory).then(value => {
+            this.matches = [];
+            value.forEach(result => {
+                const data = result.data() as Match;
+                this.matches.push(data);
+            });
             this.loading = false;
-            return this.matches = value;
         });
     }
 
