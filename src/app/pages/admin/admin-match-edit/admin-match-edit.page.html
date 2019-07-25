@@ -1,19 +1,139 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-title>Match Scorecard</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="showTwo = !showTwo">
-        <ion-icon slot="icon-only" name="filing" [attr.color]="showTwo ? 'light' : 'dark'"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Match Scorecard</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-    <app-match-editor></app-match-editor>
+    <ion-select [(ngModel)]="selectedField" placeholder="Select a field" (ionChange)="onFieldSelect()">
+        <ion-select-option *ngFor="let field of fields">{{ field }}</ion-select-option>
+    </ion-select>
+    <ion-select [(ngModel)]="selectedMatch" placeholder="Select a match" (ionChange)="onMatchSelect()">
+        <ion-select-option *ngFor="let match of matches"
+                           [value]="match">{{ match.date | date:"medium" }}</ion-select-option>
+    </ion-select>
+
+    <ion-list *ngIf="team1 && team2">
+        <ion-list-header>{{ team1.name }}</ion-list-header>
+        <ion-item>
+            First half goals: &nbsp; <b>{{ selectedMatch.team1.firstHalf }}</b>
+            <ion-buttons slot="end">
+                <ion-button slot="icon-only" (click)="step('team1', 'firstHalf', -1)">
+                    <ion-icon name="remove"></ion-icon>
+                </ion-button>
+                <ion-button slot="icon-only" (click)="step('team1', 'firstHalf', 1)">
+                    <ion-icon name="add"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </ion-item>
+
+        <ion-item>
+            Second half goals: &nbsp; <b>{{ selectedMatch.team1.secondHalf }}</b>
+            <ion-buttons slot="end">
+                <ion-button slot="icon-only" (click)="step('team1', 'secondHalf', -1)">
+                    <ion-icon name="remove"></ion-icon>
+                </ion-button>
+                <ion-button slot="icon-only" (click)="step('team1', 'secondHalf', 1)">
+                    <ion-icon name="add"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </ion-item>
+
+        <ion-item>
+            Yellow cards: &nbsp; <b>{{ selectedMatch.team1.yellowCards }}</b>
+            <ion-buttons slot="end">
+                <ion-button slot="icon-only" (click)="step('team1', 'yellowCards', -1)">
+                    <ion-icon name="remove"></ion-icon>
+                </ion-button>
+                <ion-button slot="icon-only" (click)="step('team1', 'yellowCards', 1)">
+                    <ion-icon name="add"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </ion-item>
+
+        <ion-item>
+            Red cards: &nbsp; <b>{{ selectedMatch.team1.redCards }}</b>
+            <ion-buttons slot="end">
+                <ion-button slot="icon-only" (click)="step('team1', 'redCards', -1)">
+                    <ion-icon name="remove"></ion-icon>
+                </ion-button>
+                <ion-button slot="icon-only" (click)="step('team1', 'redCards', 1)">
+                    <ion-icon name="add"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </ion-item>
+
+        <ion-item>
+            Status: {{ selectedMatch.team1.outcome || 'none yet'}}
+            <ion-buttons slot="end">
+                <ion-button (click)="crownWinner('team1')">Make Winner
+                </ion-button>
+                <ion-button (click)="crownWinner('')">Reset</ion-button>
+            </ion-buttons>
+        </ion-item>
+
+
+        <ion-list-header>{{ team2.name }}</ion-list-header>
+        <ion-item>
+            First half goals: &nbsp; <b>{{ selectedMatch.team2.firstHalf }}</b>
+            <ion-buttons slot="end">
+                <ion-button slot="icon-only" (click)="step('team2', 'firstHalf', -1)">
+                    <ion-icon name="remove"></ion-icon>
+                </ion-button>
+                <ion-button slot="icon-only" (click)="step('team2', 'firstHalf', 1)">
+                    <ion-icon name="add"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </ion-item>
+
+        <ion-item>
+            Second half goals: &nbsp; <b>{{ selectedMatch.team2.secondHalf }}</b>
+            <ion-buttons slot="end">
+                <ion-button slot="icon-only" (click)="step('team2', 'secondHalf', -1)">
+                    <ion-icon name="remove"></ion-icon>
+                </ion-button>
+                <ion-button slot="icon-only" (click)="step('team2', 'secondHalf', 1)">
+                    <ion-icon name="add"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </ion-item>
+
+        <ion-item>
+            Yellow cards: &nbsp; <b>{{ selectedMatch.team2.yellowCards }}</b>
+            <ion-buttons slot="end">
+                <ion-button slot="icon-only" (click)="step('team2', 'yellowCards', -1)">
+                    <ion-icon name="remove"></ion-icon>
+                </ion-button>
+                <ion-button slot="icon-only" (click)="step('team2', 'yellowCards', 1)">
+                    <ion-icon name="add"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </ion-item>
+
+        <ion-item>
+            Red cards: &nbsp; <b>{{ selectedMatch.team2.redCards }}</b>
+            <ion-buttons slot="end">
+                <ion-button slot="icon-only" (click)="step('team2', 'redCards', -1)">
+                    <ion-icon name="remove"></ion-icon>
+                </ion-button>
+                <ion-button slot="icon-only" (click)="step('team2', 'redCards', 1)">
+                    <ion-icon name="add"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </ion-item>
+
+        <ion-item>
+            Status: {{ selectedMatch.team2.outcome || 'none yet'}}
+            <ion-buttons slot="end">
+                <ion-button (click)="crownWinner('team2');">Make Winner
+                </ion-button>
+                <ion-button (click)="crownWinner();">Reset</ion-button>
+            </ion-buttons>
+        </ion-item>
+    </ion-list>
 
 </ion-content>

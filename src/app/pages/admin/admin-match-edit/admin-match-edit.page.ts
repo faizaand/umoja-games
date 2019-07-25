@@ -1,26 +1,109 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {DataService} from '../../../data/data.service';
 import {Match} from '../../../data/match';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {Team} from '../../../data/team';
+import {AlertController} from '@ionic/angular';
 
 @Component({
-  selector: 'app-admin-match-edit',
-  templateUrl: './admin-match-edit.page.html',
-  styleUrls: ['./admin-match-edit.page.scss'],
+    selector: 'app-admin-match-edit',
+    templateUrl: './admin-match-edit.page.html',
+    styleUrls: ['./admin-match-edit.page.scss'],
 })
 export class AdminMatchEditPage implements OnInit {
 
-  matches: Match[];
-  selectedMatch: Match;
-  showTwo: boolean = false;
+    fields = [
+        'Field 1A',
+        'Field 1B',
+        'Field 2A',
+        'Field 2B',
+        'Field 3A',
+        'Field 3B',
+        'Field 4A',
+        'Field 4B',
+        'Outdoor A',
+        'Outdoor B',
+    ];
+    selectedField = this.fields[0];
 
-  constructor(private firestore: AngularFirestore) { }
+    matches = [];
+    selectedMatch: Match;
+    team1: Team;
+    team2: Team;
 
-  ngOnInit() {
-  }
 
-  getMatches(selectedField: string) {
-    this.firestore.collection<Match>("matches", ref => ref.where('ground', '==', selectedField)).valueChanges()
-        .subscribe(value => this.matches = value);
-  }
+    constructor(private db: DataService, private alert: AlertController) {
+    }
 
+    ngOnInit() {
+        this.onFieldSelect()
+    }
+
+    onFieldSelect() {
+        this.db.getMatchesByField$(this.selectedField).subscribe(value => {
+            this.matches = value;
+            this.matches.sort((a, b) => {
+                return new Date(a.date).getTime() - new Date(b.date).getTime()
+            });
+            this.selectedMatch = this.matches[1];
+            this.onMatchSelect()
+        });
+    }
+
+    onMatchSelect() {
+        this.db.getTeamById(this.selectedMatch.team1.id).then(value => {
+            this.team1 = value.data() as Team;
+        });
+
+        this.db.getTeamById(this.selectedMatch.team2.id).then(value => {
+            this.team2 = value.data() as Team;
+        });
+    }
+
+    step(team: string, field: string, value: any) {
+        if(this.selectedMatch[team][field] + value < 0) return;
+        this.selectedMatch[team][field] = this.selectedMatch[team][field] + value;
+        this.db.updateMatch(this.selectedMatch);
+    }
+
+    crownWinner(team: string) {
+        if(team === '') {
+            // reset
+            this.selectedMatch['team1']['outcome'] = '';
+            this.selectedMatch['team2']['outcome'] = '';
+            return;
+        }
+
+        this.presentAlert(() => {
+            if(team === 'team1') {
+                this.selectedMatch['team1']['outcome'] = 'win';
+                this.selectedMatch['team2']['outcome'] = 'lose';
+            } else {
+                this.selectedMatch['team2']['outcome'] = 'win';
+                this.selectedMatch['team1']['outcome'] = 'lose';
+            }
+
+            this.db.updateMatch(this.selectedMatch);
+        });
+    }
+
+    async presentAlert(then) {
+        const alert = await this.alert.create({
+            header: 'Be careful!',
+            message: 'Once you declare a winner, everyone who follows this team will be notified of the win. Pressing reset will not undo these messages. Are you sure this is the winner?',
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    cssClass: 'secondary',
+                    handler: () => {
+                    }
+                }, {
+                    text: 'Yep, do it',
+                    handler: then
+                }
+            ]
+        });
+
+        await alert.present();
+    }
 }
