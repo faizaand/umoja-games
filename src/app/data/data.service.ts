@@ -28,9 +28,17 @@ export class DataService {
         return col.valueChanges();
     }
 
-    updateMatch(match: Match) {
+    getMatchesByField$(field: string) {
+        const col = this.db.collection<Match>(
+            'matches',
+            ref => ref.where('field', '==', field)
+        );
+        return col.valueChanges();
+    }
+
+    updateMatch(match) {
         const doc = this.db.doc<Match>('matches/' + match.id);
-        return doc.set(match);
+        return doc.update(match);
     }
 
     getTeamsByCategory(category: string) {
