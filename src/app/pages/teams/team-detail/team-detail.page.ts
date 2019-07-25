@@ -30,6 +30,7 @@ export class TeamDetailPage implements OnInit {
             console.log(value);
             this.players = [];
             value.forEach(player => {
+                // todo image placeholders
                 this.db.getMediaById$(player.imageUrl).subscribe(img => {
                     this.players.push({...player, imageUrl: img.url});
                 });

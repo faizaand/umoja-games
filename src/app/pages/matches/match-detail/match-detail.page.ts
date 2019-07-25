@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {AngularFirestore} from '@angular/fire/firestore';
 import {Match} from '../../../data/match';
-import {computeTeamTitles, computeTimeString} from '../../../match-helper';
-import {Player} from '../../../data/player';
+import {computeTeamTitles} from '../../../match-helper';
 import {DataService} from '../../../data/data.service';
+import {Player} from '../../../data/player';
 
 @Component({
     selector: 'app-match-detail',
@@ -16,8 +15,8 @@ export class MatchDetailPage implements OnInit {
     match: Match = {} as any;
     team1: any = {id: 0, title: '', subtitle: ''};
     team2: any = {id: 0, title: '', subtitle: ''};
-    segment: string;
     rosterSegment: string;
+    playerLists: Player[][] = [];
     ready: boolean = false;
 
     constructor(private route: ActivatedRoute, private data: DataService) {
@@ -32,6 +31,7 @@ export class MatchDetailPage implements OnInit {
                 const data = value.data();
                 if(data) {
                     this.team1 = {id: this.match.team1.id, ...computeTeamTitles(data.name)};
+                    this.rosterSegment = this.team1.id;
                 }
             });
 
@@ -44,20 +44,29 @@ export class MatchDetailPage implements OnInit {
             });
             // computeTimeString(this.match.date, this.match.endDate);
         });
-    }
 
-    segmentChanged($event) {
-        const segmentId = Number($event.detail.value.substr(-1, 1));
-        this.segment = segmentId ? 'rosters' : 'activity';
-    }
-
-    changeRoster() {
-        // get the team
-        // const teamColl = this.firestore.collection<Player>("teams/" + this.rosterSegment + "/players").valueChanges();
-        // teamColl.subscribe(value => {
-        //     if(value.length > 0) {
-        //         const playerColl = this.firestore.collection<Player>("teams/" )
-        //     }
+        this.playerLists[this.team1.id] = [];
+        this.playerLists[this.team2.id] = [];
+        //
+        // todo player listings on this page
+        // if there's no time, just the links to the team pages will be fine
+        //
+        // this.data.getPlayersByTeam$(this.team1.id).subscribe(value => {
+        //     value.forEach(player => {
+        //         this.data.getMediaById$(player.imageUrl).subscribe(img => {
+        //             // todo image placeholders
+        //             this.playerLists[this.team1.id].push({...player, imageUrl: img.url});
+        //         });
+        //     });
+        // });
+        //
+        // this.data.getPlayersByTeam$(this.team2.id).subscribe(value => {
+        //     value.forEach(player => {
+        //         this.data.getMediaById$(player.imageUrl).subscribe(img => {
+        //             // todo image placeholders
+        //             this.playerLists[this.team2.id].push({...player, imageUrl: img.url});
+        //         });
+        //     });
         // });
     }
 

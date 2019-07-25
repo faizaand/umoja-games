@@ -26,10 +26,9 @@ function importOne(req, res, db) {
 }
 
 function processTeam(data, db) {
-    const date = new Date(data.date);
-    if(date.getFullYear() !== new Date().getFullYear()) {
-        return {};
-        // skip it if it's not current
+    if(!data.seasons.includes(76)) {
+        console.log("Skipping " + data.id + " because it's not in this season");
+        return;
     }
 
     let captain = data.content.rendered || 'Unknown';

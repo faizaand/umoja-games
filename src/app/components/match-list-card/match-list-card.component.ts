@@ -19,19 +19,22 @@ export class MatchListCardComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.data.getTeamById(this.match.team1.id).then(value => {
-            const data = value.data();
-            if(data) {
-                this.team1 = computeTeamTitles(data.name);
-            }
-        });
+        this.data.getMatchById$(this.match.id).subscribe(value => {
+            this.match = value;
+            this.data.getTeamById(this.match.team1.id).then(value => {
+                const data = value.data();
+                if(data) {
+                    this.team1 = computeTeamTitles(data.name);
+                }
+            });
 
-        this.data.getTeamById(this.match.team2.id).then(value => {
-            const data = value.data();
-            if(data) {
-                this.team2 = computeTeamTitles(data.name);
-            }
-            this.loading = false;
+            this.data.getTeamById(this.match.team2.id).then(value => {
+                const data = value.data();
+                if(data) {
+                    this.team2 = computeTeamTitles(data.name);
+                }
+                this.loading = false;
+            });
         });
         // computeTimeString(this.match.date, this.match.endDate);
     }
