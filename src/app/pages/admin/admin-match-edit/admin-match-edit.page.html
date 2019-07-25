@@ -12,7 +12,7 @@
     <ion-select [(ngModel)]="selectedField" placeholder="Select a field" (ionChange)="onFieldSelect()">
         <ion-select-option *ngFor="let field of fields">{{ field }}</ion-select-option>
     </ion-select>
-    <ion-select [(ngModel)]="selectedMatch" placeholder="Select a match" (ionChange)="onMatchSelect()">
+    <ion-select [(ngModel)]="selectedMatch" placeholder="Select a match" (ionChange)="onMatchSelect()" [disabled]="!selectedField">
         <ion-select-option *ngFor="let match of matches"
                            [value]="match">{{ match.date | date:"medium" }}</ion-select-option>
     </ion-select>
