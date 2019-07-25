@@ -16,6 +16,9 @@ import {firebaseConfig} from './credentials';
 
 import {Camera} from '@ionic-native/camera/ngx';
 import {EmailComposer} from '@ionic-native/email-composer/ngx';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+import {AngularFireStorageModule, StorageBucket} from '@angular/fire/storage';
 
 @NgModule({
     declarations: [AppComponent],
@@ -27,13 +30,16 @@ import {EmailComposer} from '@ionic-native/email-composer/ngx';
         PipesModule,
         AngularFireModule.initializeApp(firebaseConfig),
         AngularFirestoreModule,
+        AngularFireStorageModule,
+        ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     ],
     providers: [
         StatusBar,
         SplashScreen,
         Camera,
         EmailComposer,
-        {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
+        {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
+        {provide: StorageBucket, useValue: 'umoja-games-ab076.appspot.com'}
     ],
     exports: [
     ],

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Player} from '../../../data/player';
 import {ActivatedRoute} from '@angular/router';
 import {DataService} from '../../../data/data.service';
+import {AngularFireStorage} from '@angular/fire/storage';
 
 @Component({
     selector: 'app-player-detail',
@@ -14,15 +15,15 @@ export class PlayerDetailPage implements OnInit {
     player: Player = {} as any;
     loading: boolean = true;
 
-    constructor(private route: ActivatedRoute, private db: DataService) {
+    constructor(private route: ActivatedRoute, private db: DataService, private storage: AngularFireStorage) {
     }
 
     ngOnInit() {
         const playerId = this.route.snapshot.params.playerId;
 
         this.db.getPlayerById$(playerId).subscribe(player => {
-            this.db.getMediaById$(player.imageUrl).subscribe(img => {
-                this.player = {...player, imageUrl: img.url};
+            const ref = this.storage.ref('thumbs/512_' + player.imageUrl + '.jpg');
+            ref.getDownloadURL().subscribe(img => {this.player = {...player, imageUrl: img};
                 this.loading = false;
             });
         });

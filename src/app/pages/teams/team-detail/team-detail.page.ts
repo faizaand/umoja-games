@@ -3,6 +3,7 @@ import {Team} from '../../../data/team';
 import {ActivatedRoute} from '@angular/router';
 import {Player} from '../../../data/player';
 import {DataService} from '../../../data/data.service';
+import {AngularFireStorage} from '@angular/fire/storage';
 
 @Component({
     selector: 'app-team-detail',
@@ -15,7 +16,7 @@ export class TeamDetailPage implements OnInit {
     players: Player[];
     selectedScreen: string = 'players';
 
-    constructor(private route: ActivatedRoute, private db: DataService) {
+    constructor(private route: ActivatedRoute, private db: DataService, private storage: AngularFireStorage) {
     }
 
     ngOnInit() {
@@ -31,8 +32,9 @@ export class TeamDetailPage implements OnInit {
             this.players = [];
             value.forEach(player => {
                 // todo image placeholders
-                this.db.getMediaById$(player.imageUrl).subscribe(img => {
-                    this.players.push({...player, imageUrl: img.url});
+                const ref = this.storage.ref('thumbs/256_' + player.imageUrl + '.jpg');
+                ref.getDownloadURL().subscribe(img => {
+                    this.players.push({...player, imageUrl: img});
                 });
             });
         });
