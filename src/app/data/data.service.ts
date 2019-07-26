@@ -5,13 +5,14 @@ import {Player} from './player';
 import {Team} from './team';
 import {Media} from './media';
 import {take} from 'rxjs/operators';
+import {Storage} from '@ionic/storage';
 
 @Injectable({
     providedIn: 'root'
 })
 export class DataService {
 
-    constructor(private db: AngularFirestore) {
+    constructor(private db: AngularFirestore, private storage: Storage) {
     }
 
     getMatchById$(matchId: number) {
@@ -89,5 +90,32 @@ export class DataService {
         return doc.valueChanges();
     }
 
+    followedTeams: string[] = [];
 
+    getFollowedTeams() {
+        this.storage.get('followed_teams').then(value => {
+            if(!value) {
+                this.storage.set('followed_teams', []);
+                this.followedTeams = [];
+                return;
+            }
+            this.followedTeams = value; // we need to keep a copy of this each time so we can append to it later
+        });
+        return this.storage.get('followed_teams');
+    }
+
+    addFollowedTeam(teamId: string) {
+        this.followedTeams.push(teamId);
+        this.storage.set('followed_teams', this.followedTeams);
+    }
+
+    removeFollowedTeam(teamId: string) {
+        this.followedTeams = this.followedTeams.filter(team => team != teamId);
+        this.storage.set('followed_teams', this.followedTeams);
+    }
+
+    getLinks$() {
+        const col = this.db.collection('links');
+        return col.valueChanges();
+    }
 }

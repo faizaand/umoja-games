@@ -15,6 +15,7 @@ export class TeamDetailPage implements OnInit {
     team: Team = {} as any;
     players: Player[];
     selectedScreen: string = 'players';
+    following: boolean = false;
 
     constructor(private route: ActivatedRoute, private db: DataService, private storage: AngularFireStorage) {
     }
@@ -38,6 +39,24 @@ export class TeamDetailPage implements OnInit {
                 });
             });
         });
+
+        this.db.getFollowedTeams().then(teams => {
+            teams.forEach(team => {
+                if (String(id) === team) {
+                    this.following = true;
+                }
+            });
+        });
+    }
+
+    follow() {
+        this.following = true;
+        this.db.addFollowedTeam(String(this.team.id));
+    }
+
+    unfollow() {
+        this.following = false;
+        this.db.removeFollowedTeam(String(this.team.id));
     }
 
 }
