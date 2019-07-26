@@ -1,7 +1,10 @@
 {
-  "appId": "org.umojaoutreach.umojagames",
-  "appName": "umoja-games",
+  "appId": "org.umojaoutreach",
+  "appName": "Umoja Games",
   "bundledWebRuntime": false,
   "npmClient": "npm",
-  "webDir": "www"
+  "webDir": "www",
+  "server": {
+    "url": "http://localhost:8100"
+  }
 }

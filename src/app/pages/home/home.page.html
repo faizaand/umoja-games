@@ -1,46 +1,47 @@
 <ion-content>
 
+    <div text-center>
+        <ion-img src="assets/umojagames-banner.png"></ion-img>
+    </div>
+
     <ion-text color="primary" text-center>
-        <h1>2019 Umoja Games</h1>
+        <h1>{{ date| date:"EEEE, MMMM d" }}</h1>
     </ion-text>
 
-    <ion-grid>
-        <ion-row>
-            <ion-col>
-                <ion-card class="gradient1" routerLink="/tabs/matches" routerDirection="root">
-                    <ion-card-header>
-                        <ion-card-title>Matches</ion-card-title>
-                    </ion-card-header>
-                    <ion-card-content>Tap here to see all the matches for the entire tournament.</ion-card-content>
-                </ion-card>
-            </ion-col>
-            <ion-col>
-                <ion-card class="gradient2" routerLink="/tabs/teams" routerDirection="root">
-                    <ion-card-header>
-                        <ion-card-title>Teams</ion-card-title>
-                    </ion-card-header>
-                    <ion-card-content>Tap here to view all of the fabulous teams and players participating in this year's games.</ion-card-content>
-                </ion-card>
-            </ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col>
-                <ion-card class="gradient3" routerLink="/tabs/info" routerDirection="root">
-                    <ion-card-header>
-                        <ion-card-title>Information</ion-card-title>
-                    </ion-card-header>
-                    <ion-card-content>Tap here to view the schedule, frequently asked questions, and other important information.</ion-card-content>
-                </ion-card>
-            </ion-col>
-            <ion-col>
-                <ion-card class="gradient4" routerLink="/tabs/near" routerDirection="root">
-                    <ion-card-header>
-                        <ion-card-title>Near Me</ion-card-title>
-                    </ion-card-header>
-                    <ion-card-content>Tap here to view nearby halal eateries, accommodations, and attractions.</ion-card-content>
-                </ion-card>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title>Your Teams</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <div *ngIf="!followedTeams || followedTeams.length <= 0">
+                <ion-text color="primary"><h2>You're not following any teams.</h2></ion-text>
+                <p>Tap below to head to the Teams page, and select your favorite teams. Come back here, and they'll be just a tap away.</p>
+                <br/>
+                <ion-button color="tertiary" expand="block" routerLink="/tabs/teams" routerDirection="root">Take me to the teams list</ion-button>
+            </div>
+
+            <div *ngIf="followedTeams && followedTeams.length > 0">
+                <ion-list>
+                    <ion-item *ngFor="let team of followedTeams" routerLink="/tabs/teams/team/{{team.id}}">
+                        {{ team.name }}
+                    </ion-item>
+                </ion-list>
+            </div>
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+        <ion-card-header>
+            Quick Links
+        </ion-card-header>
+        <ion-list>
+            <ion-item *ngFor="let link of links" href="#" (click)="link(link.url)">
+                <ion-label>
+                    <h2>{{ link.title }}</h2>
+                    <p>{{ link.description }}</p>
+                </ion-label>
+            </ion-item>
+        </ion-list>
+    </ion-card>
 
 </ion-content>
