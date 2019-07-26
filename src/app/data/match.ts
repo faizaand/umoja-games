@@ -7,7 +7,7 @@ export interface Match {
     team2: MatchStats;
     categories: string[];
     duration: number;
-    date: Timestamp;
+    date: string;
     field: string;
     liveEditing: boolean;
     hasEnded: boolean;

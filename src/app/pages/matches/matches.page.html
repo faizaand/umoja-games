@@ -18,6 +18,13 @@
     <ion-spinner></ion-spinner>
   </div>
   <div *ngIf="!loading">
+    <ion-list-header>
+      Upcoming Matches
+    </ion-list-header>
     <app-match-list-card *ngFor="let match of matches" [match]="match"></app-match-list-card>
+    <ion-list-header>
+      Past Matches
+    </ion-list-header>
+    <app-match-list-card *ngFor="let match of pastMatches" [match]="match"></app-match-list-card>
   </div>
 </ion-content>

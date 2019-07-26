@@ -30,7 +30,7 @@
                     {{match.team1.goals}}
                 </ion-col>
                 <ion-col>
-                    <div class="sep" [class.editing]="match.liveEditing">
+                    <div class="sep">
                         •
                     </div>
                 </ion-col>
@@ -46,7 +46,7 @@
                     </div>
                     <div class="panel-item">
                         <ion-icon name="clock"></ion-icon>
-                        <ion-text>ended at 3:43p</ion-text>
+                        <ion-text>{{ timeString }}</ion-text>
                     </div>
                 </div>
             </ion-row>
