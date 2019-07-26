@@ -36,6 +36,10 @@ export class TeamDetailPage implements OnInit {
                 const ref = this.storage.ref('thumbs/256_' + player.imageUrl + '.jpg');
                 ref.getDownloadURL().subscribe(img => {
                     this.players.push({...player, imageUrl: img});
+                }, error => {
+                    if(error.code === "storage/object-not-found") {
+                        this.players.push({...player, imageUrl: 'assets/profile_300.png'});
+                    }
                 });
             });
         });
