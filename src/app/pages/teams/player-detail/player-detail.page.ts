@@ -25,6 +25,13 @@ export class PlayerDetailPage implements OnInit {
             const ref = this.storage.ref('thumbs/512_' + player.imageUrl + '.jpg');
             ref.getDownloadURL().subscribe(img => {this.player = {...player, imageUrl: img};
                 this.loading = false;
+            }, error => {
+                if(error.code === "storage/object-not-found") {
+                    this.player = {...player, imageUrl: 'assets/profile_300.png'};
+                    this.loading = false;
+                } else {
+                    console.log(error);
+                }
             });
         });
     }
