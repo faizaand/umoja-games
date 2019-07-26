@@ -1,12 +1,11 @@
 <ion-card routerLink="{{ match.id }}">
 
-    <!--  <div *ngIf="loading" style="text-align: center; margin-top: 20px;">-->
-    <!--    <ion-spinner></ion-spinner>-->
-    <!--  </div>-->
+    <div *ngIf="loading" style="text-align: center; margin-top: 20px; height: 100px; vertical-align: middle;">
+        <ion-spinner></ion-spinner>
+    </div>
 
-    <!--  <ion-grid *ngIf="!loading">-->
+    <ion-grid *ngIf="!loading">
 
-    <ion-grid>
         <ion-row class="top">
             <ion-col class="team" style="float: left;" size="4">
                 <span class="team-town">{{ team1.subtitle }}</span>
@@ -40,7 +39,7 @@
                 </div>
                 <div class="panel-item">
                     <ion-icon name="clock"></ion-icon>
-                    <ion-text>{{ match.date | date }}</ion-text>
+                    <ion-text>{{ match.date }}</ion-text>
                 </div>
             </div>
         </ion-row>

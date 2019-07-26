@@ -11,7 +11,7 @@ admin.initializeApp({
 });
 
 const db = admin.firestore();
-var bucket = admin.storage().bucket();
+var bucket = admin.storage();
 
 const {registerMatchRoutes} = require('./matches');
 registerMatchRoutes(app, db);

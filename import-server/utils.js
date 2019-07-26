@@ -1,11 +1,12 @@
-const getAll = function (urlRoute, page, size, collection) {
+const getAll = function (urlRoute, page, size, collection, add) {
     const axios = require('axios');
     page = page || 1;
     size = size || 100;
     collection = collection || [];
-
+    add = add || false;
+    const sep = add ? "&" : "?";
     return axios
-        .get(urlRoute + `?per_page=${size}&page=${page}`)
+        .get(urlRoute + sep + `per_page=${size}&page=${page}`)
         .then(response => response.data)
         .then(raw => {
             raw.forEach(item => collection.push(item));

@@ -4,6 +4,7 @@ import {Match} from '../../../data/match';
 import {computeTeamTitles} from '../../../match-helper';
 import {DataService} from '../../../data/data.service';
 import {Player} from '../../../data/player';
+import * as moment from 'moment';
 
 @Component({
     selector: 'app-match-detail',
@@ -15,6 +16,7 @@ export class MatchDetailPage implements OnInit {
     match: Match = {} as any;
     team1: any = {id: 0, title: '', subtitle: ''};
     team2: any = {id: 0, title: '', subtitle: ''};
+    timeString: string  = '';
     rosterSegment: string;
     playerLists: Player[][] = [];
     ready: boolean = false;
@@ -26,6 +28,7 @@ export class MatchDetailPage implements OnInit {
         const id = Number(this.route.snapshot.paramMap.get('id'));
         this.data.getMatchById$(id).subscribe(value => {
             this.match = value as Match;
+            this.timeString = moment(this.match.date).calendar();
 
             this.data.getTeamById(this.match.team1.id).then(value => {
                 const data = value.data();
