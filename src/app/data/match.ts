@@ -5,6 +5,7 @@ export interface Match {
     id: string;
     team1: MatchStats;
     team2: MatchStats;
+    teams: number[];
     categories: string[];
     duration: number;
     date: string;

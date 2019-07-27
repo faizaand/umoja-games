@@ -1,0 +1,7 @@
+{
+  "appId": "org.umojaoutreach",
+  "appName": "Umoja Games",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www"
+}

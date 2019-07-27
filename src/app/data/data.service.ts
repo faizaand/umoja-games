@@ -80,13 +80,18 @@ export class DataService {
         return col.valueChanges();
     }
 
+    getMatchesByTeam(teamId: number) {
+        const col = this.db.collection<Match>(
+            'matches',
+            ref => ref.where('teams', 'array-contains', teamId.toString())
+        );
+
+        return col.get().toPromise();
+    }
+
     updatePlayer(player: Player) {
         const doc = this.db.doc<Player>('players/' + player.id);
         return doc.set(player);
-    }
-
-    updatePlayerStats(player: Player, matchId: number) {
-
     }
 
     getMediaById$(mediaId: number) {

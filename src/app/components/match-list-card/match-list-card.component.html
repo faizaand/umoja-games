@@ -1,4 +1,4 @@
-<ion-card routerLink="{{ match.id }}">
+<ion-card routerLink="/tabs/matches/{{ match.id }}" routerDirection="forward">
 
     <div *ngIf="loading" style="text-align: center; margin-top: 20px; height: 100px; vertical-align: middle;">
         <ion-spinner></ion-spinner>

@@ -7,7 +7,7 @@ import {IonicModule} from '@ionic/angular';
 
 import {MatchesPage} from './matches.page';
 import {PipesModule} from '../../pipes/pipes.module';
-import {MatchListCardComponent} from '../../components/match-list-card/match-list-card.component';
+import {SharedModule} from '../../components/shared.module';
 
 const routes: Routes = [
     {
@@ -23,8 +23,9 @@ const routes: Routes = [
         IonicModule,
         RouterModule.forChild(routes),
         PipesModule,
+        SharedModule
     ],
-    declarations: [MatchesPage, MatchListCardComponent]
+    declarations: [MatchesPage]
 })
 export class MatchesPageModule {
 }

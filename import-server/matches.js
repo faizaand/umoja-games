@@ -44,6 +44,7 @@ function processMatch(data, db) {
         return;
     }
 
+    const teams = [ data.teams[0].toString(), data.teams[1].toString() ];
     const team1Stats = data.results[data.teams[0]] || {};
     const team2Stats = data.results[data.teams[1]] || {};
     const categories = data.leagues.map(league => catMap[league] || 'Unknown');
@@ -57,6 +58,7 @@ function processMatch(data, db) {
         date: data.date,
         categories: categories,
         field: field,
+        teams: teams,
         team1: {
             id: data.teams[0],
             firstHalf: team1Stats.firsthalf || 0,
