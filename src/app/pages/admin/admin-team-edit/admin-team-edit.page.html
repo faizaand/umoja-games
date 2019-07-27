@@ -9,22 +9,14 @@
 
 <ion-content>
 
-  <ion-select [(ngModel)]="selectedCategory" (ionChange)="onCategorySelect()" placeholder="Select a category">
-    <ion-select-option *ngFor="let category of categories">{{ category }}</ion-select-option>
-  </ion-select>
-
-  <ion-select [(ngModel)]="selectedTeam" (ionChange)="onTeamSelect()" placeholder="Select a team" [disabled]="!selectedCategory">
-    <ion-select-option *ngFor="let team of teams" [value]="team">{{ team.name }}</ion-select-option>
-  </ion-select>
-
-  <ion-select [(ngModel)]="selectedPlayer" (ionChange)="onPlayerSelect()" placeholder="Select a player" [disabled]="!selectedTeam">
-    <ion-select-option *ngFor="let player of players" [value]="player">{{ player.name }}</ion-select-option>
+  <ion-select [(ngModel)]="selectedPlayer" (ionChange)="onPlayerSelect()" placeholder="Select a player" [disabled]="loading">
+    <ion-select-option *ngFor="let player of players" [value]="player">({{player.jersey }}) {{ player.name }}</ion-select-option>
   </ion-select>
 
   <ion-list *ngIf="selectedPlayer">
     <ion-list-header>{{ selectedPlayer.name }} Stats (ID {{ selectedPlayer.id }})</ion-list-header>
     <ion-item>
-      Appearances: &nbsp; <b>{{ selectedPlayer.appearances }}</b>
+      Appearances: &nbsp; <b>{{ selectedPlayer.matches[matchId].appearances }}</b>
       <ion-buttons slot="end">
         <ion-button slot="icon-only" (click)="step('appearances', -1)">
           <ion-icon name="remove"></ion-icon>
@@ -36,7 +28,7 @@
     </ion-item>
 
     <ion-item>
-      Goals: &nbsp; <b>{{ selectedPlayer.goals }}</b>
+      Goals: &nbsp; <b>{{ selectedPlayer.matches[matchId].goals }}</b>
       <ion-buttons slot="end">
         <ion-button slot="icon-only" (click)="step('goals', -1)">
           <ion-icon name="remove"></ion-icon>
@@ -48,7 +40,7 @@
     </ion-item>
 
     <ion-item *ngIf="selectedPlayer.position === 'Goalkeeper'">
-      Goals against: &nbsp; <b>{{ selectedPlayer.goalsAgainst }}</b>
+      Goals against: &nbsp; <b>{{ selectedPlayer.matches[matchId].goalsAgainst }}</b>
       <ion-buttons slot="end">
         <ion-button slot="icon-only" (click)="step('goalsAgainst', -1)">
           <ion-icon name="remove"></ion-icon>
@@ -60,7 +52,7 @@
     </ion-item>
 
     <ion-item>
-      Player of game: &nbsp; <b>{{ selectedPlayer.pog }}</b>
+      Player of game: &nbsp; <b>{{ selectedPlayer.matches[matchId].pog }}</b>
       <ion-buttons slot="end">
         <ion-button slot="icon-only" (click)="step('pog', -1)">
           <ion-icon name="remove"></ion-icon>
@@ -72,7 +64,7 @@
     </ion-item>
 
     <ion-item>
-      Yellow cards: &nbsp; <b>{{ selectedPlayer.yellowCards }}</b>
+      Yellow cards: &nbsp; <b>{{ selectedPlayer.matches[matchId].yellowCards }}</b>
       <ion-buttons slot="end">
         <ion-button slot="icon-only" (click)="step('yellowCards', -1)">
           <ion-icon name="remove"></ion-icon>
@@ -84,7 +76,7 @@
     </ion-item>
     
     <ion-item>
-      Red cards: &nbsp; <b>{{ selectedPlayer.redCards }}</b>
+      Red cards: &nbsp; <b>{{ selectedPlayer.matches[matchId].redCards }}</b>
       <ion-buttons slot="end">
         <ion-button slot="icon-only" (click)="step('redCards', -1)">
           <ion-icon name="remove"></ion-icon>

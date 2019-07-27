@@ -66,7 +66,7 @@ export class AdminMatchEditPage implements OnInit {
         this.db.updateMatch(this.selectedMatch);
     }
 
-    crownWinner(team: string) {
+    crownWinner(team: string = '') {
         if(team === '') {
             // reset
             this.selectedMatch['team1']['outcome'] = '';
