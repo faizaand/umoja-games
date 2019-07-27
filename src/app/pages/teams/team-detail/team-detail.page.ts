@@ -5,6 +5,7 @@ import {Player} from '../../../data/player';
 import {DataService} from '../../../data/data.service';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {Match} from '../../../data/match';
+import * as moment from 'moment';
 
 @Component({
     selector: 'app-team-detail',
@@ -18,6 +19,7 @@ export class TeamDetailPage implements OnInit {
     matches: Match[];
     selectedScreen: string = 'players';
     following: boolean = false;
+    loadingMatches = true;
 
     constructor(private route: ActivatedRoute, private db: DataService, private storage: AngularFireStorage) {
     }
@@ -27,9 +29,18 @@ export class TeamDetailPage implements OnInit {
 
         this.db.getTeamById(id).then(team => {
             this.team = team.data() as Team;
+
+            this.db.getMatchesByTeam(id).then(value => {
+                this.matches = [];
+                value.forEach(result => {
+                    const match = result.data() as Match;
+                    this.matches.push(match);
+                });
+                console.log(this.matches);
+                this.loadingMatches = false;
+            });
         });
 
-        console.log(id);
         this.db.getPlayersByTeam$(id).subscribe(value => {
             console.log(value);
             this.players = [];
@@ -58,7 +69,7 @@ export class TeamDetailPage implements OnInit {
                 ref.getDownloadURL().subscribe(img => {
                     this.players.push({...playerWithStats, imageUrl: img});
                 }, error => {
-                    if(error.code === "storage/object-not-found") {
+                    if(error.code === "storage/object-not-found" || error.code === 404) {
                         this.players.push({...playerWithStats, imageUrl: 'assets/profile_300.png'});
                     }
                 });

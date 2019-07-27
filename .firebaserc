@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "umoja-games",
+    "staging": "umoja-games-ab076"
+  }
+}

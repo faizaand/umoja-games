@@ -1,3 +1,4 @@
+<!--suppress ALL -->
 <ion-header>
     <ion-toolbar>
         <ion-buttons slot="start">
@@ -64,7 +65,12 @@
     </div>
 
     <div *ngIf="selectedScreen === 'matches'">
-        Matches
+        <ion-list *ngIf="!loadingMatches">
+            <ion-list-header>
+                <ion-label>Matches</ion-label>
+            </ion-list-header>
+            <app-match-list-card *ngFor="let match of matches" [match]="match"></app-match-list-card>
+        </ion-list>
     </div>
 
 </ion-content>
