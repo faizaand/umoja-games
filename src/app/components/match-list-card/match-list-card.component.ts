@@ -2,7 +2,6 @@ import {Component, Input, OnInit} from '@angular/core';
 import {computeTeamTitles, computeTimeString} from '../../match-helper';
 import {DataService} from '../../data/data.service';
 import * as moment from 'moment';
-import {Match} from '../../data/match';
 
 @Component({
     selector: 'app-match-list-card',
@@ -26,7 +25,7 @@ export class MatchListCardComponent implements OnInit {
             this.match = value;
 
             // build the date string
-            this.computeTimes(this.match);
+            this.computeTimes();
 
             this.data.getTeamById(this.match.team1.id).then(value => {
                 const data = value.data();
@@ -46,11 +45,13 @@ export class MatchListCardComponent implements OnInit {
         // computeTimeString(this.match.date, this.match.endDate);
     }
 
-    computeTimes(match: Match) {
-        const matchMoment = moment(this.match.date);
-        this.match.date = matchMoment.calendar(moment());
+    ionViewWillEnter() {
+        this.computeTimes();
+    }
 
-        setInterval(() => this.computeTimes(match), 10 * 60 * 1000);
+    computeTimes() {
+        const matchMoment = moment(this.match.date);
+        this.match.momentDate = matchMoment.calendar(moment());
     }
 
 }

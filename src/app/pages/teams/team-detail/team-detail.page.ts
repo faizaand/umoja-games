@@ -19,6 +19,7 @@ export class TeamDetailPage implements OnInit {
     matches: Match[];
     selectedScreen: string = 'players';
     following: boolean = false;
+    loading = true;
     loadingMatches = true;
 
     constructor(private route: ActivatedRoute, private db: DataService, private storage: AngularFireStorage) {
@@ -36,7 +37,6 @@ export class TeamDetailPage implements OnInit {
                     const match = result.data() as Match;
                     this.matches.push(match);
                 });
-                console.log(this.matches);
                 this.loadingMatches = false;
             });
         });
@@ -64,16 +64,19 @@ export class TeamDetailPage implements OnInit {
                     });
                 }
 
+                this.players.push(playerWithStats);
+
                 // todo image placeholders
-                const ref = this.storage.ref('thumbs/256_' + player.imageUrl + '.jpg');
-                ref.getDownloadURL().subscribe(img => {
-                    this.players.push({...playerWithStats, imageUrl: img});
-                }, error => {
-                    if(error.code === "storage/object-not-found" || error.code === 404) {
-                        this.players.push({...playerWithStats, imageUrl: 'assets/profile_300.png'});
-                    }
-                });
+                // const ref = this.storage.ref('thumbs/256_' + player.imageUrl + '.jpg');
+                // ref.getDownloadURL().subscribe(img => {
+                //     this.players.push({...playerWithStats, imageUrl: img});
+                // }, error => {
+                //     if(error.code === "storage/object-not-found" || error.code === 404) {
+                //         this.players.push({...playerWithStats, imageUrl: 'assets/profile_300.png'});
+                //     }
+                // });
             });
+            this.loading = false;
         });
 
         this.db.getFollowedTeams().then(teams => {
