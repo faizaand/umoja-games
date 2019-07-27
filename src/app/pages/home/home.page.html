@@ -13,19 +13,27 @@
             <ion-card-title>Your Teams</ion-card-title>
         </ion-card-header>
         <ion-card-content>
-            <div *ngIf="!followedTeams || followedTeams.length <= 0">
-                <ion-text color="primary"><h2>You're not following any teams.</h2></ion-text>
-                <p>Tap below to head to the Teams page, and select your favorite teams. Come back here, and they'll be just a tap away.</p>
-                <br/>
-                <ion-button color="tertiary" expand="block" routerLink="/tabs/teams" routerDirection="root">Take me to the teams list</ion-button>
+            <div *ngIf="loadingFollows" text-center>
+                <ion-spinner></ion-spinner>
             </div>
+            <div *ngIf="!loadingFollows">
+                <div *ngIf="!followedTeams || followedTeams.length <= 0">
+                    <ion-text color="primary"><h2>You're not following any teams.</h2></ion-text>
+                    <p>Tap below to head to the Teams page, and select your favorite teams. Come back here, and they'll
+                        be just a tap away.</p>
+                    <br/>
+                    <ion-button color="tertiary" expand="block" routerLink="/tabs/teams" routerDirection="root">Take me
+                        to the teams list
+                    </ion-button>
+                </div>
 
-            <div *ngIf="followedTeams && followedTeams.length > 0">
-                <ion-list>
-                    <ion-item *ngFor="let team of followedTeams" routerLink="/tabs/teams/team/{{team.id}}">
-                        {{ team.name }}
-                    </ion-item>
-                </ion-list>
+                <div *ngIf="followedTeams && followedTeams.length > 0">
+                    <ion-list>
+                        <ion-item *ngFor="let team of followedTeams" routerLink="/tabs/teams/team/{{team.id}}">
+                            {{ team.name }}
+                        </ion-item>
+                    </ion-list>
+                </div>
             </div>
         </ion-card-content>
     </ion-card>
