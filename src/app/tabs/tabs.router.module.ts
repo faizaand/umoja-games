@@ -71,7 +71,7 @@ const routes: Routes = [
             loadChildren: '../pages/admin/admin-match-edit/admin-match-edit.module#AdminMatchEditPageModule'
           },
           {
-            path: 'team-edit',
+            path: 'team-edit/:matchId/:teamId',
             loadChildren: '../pages/admin/admin-team-edit/admin-team-edit.module#AdminTeamEditPageModule'
           }
         ]

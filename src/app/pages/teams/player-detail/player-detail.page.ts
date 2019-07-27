@@ -12,7 +12,7 @@ import {AngularFireStorage} from '@angular/fire/storage';
 export class PlayerDetailPage implements OnInit {
 
     teamId: string;
-    player: Player = {} as any;
+    player: {};
     loading: boolean = true;
 
     constructor(private route: ActivatedRoute, private db: DataService, private storage: AngularFireStorage) {
@@ -22,12 +22,29 @@ export class PlayerDetailPage implements OnInit {
         const playerId = this.route.snapshot.params.playerId;
 
         this.db.getPlayerById$(playerId).subscribe(player => {
+            const playerWithStats = Object.assign({}, player) as any;
+            playerWithStats.appearances = 0;
+            playerWithStats.goals = 0;
+            playerWithStats.goalsAgainst = 0;
+            playerWithStats.pog = 0;
+            playerWithStats.yellowCards = 0;
+            playerWithStats.redCards = 0;
+
+            Object.values(player.matches).forEach(match => {
+                playerWithStats.appearances += match.appearances;
+                playerWithStats.goals += match.goals;
+                playerWithStats.goalsAgainst += match.goalsAgainst;
+                playerWithStats.pog += match.pog;
+                playerWithStats.yellowCards += match.yellowCards;
+                playerWithStats.redCards += match.redCards;
+            });
+
             const ref = this.storage.ref('thumbs/512_' + player.imageUrl + '.jpg');
             ref.getDownloadURL().subscribe(img => {this.player = {...player, imageUrl: img};
                 this.loading = false;
             }, error => {
                 if(error.code === "storage/object-not-found") {
-                    this.player = {...player, imageUrl: 'assets/profile_300.png'};
+                    this.player = {...playerWithStats, imageUrl: 'assets/profile_300.png'};
                     this.loading = false;
                 } else {
                     console.log(error);

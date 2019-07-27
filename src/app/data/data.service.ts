@@ -85,6 +85,10 @@ export class DataService {
         return doc.set(player);
     }
 
+    updatePlayerStats(player: Player, matchId: number) {
+
+    }
+
     getMediaById$(mediaId: number) {
         const doc = this.db.doc<Media>('media/' + mediaId);
         return doc.valueChanges();

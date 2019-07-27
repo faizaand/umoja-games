@@ -51,7 +51,16 @@ function processPlayer(data, db) {
         imageUrl: data.featured_media,
         jersey: data.number || 0,
         position: data.positions[0] || 'Forward',
-        ...stats
+        matches: {
+            "init": {
+                appearances: 0,
+                goals: 0,
+                pog: 0,
+                yellowCards: 0,
+                redCards: 0,
+                goalsAgainst: 0
+            }
+        }
     };
 
     db.collection('players').doc(String(finalPlayer.id)).set(finalPlayer);

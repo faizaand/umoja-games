@@ -12,7 +12,8 @@
     <ion-select [(ngModel)]="selectedField" placeholder="Select a field" (ionChange)="onFieldSelect()">
         <ion-select-option *ngFor="let field of fields">{{ field }}</ion-select-option>
     </ion-select>
-    <ion-select [(ngModel)]="selectedMatch" placeholder="Select a match" (ionChange)="onMatchSelect()" [disabled]="!selectedField">
+    <ion-select [(ngModel)]="selectedMatch" placeholder="Select a match" (ionChange)="onMatchSelect()"
+                [disabled]="!selectedField">
         <ion-select-option *ngFor="let match of matches"
                            [value]="match">{{ match.date | date:"medium" }}</ion-select-option>
     </ion-select>
@@ -74,6 +75,12 @@
                 </ion-button>
                 <ion-button (click)="crownWinner('')">Reset</ion-button>
             </ion-buttons>
+        </ion-item>
+
+        <ion-item routerLink="/tabs/admin/team-edit/{{ selectedMatch.id}}/{{team1.id}}" routerDirection="forward">
+            <ion-label>
+                Edit player stats
+            </ion-label>
         </ion-item>
 
 

@@ -7,11 +7,6 @@ export interface Player {
     imageUrl: any;
     jersey: number;
     position: string;
-    appearances: number;
-    goals: number;
-    pog: string;
     goalsAgainst: string; // position == goalkeeper only
-    yellowCards: string;
-    redCards: string;
-
+    matches: Record<string, any>;
 }
