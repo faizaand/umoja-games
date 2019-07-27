@@ -21,6 +21,7 @@ import { environment } from '../environments/environment';
 import {AngularFireStorageModule, StorageBucket} from '@angular/fire/storage';
 import {IonicStorageModule} from '@ionic/storage';
 import {InAppBrowser} from '@ionic-native/in-app-browser/ngx';
+import {Network} from '@ionic-native/network/ngx';
 
 @NgModule({
     declarations: [AppComponent],
@@ -32,6 +33,7 @@ import {InAppBrowser} from '@ionic-native/in-app-browser/ngx';
         PipesModule,
         AngularFireModule.initializeApp(firebaseConfig),
         AngularFirestoreModule,
+        AngularFirestoreModule.enablePersistence(),
         AngularFireStorageModule,
         IonicStorageModule.forRoot(),
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
@@ -42,6 +44,7 @@ import {InAppBrowser} from '@ionic-native/in-app-browser/ngx';
         Camera,
         EmailComposer,
         InAppBrowser,
+        Network,
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
         {provide: StorageBucket, useValue: 'umoja-games-ab076.appspot.com'}
     ],
