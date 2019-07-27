@@ -8,7 +8,13 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="loading">
+    <div  style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%;">
+        <ion-spinner></ion-spinner>
+    </div>
+</ion-content>
+
+<ion-content *ngIf="!loading">
 
     <ion-card style="padding: 20px;">
         <div class="team-name-container">
