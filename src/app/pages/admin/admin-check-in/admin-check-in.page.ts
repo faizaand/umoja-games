@@ -2,6 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {EmailComposer} from '@ionic-native/email-composer/ngx';
 import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
 import {AlertController} from '@ionic/angular';
+import {DataService} from '../../../data/data.service';
+import {categories} from '../../../data/categories';
+import {Team} from '../../../data/team';
 
 @Component({
     selector: 'app-admin-check-in',
@@ -11,7 +14,6 @@ import {AlertController} from '@ionic/angular';
 export class AdminCheckInPage implements OnInit {
 
     categorizedTeams;
-    selectedCategory;
     checkInForm = {
         name: '',
         category: '',
@@ -22,39 +24,19 @@ export class AdminCheckInPage implements OnInit {
         idPhoto: '',
         playerPhoto: '',
     };
+    teams: string[] = [];
 
-    constructor(private camera: Camera, private email: EmailComposer, private alert: AlertController) {
-        this.categorizedTeams = {
-            'Men\'s Open': [
-                '416 Falcons',
-                'Afghan 313',
-                'Ajax FC',
-                'Al Ahad United'
-            ],
-            'Men\'s Over 35': [
-                'Al Ahad United Blue',
-                'Al Ahad United Red',
-                'Bafana Bafana',
-            ],
-            'Women\'s Open': [
-                '313 United',
-                'Al Mahdi Tigers',
-                'Al Ahad United Women'
-            ],
-            'Boys\' Under 8': [],
-            'Boys\' Under 12': [],
-            'Boys\' Under 16': [],
-            'Toddlers': [],
-            'Girls\' Under 10': [],
-            'Girls\' Under 14': [],
-        };
+    constructor(private camera: Camera, private email: EmailComposer, private data: DataService, private alert: AlertController) {
     }
 
     ngOnInit() {
+        this.categorizedTeams = categories.map(value => value.name);
     }
 
-    categorySelected($event) {
-        this.selectedCategory = $event.target.value;
+    categorySelected() {
+        this.data.getTeamsByCategory(this.checkInForm.category).forEach(teams => {
+            this.teams = teams.map(team => team.name);
+        });
     }
 
 
