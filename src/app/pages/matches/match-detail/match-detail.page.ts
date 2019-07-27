@@ -23,7 +23,8 @@ export class MatchDetailPage implements OnInit {
     timeString: string  = '';
     rosterSegment: string = 'team1';
 
-    ready: boolean = false;
+    ready1 = false;
+    ready2 = false;
 
     constructor(private route: ActivatedRoute, private data: DataService, private storage: AngularFireStorage) {
     }
@@ -38,7 +39,6 @@ export class MatchDetailPage implements OnInit {
                 const data = value.data();
                 if(data) {
                     this.team1 = {id: this.match.team1.id, ...computeTeamTitles(data.name)};
-                    this.rosterSegment = this.team1.id;
 
 
                     this.data.getPlayersByTeam$(this.team1.id).subscribe(value => {
@@ -55,6 +55,7 @@ export class MatchDetailPage implements OnInit {
                         //     });
                         // });
                         this.rosterChanged();
+                        this.ready1 = true;
                     });
                 }
             });
@@ -77,7 +78,7 @@ export class MatchDetailPage implements OnInit {
                         //         }
                         //     });
                         // });
-                        this.ready = true;
+                        this.ready2 = true;
                     });
                 }
             });

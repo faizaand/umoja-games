@@ -7,7 +7,13 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="ready">
+<ion-content *ngIf="!ready1 || !ready2">
+    <div  style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%;">
+        <ion-spinner></ion-spinner>
+    </div>
+</ion-content>
+
+<ion-content *ngIf="ready1 && ready2">
 
     <ion-card>
         <ion-grid>
@@ -56,8 +62,8 @@
     <ion-card>
         <ion-card-title style="padding: 20px;">Player Rosters</ion-card-title>
         <ion-segment [(ngModel)]="rosterSegment" (ionChange)="rosterChanged()">
-            <ion-segment-button [value]="'team1'">{{team1.subtitle}} {{team1.title}}</ion-segment-button>
-            <ion-segment-button [value]="'team2'">{{team2.subtitle}} {{team2.title}}</ion-segment-button>
+            <ion-segment-button value="team1">{{team1.subtitle}} {{team1.title}}</ion-segment-button>
+            <ion-segment-button value="team2">{{team2.subtitle}} {{team2.title}}</ion-segment-button>
         </ion-segment>
 
         <ion-list>
