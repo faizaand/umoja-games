@@ -28,6 +28,10 @@ export class AppComponent {
             this.statusBar.styleDefault();
             this.splashScreen.hide();
 
+            if(this.platform.is('ios')) {
+                
+            }
+
             this.db.getFollowedTeams();
 
             this.network.initializeNetworkEvents();
