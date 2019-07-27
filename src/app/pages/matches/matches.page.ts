@@ -21,7 +21,38 @@ export class MatchesPage implements OnInit {
     }
 
     ngOnInit() {
-        this.segmentChanged(); // run it without an event so it sets it to a default
+        this.segmentChanged();
+    }
+
+    ionViewWillEnter() {
+        // reload the timings
+        this.loading = true;
+        const all = this.matches.concat(this.pastMatches);
+        this.matches = [];
+        this.pastMatches = [];
+
+        all.forEach(result => {
+            const data = result as Match;
+            const now = moment();
+
+            let m = moment(data.date);
+            let adjustedMoment = moment(m).add(+data.duration, 'minutes');
+
+            if (adjustedMoment.isBefore(now)) {
+                this.pastMatches.push(data);
+            } else {
+                this.matches.push(data);
+            }
+        });
+
+        this.matches.sort((a, b) => {
+            return new Date(a.date).getTime() - new Date(b.date).getTime();
+        });
+
+        this.pastMatches.sort((a, b) => {
+            return new Date(b.date).getTime() - new Date(a.date).getTime();
+        });
+        this.loading = false;
     }
 
     segmentChanged() {
