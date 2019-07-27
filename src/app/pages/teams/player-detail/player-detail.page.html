@@ -9,6 +9,9 @@
 
 <ion-content>
 
+    <div *ngIf="loading" style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%;">
+        <ion-spinner></ion-spinner>
+    </div>
     <div *ngIf="!loading">
         <ion-card style="padding: 20px;">
 

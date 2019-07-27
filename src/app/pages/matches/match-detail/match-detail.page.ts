@@ -5,6 +5,7 @@ import {computeTeamTitles} from '../../../match-helper';
 import {DataService} from '../../../data/data.service';
 import {Player} from '../../../data/player';
 import * as moment from 'moment';
+import {AngularFireStorage} from '@angular/fire/storage';
 
 @Component({
     selector: 'app-match-detail',
@@ -16,12 +17,15 @@ export class MatchDetailPage implements OnInit {
     match: Match = {} as any;
     team1: any = {id: 0, title: '', subtitle: ''};
     team2: any = {id: 0, title: '', subtitle: ''};
+    team1Players: Player[];
+    team2Players: Player[];
+    selectedRoster: Player[];
     timeString: string  = '';
-    rosterSegment: string;
-    playerLists: Player[][] = [];
+    rosterSegment: string = 'team1';
+
     ready: boolean = false;
 
-    constructor(private route: ActivatedRoute, private data: DataService) {
+    constructor(private route: ActivatedRoute, private data: DataService, private storage: AngularFireStorage) {
     }
 
     ngOnInit() {
@@ -35,6 +39,23 @@ export class MatchDetailPage implements OnInit {
                 if(data) {
                     this.team1 = {id: this.match.team1.id, ...computeTeamTitles(data.name)};
                     this.rosterSegment = this.team1.id;
+
+
+                    this.data.getPlayersByTeam$(this.team1.id).subscribe(value => {
+                        this.team1Players = value;
+                        // value.forEach(player => {
+                        //     // todo image placeholders
+                        //     const ref = this.storage.ref('thumbs/256_' + player.imageUrl + '.jpg');
+                        //     ref.getDownloadURL().subscribe(img => {
+                        //         this.team1Players.push({...player, imageUrl: img});
+                        //     }, error => {
+                        //         if(error.code === "storage/object-not-found" || error.code === 404) {
+                        //             this.team1Players.push({...player, imageUrl: 'assets/profile_300.png'});
+                        //         }
+                        //     });
+                        // });
+                        this.rosterChanged();
+                    });
                 }
             });
 
@@ -42,35 +63,43 @@ export class MatchDetailPage implements OnInit {
                 const data = value.data();
                 if(data) {
                     this.team2 = {id: this.match.team2.id, ...computeTeamTitles(data.name)};
+
+                    this.data.getPlayersByTeam$(this.team2.id).subscribe(value => {
+                        this.team2Players = value;
+                        // value.forEach(player => {
+                        //     // todo image placeholders
+                        //     const ref = this.storage.ref('thumbs/256_' + player.imageUrl + '.jpg');
+                        //     ref.getDownloadURL().subscribe(img => {
+                        //         this.team2Players.push({...player, imageUrl: img});
+                        //     }, error => {
+                        //         if(error.code === "storage/object-not-found" || error.code === 404) {
+                        //             this.team2Players.push({...player, imageUrl: 'assets/profile_300.png'});
+                        //         }
+                        //     });
+                        // });
+                        this.ready = true;
+                    });
                 }
-                this.ready = true;
             });
             // computeTimeString(this.match.date, this.match.endDate);
         });
 
-        this.playerLists[this.team1.id] = [];
-        this.playerLists[this.team2.id] = [];
-        //
-        // todo player listings on this page
-        // if there's no time, just the links to the team pages will be fine
-        //
-        // this.data.getPlayersByTeam$(this.team1.id).subscribe(value => {
-        //     value.forEach(player => {
-        //         this.data.getMediaById$(player.imageUrl).subscribe(img => {
-        //             // todo image placeholders
-        //             this.playerLists[this.team1.id].push({...player, imageUrl: img.url});
-        //         });
-        //     });
-        // });
-        //
-        // this.data.getPlayersByTeam$(this.team2.id).subscribe(value => {
-        //     value.forEach(player => {
-        //         this.data.getMediaById$(player.imageUrl).subscribe(img => {
-        //             // todo image placeholders
-        //             this.playerLists[this.team2.id].push({...player, imageUrl: img.url});
-        //         });
-        //     });
-        // });
+    }
+
+    rosterChanged() {
+        if(this.rosterSegment === 'team1') {
+            this.selectedRoster = this.team1Players;
+        } else {
+            this.selectedRoster = this.team2Players;
+        }
+    }
+
+    getForMatch(player: Player) {
+        if(player.matches[this.match.id]) {
+            return player.matches[this.match.id];
+        } else {
+            return player.matches["init"];
+        }
     }
 
 }

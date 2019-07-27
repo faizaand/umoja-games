@@ -55,16 +55,16 @@
 
     <ion-card>
         <ion-card-title style="padding: 20px;">Player Rosters</ion-card-title>
-        <ion-segment [(ngModel)]="rosterSegment">
-            <ion-segment-button [value]="team1.id">{{team1.subtitle}} {{team1.title}}</ion-segment-button>
-            <ion-segment-button [value]="team2.id">{{team2.subtitle}} {{team2.title}}</ion-segment-button>
+        <ion-segment [(ngModel)]="rosterSegment" (ionChange)="rosterChanged()">
+            <ion-segment-button [value]="'team1'">{{team1.subtitle}} {{team1.title}}</ion-segment-button>
+            <ion-segment-button [value]="'team2'">{{team2.subtitle}} {{team2.title}}</ion-segment-button>
         </ion-segment>
 
         <ion-list>
             <ion-list-header>
                 <ion-label>Players</ion-label>
             </ion-list-header>
-            <ion-item *ngFor="let player of playerLists[rosterSegment]" [routerLink]="'player/' + player.id" routerDirection="forward">
+            <ion-item *ngFor="let player of selectedRoster">
                 <ion-avatar slot="start">
                     <ion-img src="{{player.imageUrl}}"></ion-img>
                 </ion-avatar>
@@ -77,8 +77,11 @@
                         <span>{{ player.position | titlecase}}</span>
                     </h3>
                     <p>
-                        App.: <b>{{player.appearances}}</b> • G.: <b>{{player.goals}}</b> • PoG: <b>{{player.playerOfGame}}</b>
-                        <span *ngIf="player.position === 'goalkeeper'">• <b>{{player.appearances}}</b></span>
+                        App.: <b>{{getForMatch(player).appearances}}</b> • G.:
+                        <b>{{getForMatch(player).goals}}</b> • PoG: <b>{{getForMatch(player).pog}}</b>
+                        <span *ngIf="player.position === 'goalkeeper'">• <b>{{getForMatch(player).goalsAgainst}}</b></span>
+                        • YC: <b>{{getForMatch(player).yellowCards}}</b> • RC:
+                        <b>{{getForMatch(player).redCards}}</b>
                     </p>
                 </ion-label>
             </ion-item>
