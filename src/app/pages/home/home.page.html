@@ -43,7 +43,7 @@
             Quick Links
         </ion-card-header>
         <ion-list>
-            <ion-item *ngFor="let link of links" href="#" (click)="link(link.url)">
+            <ion-item *ngFor="let link of links" href="{{link.url}}">
                 <ion-label>
                     <h2>{{ link.title }}</h2>
                     <p>{{ link.description }}</p>
