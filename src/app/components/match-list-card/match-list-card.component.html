@@ -1,4 +1,4 @@
-<ion-card [routerLink]="isIos ? null : '/tabs/matches/' + match.id" [routerDirection]="isIos ? null : 'forward'">
+<ion-card (click)="onPress()">
 
     <div *ngIf="loading" style="text-align: center; margin-top: 20px; height: 100px; vertical-align: middle;">
         <ion-spinner></ion-spinner>
@@ -42,11 +42,6 @@
                     <ion-text>{{ match.momentDate }}</ion-text>
                 </div>
             </div>
-        </ion-row>
-        <ion-row style="display: flex; justify-content: center;">
-            <ion-button *ngIf="isIos" style="border-radius: 20px !important; width: 60%;" expand="block" color="tertiary" routerLink="/tabs/matches/{{match.id}}" routerDirection="forward">
-                View Details
-            </ion-button>
         </ion-row>
     </ion-grid>
 </ion-card>
