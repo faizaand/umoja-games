@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {computeTeamTitles, computeTimeString} from '../../match-helper';
 import {DataService} from '../../data/data.service';
 import * as moment from 'moment';
-import { Platform } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 
 @Component({
     selector: 'app-match-list-card',
@@ -17,14 +17,11 @@ export class MatchListCardComponent implements OnInit {
     team1: any = {title: '', subtitle: ''};
     team2: any = {title: '', subtitle: ''};
     loading = true;
-    isIos = false;
 
-    constructor(private platform: Platform, private data: DataService) {
+    constructor(private nav: NavController, private data: DataService) {
     }
 
     ngOnInit() {
-        this.isIos = this.platform.is("ios");
-        console.log(this.isIos);
         this.data.getMatchById$(this.match.id).subscribe(value => {
             this.match = value;
 
@@ -56,6 +53,10 @@ export class MatchListCardComponent implements OnInit {
     computeTimes() {
         const matchMoment = moment(this.match.date);
         this.match.momentDate = matchMoment.calendar(moment());
+    }
+
+    onPress() {
+        this.nav.navigateForward('/tabs/matches/' + this.match.id);
     }
 
 }
