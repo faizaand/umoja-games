@@ -141,6 +141,13 @@
                 <ion-button (click)="crownWinner();">Reset</ion-button>
             </ion-buttons>
         </ion-item>
+
+        <ion-item routerLink="/tabs/admin/team-edit/{{selectedMatch.id}}/{{team2.id}}" routerDirection="forward">
+            <ion-label>
+                Edit player stats
+            </ion-label>
+        </ion-item>
+
     </ion-list>
 
 </ion-content>

@@ -83,7 +83,7 @@ export class AdminCheckInPage implements OnInit {
         }
 
         let email = {
-            to: 'fdatoo7@gmail.com',
+            to: 'games@umojaoutreach.org',
             attachments: [
                 this.checkInForm.idPhoto,
                 this.checkInForm.playerPhoto,
