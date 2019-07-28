@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="org.umojaoutreach.games" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="org.umojaoutreach.games" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Umoja Games</name>
     <description>Official mobile app for the Umoja Games.</description>
-    <author email="games@umojaoutreach.org" href="https://umojaoutreach.org/">Umoja Outreach Foundation</author>
+    <author email="fdatoo7@gmail.com" href="https://faizaand.com/">Faizaan Datoo</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
