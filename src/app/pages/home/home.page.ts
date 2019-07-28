@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Team} from '../../data/team';
 import {DataService} from '../../data/data.service';
-import {InAppBrowser} from '@ionic-native/in-app-browser/ngx';
 import {Storage} from '@ionic/storage';
 import {AlertController} from '@ionic/angular';
 
@@ -18,7 +17,7 @@ export class HomePage implements OnInit {
     clickIncrementor = 0;
     loadingFollows = true;
 
-    constructor(private db: DataService, private storage: Storage, private browser: InAppBrowser, private alertController: AlertController) {
+    constructor(private db: DataService, private storage: Storage, private alertController: AlertController) {
     }
 
     ngOnInit() {
@@ -34,23 +33,22 @@ export class HomePage implements OnInit {
         this.db.getFollowedTeams().then(teams => {
             this.followedTeams = [];
             loadingFollowsMax = teams.length;
-            teams.forEach(team => {
-                this.db.getTeamById(team).then(teamData => {
-                    const teamObj = teamData.data() as Team;
-                    this.followedTeams.push(teamObj);
-                    loadingFollowsCounter++;
-                    if (loadingFollowsCounter === loadingFollowsMax) {
-                        this.loadingFollows = false;
-                    }
+            if(loadingFollowsMax === 0) {
+                this.loadingFollows = false;
+            } else {
+                teams.forEach(team => {
+                    this.db.getTeamById(team).then(teamData => {
+                        const teamObj = teamData.data() as Team;
+                        this.followedTeams.push(teamObj);
+                        loadingFollowsCounter++;
+                        if (loadingFollowsCounter === loadingFollowsMax) {
+                            this.loadingFollows = false;
+                        }
+                    });
                 });
-            });
+            }
         });
     }
-
-    link(url) {
-        this.browser.create(url);
-    }
-
 
     onClick() {
         this.clickIncrementor++;
