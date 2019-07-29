@@ -6,6 +6,7 @@ import {Team} from './team';
 import {Media} from './media';
 import {take} from 'rxjs/operators';
 import {Storage} from '@ionic/storage';
+import {Registration} from './registration';
 
 @Injectable({
     providedIn: 'root'
@@ -127,4 +128,10 @@ export class DataService {
         const col = this.db.collection('links');
         return col.valueChanges();
     }
+
+    addRegistration(data: Registration) {
+        const col = this.db.collection('registrations');
+        return col.add(data);
+    }
+
 }

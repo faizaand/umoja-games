@@ -51,22 +51,21 @@
                                           (ionChange)="dobSelected($event)"></ion-datetime>
                         </ion-item>
                     </div>
-                    <ion-grid>
-                        <ion-row>
-                            <ion-col sizeXs="6">
-                                <ion-button [color]="checkInForm.idPhoto === '' ? 'danger' : 'success'"
-                                            (click)="takeIdPhoto()" expand="block">
-                                    {{ checkInForm.idPhoto === '' ? "Take" : "Change" }} ID Photo
-                                </ion-button>
-                            </ion-col>
-                            <ion-col sizeXs="6">
-                                <ion-button [color]="checkInForm.playerPhoto === '' ? 'danger' : 'success'"
-                                            (click)="takePlayerPhoto()" expand="block">
-                                    {{ checkInForm.playerPhoto === '' ? "Take" : "Change" }} Player Photo
-                                </ion-button>
-                            </ion-col>
-                        </ion-row>
-                    </ion-grid>
+
+                    <ion-list>
+                        <ion-list-header>
+                            <ion-label>Identification</ion-label>
+                        </ion-list-header>
+                        <ion-item>
+                            <label style="padding-right: 20px;">ID photo</label>
+                            <input #idCamera type="file" accept="image/*" capture="camera"/>
+                        </ion-item>
+                        <ion-item>
+                            <label style="padding-right: 20px;">Player photo</label>
+                            <input #playerCamera type="file" accept="image/*" capture="camera"/>
+                        </ion-item>
+                    </ion-list>
+
                     <div padding>
                         <ion-button size="large" type="submit"
                                     [disabled]="form.invalid || checkInForm.idPhoto === '' || checkInForm.playerPhoto === '' || checkInForm.dob === ''"
