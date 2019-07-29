@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {EmailComposer} from '@ionic-native/email-composer/ngx';
-import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {AlertController} from '@ionic/angular';
 import {DataService} from '../../../data/data.service';
 import {categories} from '../../../data/categories';
-import {Team} from '../../../data/team';
+import fixOrientation from 'fix-orientation';
+import {Registration} from '../../../data/registration';
+
+import {firestore} from 'firebase';
 
 @Component({
     selector: 'app-admin-check-in',
@@ -13,24 +14,22 @@ import {Team} from '../../../data/team';
 })
 export class AdminCheckInPage implements OnInit {
 
-    categorizedTeams;
-    checkInForm = {
-        name: '',
-        category: '',
-        team: '',
-        email: '',
-        phone: '',
-        dob: '',
-        idPhoto: '',
-        playerPhoto: '',
-    };
-    teams: string[] = [];
+    @ViewChild('idCamera') idCamera: ElementRef;
+    @ViewChild('playerCamera') playerCamera: ElementRef;
 
-    constructor(private camera: Camera, private email: EmailComposer, private data: DataService, private alert: AlertController) {
+    categorizedTeams;
+    checkInForm: Registration = {} as any;
+    teams: string[] = [];
+    ready: boolean = false;
+
+    constructor(private data: DataService, private alert: AlertController) {
     }
 
     ngOnInit() {
         this.categorizedTeams = categories.map(value => value.name);
+
+        this.registerIdPhotoProcessor();
+        this.registerPlayerPhotoProcessor();
     }
 
     categorySelected() {
@@ -39,90 +38,62 @@ export class AdminCheckInPage implements OnInit {
         });
     }
 
+    registerIdPhotoProcessor() {
+        const idElement = this.idCamera.nativeElement as HTMLInputElement;
+        idElement.onchange = () => {
+            const reader = new FileReader();
+            reader.onload = (r: any) => {
 
-    takeIdPhoto() {
-        const options: CameraOptions = {
-            sourceType: this.camera.PictureSourceType.CAMERA,
-            destinationType: this.camera.DestinationType.FILE_URI,
+                let base64 = r.target.result as string;
+
+                fixOrientation(base64, {image: true}, (fixed: string, image: any) => {
+                    this.checkInForm.idPhoto = fixed;
+                });
+            };
+
+            reader.readAsDataURL(idElement.files[0]);
         };
-
-        this.camera.getPicture(options).then((imageData) => {
-            this.checkInForm.idPhoto = imageData;
-        }, (err) => {
-            // Handle error
-            this.presentAlert('Couldn\'t take picture', 'Something went wrong when we tried taking a photo. Check your app permissions in Settings.', err);
-        });
     }
 
-    takePlayerPhoto() {
-        const options: CameraOptions = {
-            sourceType: this.camera.PictureSourceType.CAMERA,
-            destinationType: this.camera.DestinationType.FILE_URI,
-        };
+    registerPlayerPhotoProcessor() {
+        const playerElement = this.playerCamera.nativeElement as HTMLInputElement;
+        playerElement.onchange = () => {
+            const reader = new FileReader();
+            reader.onload = (r: any) => {
+                let base64 = r.target.result as string;
 
-        this.camera.getPicture(options).then((imageData) => {
-            this.checkInForm.playerPhoto = imageData;
-        }, (err) => {
-            // Handle error
-            this.presentAlert('Couldn\'t take picture', 'Something went wrong when we tried taking a photo. Check your app permissions in Settings.', err);
-        });
+                fixOrientation(base64, {image: true}, (fixed: string, image: any) => {
+                    this.checkInForm.playerPhoto = fixed;
+                });
+            };
+
+            reader.readAsDataURL(playerElement.files[0]);
+        };
     }
 
     dobSelected($event) {
         $event.preventDefault();
         const d = new Date($event.target.value);
         this.checkInForm.dob = d.getDate() + '/' + d.getMonth() + '/' + d.getFullYear();
-        console.log(this.checkInForm.dob);
     }
 
     submit() {
-        let body = [];
-        for (const key in this.checkInForm) {
-            if(key === "idPhoto" || key === "playerPhoto") continue;
-            body.push('<b>' + key + '</b> -- ' + this.checkInForm[key]);
-        }
+        this.data.addRegistration(this.checkInForm)
+            .then(() => {
+                this.alert.create({
+                    header: 'Success',
+                    message: 'This check-in has been submitted!',
+                    buttons: ['OK']
+                }).then(value => value.present());
+            })
+            .catch(() => {
+                this.alert.create({
+                    header: 'Uh oh',
+                    message: 'Could not submit your check-in. Make sure you are connected to the Internet.',
+                    buttons: ['OK']
+                }).then(value => value.present());
+            });
 
-        let email = {
-            to: 'games@umojaoutreach.org',
-            attachments: [
-                this.checkInForm.idPhoto,
-                this.checkInForm.playerPhoto,
-            ],
-            subject: 'Check in - ' + this.checkInForm.name,
-            body: body.join('<br>'),
-            isHtml: true
-        };
-
-        this.presentAlertConfirmMail(email);
     }
 
-    async presentAlert(header, subHeader, message, buttons = ['OK']) {
-        const alert = await this.alert.create({
-            header, subHeader, message, buttons
-        });
-        await alert.present();
-    }
-
-    async presentAlertConfirmMail(email) {
-        const alert = await this.alert.create({
-            header: 'Here we go!',
-            message: 'Everything looks good. We\'re about to take you to your phone\'s email app with all the information prefilled. All you need to do is press send. Ready?',
-            buttons: [
-                {
-                    text: 'Cancel',
-                    role: 'cancel',
-                    cssClass: 'secondary',
-                    handler: () => {
-                    }
-                }, {
-                    text: 'Let\'s do this',
-                    handler: () => {
-                        this.email.open(email);
-                    }
-                }
-            ]
-        });
-
-        await alert.present();
-    }
 }
