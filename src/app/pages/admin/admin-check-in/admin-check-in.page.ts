@@ -64,6 +64,7 @@ export class AdminCheckInPage implements OnInit {
 
                 fixOrientation(base64, {image: true}, (fixed: string, image: any) => {
                     this.checkInForm.playerPhoto = fixed;
+                    console.log(fixed);
                 });
             };
 
@@ -78,7 +79,7 @@ export class AdminCheckInPage implements OnInit {
     }
 
     submit() {
-        this.data.addRegistration(this.checkInForm)
+        this.commitData()
             .then(() => {
                 this.alert.create({
                     header: 'Success',
@@ -86,14 +87,22 @@ export class AdminCheckInPage implements OnInit {
                     buttons: ['OK']
                 }).then(value => value.present());
             })
-            .catch(() => {
+            .catch(reason => {
+                console.log(reason);
                 this.alert.create({
                     header: 'Uh oh',
                     message: 'Could not submit your check-in. Make sure you are connected to the Internet.',
                     buttons: ['OK']
                 }).then(value => value.present());
             });
+    }
 
+    async commitData() {
+        await this.data.addRegistrationImages(this.checkInForm.name, this.checkInForm.idPhoto, this.checkInForm.playerPhoto);
+        this.checkInForm.idPhoto = "/registrations/" + this.checkInForm.name.toLowerCase().replace(/ /g, "-") + "/id.png";
+        this.checkInForm.playerPhoto = "/registrations/" + this.checkInForm.name.toLowerCase().replace(/ /g, "-") + "/player.png";
+        await this.data.addRegistration(this.checkInForm);
+        return null;
     }
 
 }
