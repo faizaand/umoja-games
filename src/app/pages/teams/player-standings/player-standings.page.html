@@ -1,12 +1,49 @@
+<!--suppress ALL -->
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-title>{{ category }}</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>{{ category }}</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
+    <ion-segment [(ngModel)]="selectedTab" scrollable mode="md" (ionChange)="resort()">
+        <ion-segment-button *ngFor="let tab of tabs" mode="md" [value]="tab">{{ tab }}</ion-segment-button>
+    </ion-segment>
+
+    <!--  scoring leaders -->
+    <div style="height: 100%;">
+        <ion-list>
+            <ion-list-header>
+                <ion-label>{{ selectedTab | titlecase }}</ion-label>
+            </ion-list-header>
+
+            <div *ngIf="loading" style="text-align: center; margin-top: 20px;">
+                <ion-spinner></ion-spinner>
+            </div>
+
+            <ion-item *ngFor="let player of players | goalkeepers:selectedTab" [routerLink]="'/tabs/teams/team/' + player.teamId + '/player/' + player.id" routerDirection="forward">
+                <ion-avatar slot="start">
+                    <ion-img src="{{player.imageUrl}}"></ion-img>
+                </ion-avatar>
+                <ion-label>
+                    <h2>
+                        <span style="color: var(--ion-color-primary); font-weight: bold;">{{ player.jersey }} </span>
+                        <span>{{ player.name | titlecase}}</span>
+                    </h2>
+                    <h3>
+                        <span>{{ player.position | titlecase}}</span>
+                    </h3>
+                    <p>
+                        App: <b>{{player.appearances}}</b> • Goals: <b>{{player.goals}}</b>
+                        <span *ngIf="selectedTab === 'Goalie Leaders'">&nbsp;• Goals Against: <b>{{player.goalsAgainst}}</b></span>
+                        <span *ngIf="selectedTab !== 'Goalie Leaders'">&nbsp;• PoG: <b>{{player.pog}}</b></span>
+                    </p>
+                </ion-label>
+            </ion-item>
+        </ion-list>
+    </div>
 </ion-content>
