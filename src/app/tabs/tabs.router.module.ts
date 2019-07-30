@@ -47,6 +47,10 @@ const routes: Routes = [
           {
             path: 'team/:id/player/:playerId',
             loadChildren: '../pages/teams/player-detail/player-detail.module#PlayerDetailPageModule'
+          },
+          {
+            path: 'standings/:category',
+            loadChildren: '../pages/teams/player-standings/player-standings.module#PlayerStandingsPageModule'
           }
         ]
       },
