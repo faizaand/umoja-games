@@ -7,6 +7,12 @@
 
 <ion-content>
 
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" routerLink="standings/{{selectedCategory}}" routerDirection="forward">
+    <ion-fab-button color="tertiary">
+      <ion-icon name="trophy"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
   <!-- Scrollable Segment -->
   <!-- Apple styles just look bad for segments so I set it to MD -->
   <ion-segment scrollable mode="md" [(ngModel)]="selectedCategory" (ionChange)="segmentChanged()">
