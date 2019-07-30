@@ -1,62 +1,58 @@
 const functions = require('firebase-functions');
-const axios = require('axios');
 const admin = require('firebase-admin');
+const nodemailer = require('nodemailer');
+const cors = require('cors')({origin: true});
 admin.initializeApp();
 
-// https://umojaoutreach.org/wp-json/wp/v2/media/11566
-// https://umojaoutreach.org/wp-json/sportspress/v2/matches
-
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
-
-exports.importData = functions.https.onRequest((req, res)=> {
-    // we need to import all of our data from the match API
-    axios.get();
-    deleteCollection(admin.firestore(), 'teams', 1000);
+// const gmailEmail = functions.config().gmail.email;
+// const gmailPassword = functions.config().gmail.password;
+const gmailEmail = "umojaregis@gmail.com";
+const gmailPassword = "FutureisNow2019!";
+const mailTransport = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: gmailEmail,
+        pass: gmailPassword,
+    },
 });
 
-function deleteCollection(db, collectionPath, batchSize) {
-    let collectionRef = db.collection(collectionPath);
-    let query = collectionRef.orderBy('__name__').limit(batchSize);
+// send an email to games@umojaoutreach.org when a check-in form is stored
+exports.sendCheckInMail = functions.firestore.document('registrations/{id}').onCreate(async snapshot => {
 
-    return new Promise((resolve, reject) => {
-        deleteQueryBatch(db, query, batchSize, resolve, reject);
+    const defaultBucket = admin.storage().bucket();
+    const file = defaultBucket.file(snapshot.data().idPhoto);
+    const idPhotoUrl = await file.getSignedUrl({
+        action: 'read',
+        expires: '03-17-2025'
     });
-}
 
-function deleteQueryBatch(db, query, batchSize, resolve, reject) {
-    query.get()
-        .then((snapshot) => {
-            // When there are no documents left, we are done
-            if (snapshot.size === 0) {
-                return 0;
-            }
+    const file2 = defaultBucket.file(snapshot.data().playerPhoto);
+    const playerPhotoUrl = await file2.getSignedUrl({
+        action: 'read',
+        expires: '03-17-2025'
+    });
 
-            // Delete documents in a batch
-            let batch = db.batch();
-            snapshot.docs.forEach((doc) => {
-                batch.delete(doc.ref);
-            });
+    console.log(idPhotoUrl);
+    console.log(playerPhotoUrl);
 
-            return batch.commit().then(() => {
-                return snapshot.size;
-            });
-        }).then((numDeleted) => {
-        if (numDeleted === 0) {
-            resolve();
-            return;
-        }
+    let body = [];
+    for (const key in snapshot.data()) {
+        if (key === "idPhoto" || key === "playerPhoto") continue;
+        body.push('<b>' + key + '</b> -- ' + snapshot.data()[key]);
+    }
+    body.push('<img src="' + idPhotoUrl +'" alt="id photo">');
+    body.push('<img src="' + playerPhotoUrl +'" alt="player photo">');
+    // body.push('<b>id photo url</b> ' + idPhotoUrl);
+    // body.push('<b>player photo url</b> ' + playerPhotoUrl);
 
-        // Recurse on the next process tick, to avoid
-        // exploding the stack.
-        process.nextTick(() => {
-            deleteQueryBatch(db, query, batchSize, resolve, reject);
-        });
-    })
-        .catch(reject);
-}
+    const mailOptions = {
+        from: 'Umoja Check-Ins <umojaregis@gmail.com>',
+        to: 'games@umojaoutreach.org',
+        subject: 'Check In for ' + snapshot.data().name, // email subject
+        html: body.join("<br/>"),
+    };
 
+    // returning result
+    mailTransport.sendMail(mailOptions);
+    return null;
+});

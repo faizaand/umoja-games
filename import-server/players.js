@@ -29,22 +29,25 @@ function importAll(req, res, db) {
     //                 console.log("Processed player " + player.id);
     //             });
     //     });
-    db.collection('players').where('imageUrl', '==', 'none').get().then(snapshot => {
+    db.collection('players').where('jersey', '<=', 0).get().then(snapshot => {
         snapshot.forEach(player => {
             let id = player.data().id;
             _.delay(() => axios({
                 method: 'get',
-                url: 'https://umojaoutreach.org/wp-json/sportspress/v2/players/' + id + '?_embed',
+                url: 'https://umojaoutreach.org/wp-json/sportspress/v2/players/' + id /* + '?_embed', */,
                 validateStatus: () => {
                     return true; // I'm always returning true, you may want to do it depending on the status received
                 },
             }).then(value => {
-                    const data = value.data;
-                    processPlayer(data, db);
-                }).catch(reason => {
+                const data = value.data;
+                // console.log("Processing " + data.id);
+                // processPlayer(data, db);
+                processPlayerJustJerseyAndPosition(data, db);
+            }).catch(reason => {
                 console.log(reason);
             }), 2000);
         });
+        res.sendStatus(200);
     });
 }
 
@@ -53,13 +56,15 @@ function importOne(req, res, db) {
     axios.get('https://umojaoutreach.org/wp-json/sportspress/v2/players/' + id + '?_embed')
         .then(value => {
             const data = value.data;
-            processPlayer(data, db);
+            // processPlayer(data, db);
+            processPlayerJustJerseyAndPosition(data, db);
+            res.sendStatus(200);
         });
 }
 
 function processPlayer(data, db) {
-    if(data.seasons[0] !== 76) {
-        console.log("Skipping " + data.id + " because it's not from this season");
+    if (data.seasons[0] !== 76) {
+        // console.log("Skipping " + data.id + " because it's not from this season");
         return;
     }
     const teams = data.current_teams.map(team => team.toString());
@@ -91,6 +96,32 @@ function processPlayer(data, db) {
 
     db.collection('players').doc(String(finalPlayer.id)).set(finalPlayer);
     console.log(finalPlayer);
+}
+
+function processPlayerJustJerseyAndPosition(data, db) {
+    if (!data.seasons || data.seasons[0] !== 76) {
+        // console.log("Skipping " + data.id + " because it's not from this season");
+        return;
+    }
+
+    let position = 'Unknown';
+    const posId = data.positions[0];
+    if (posId === 61) position = "Defender";
+    else if (posId === 68) position = "Forward";
+    else if (posId === 59) position = "Goalkeeper";
+    else if (posId === 214) position = "Midfielder";
+
+    const number = data.number || 0;
+
+    const player = {
+        jersey: number,
+        position: position
+    };
+
+    db.collection('players').doc(String(data.id)).update(player);
+
+    if(player.jersey === 0) return;
+    console.log(player);
 }
 
 //

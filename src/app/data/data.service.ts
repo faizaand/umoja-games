@@ -7,13 +7,14 @@ import {Media} from './media';
 import {take} from 'rxjs/operators';
 import {Storage} from '@ionic/storage';
 import {Registration} from './registration';
+import {AngularFireStorage} from '@angular/fire/storage';
 
 @Injectable({
     providedIn: 'root'
 })
 export class DataService {
 
-    constructor(private db: AngularFirestore, private storage: Storage) {
+    constructor(private db: AngularFirestore, private storage: Storage, private fireStorage: AngularFireStorage) {
     }
 
     getMatchById$(matchId: number) {
@@ -132,6 +133,14 @@ export class DataService {
     addRegistration(data: Registration) {
         const col = this.db.collection('registrations');
         return col.add(data);
+    }
+
+    // these are given as blobs
+    addRegistrationImages(name, idPhoto, playerPhoto) {
+        name = name.toLowerCase().replace(/ /g, "-");
+        const path = 'registrations/' + name + "/";
+        this.fireStorage.ref(path + "/id.png").putString(idPhoto.split('base64,')[1].replace(/\s/g, ''), 'base64', { contentType: 'image/jpg' });
+        this.fireStorage.ref(path + "/player.png").putString(playerPhoto.split('base64,')[1].replace(/\s/g, ''), 'base64', { contentType: 'image/jpg' })
     }
 
 }
