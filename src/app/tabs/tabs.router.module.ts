@@ -26,6 +26,10 @@ const routes: Routes = [
           {
             path: ':id',
             loadChildren: '../pages/matches/match-detail/match-detail.module#MatchDetailPageModule'
+          },
+          {
+            path: 'standings/:category',
+            loadChildren: '../pages/matches/league-standings/league-standings.module#LeagueStandingsPageModule'
           }
         ]
       },
