@@ -85,7 +85,7 @@
                     <p>
                         App.: <b>{{getForMatch(player).appearances}}</b> • G.:
                         <b>{{getForMatch(player).goals}}</b> • PoG: <b>{{getForMatch(player).pog}}</b>
-                        <span *ngIf="player.position === 'goalkeeper'">• <b>{{getForMatch(player).goalsAgainst}}</b></span>
+                        <span *ngIf="player.position === 'goalkeeper'">• GA.: <b>{{getForMatch(player).goalsAgainst}}</b></span>
                         • YC: <b>{{getForMatch(player).yellowCards}}</b> • RC:
                         <b>{{getForMatch(player).redCards}}</b>
                     </p>

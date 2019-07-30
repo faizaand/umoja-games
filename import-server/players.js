@@ -1,5 +1,5 @@
 // Players routes
-const {getAll} = require('./utils');
+const {getAll, catMap} = require('./utils');
 const axios = require('axios');
 const _ = require('lodash');
 
@@ -29,26 +29,39 @@ function importAll(req, res, db) {
     //                 console.log("Processed player " + player.id);
     //             });
     //     });
-    db.collection('players').where('jersey', '<=', 0).get().then(snapshot => {
-        snapshot.forEach(player => {
-            let id = player.data().id;
-            _.delay(() => axios({
-                method: 'get',
-                url: 'https://umojaoutreach.org/wp-json/sportspress/v2/players/' + id /* + '?_embed', */,
-                validateStatus: () => {
-                    return true; // I'm always returning true, you may want to do it depending on the status received
-                },
-            }).then(value => {
-                const data = value.data;
-                // console.log("Processing " + data.id);
-                // processPlayer(data, db);
-                processPlayerJustJerseyAndPosition(data, db);
-            }).catch(reason => {
-                console.log(reason);
-            }), 2000);
+
+    // db.collection('players').where('jersey', '<=', 0).get().then(snapshot => {
+    //     snapshot.forEach(player => {
+    //         let id = player.data().id;
+    //         _.delay(() => axios({
+    //             method: 'get',
+    //             url: 'https://umojaoutreach.org/wp-json/sportspress/v2/players/' + id /* + '?_embed', */,
+    //             validateStatus: () => {
+    //                 return true; // I'm always returning true, you may want to do it depending on the status received
+    //             },
+    //         }).then(value => {
+    //             const data = value.data;
+    //             // console.log("Processing " + data.id);
+    //             // processPlayer(data, db);
+    //             processPlayerJustJerseyAndPosition(data, db);
+    //         }).catch(reason => {
+    //             console.log(reason);
+    //         }), 2000);
+    //     });
+    //     res.sendStatus(200);
+    // });
+
+    getAll('https://umojaoutreach.org/wp-json/sportspress/v2/players/')
+        .then(players => {
+            console.log("Player list of size " + players.length);
+            _.each(players, player => {
+                if(_.includes(player.seasons, 76) && player && player.leagues) {
+                    const categories = player.leagues.map(league => catMap[league] || 'unknown');
+                    db.collection('players').doc(String(player.id)).update({categories});
+                }
+            });
+            console.log("Done");
         });
-        res.sendStatus(200);
-    });
 }
 
 function importOne(req, res, db) {

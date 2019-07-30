@@ -22,7 +22,7 @@
             <div style="margin-top: 10px;">
                 <ion-card-title style="text-align: center;">
                     <ion-text color="tertiary">{{player.jersey}}</ion-text>
-                    {{ player.name }}
+                    {{ player.name | titlecase}}
                 </ion-card-title>
                 <div style="text-align: center; padding-top: 5px; color: #969696;">
                     {{ player.position | uppercase}}

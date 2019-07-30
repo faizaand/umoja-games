@@ -82,6 +82,15 @@ export class DataService {
         return col.valueChanges();
     }
 
+    getPlayersByCategory$(category: string) {
+        const col = this.db.collection<Player>(
+            'players',
+            ref => ref.where('categories', 'array-contains', category)
+        );
+
+        return col.valueChanges();
+    }
+
     getMatchesByTeam(teamId: number) {
         const col = this.db.collection<Match>(
             'matches',
