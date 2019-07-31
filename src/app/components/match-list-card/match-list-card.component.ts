@@ -56,7 +56,7 @@ export class MatchListCardComponent implements OnInit {
     }
 
     onPress() {
-        this.nav.navigateForward('/tabs/matches/' + this.match.id);
+        this.nav.navigateForward('/app/tabs/matches/' + this.match.id);
     }
 
 }

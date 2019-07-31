@@ -22,14 +22,14 @@
                     <p>Tap below to head to the Teams page, and select your favorite teams. Come back here, and they'll
                         be just a tap away.</p>
                     <br/>
-                    <ion-button color="tertiary" expand="block" routerLink="/tabs/teams" routerDirection="root">Take me
+                    <ion-button color="tertiary" expand="block" routerLink="/app/tabs/teams" routerDirection="root">Take me
                         to the teams list
                     </ion-button>
                 </div>
 
                 <div *ngIf="followedTeams && followedTeams.length > 0">
                     <ion-list>
-                        <ion-item *ngFor="let team of followedTeams" routerLink="/tabs/teams/team/{{team.id}}">
+                        <ion-item *ngFor="let team of followedTeams" routerLink="/app/tabs/teams/team/{{team.id}}">
                             {{ team.name }}
                         </ion-item>
                     </ion-list>

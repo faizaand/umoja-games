@@ -86,14 +86,18 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/tabs/home',
+        redirectTo: '/app/tabs/home',
         pathMatch: 'full'
+      },
+      {
+        path: 'preflight',
+        loadChildren: '../pages/preflight/preflight.module#PreflightPageModule'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/home',
+    redirectTo: '/app/tabs/home',
     pathMatch: 'full'
   }
 ];
