@@ -1,0 +1,53 @@
+<ion-content padding *ngIf="displayPage">
+    <ion-slides pager="true" scrollbar="false" [options]="slideOpts">
+        <ion-slide>
+            <img src="assets/images/preflight_slider/intro.png">
+            <H1>Welcome</H1>
+            <p>Follow these instructions to install this app so you'll be in-the-know on all things Umoja Games.</p>
+            <b *ngIf="isAndroid">On Android, you will see an "Add to Home Screen" prompt below. Tap it! Older devices may not have this option. In that case, continue.</b>
+        </ion-slide>
+        <ion-slide *ngIf="isIOS">
+            <img src="assets/images/preflight_slider/ios_1.png">
+            <H1>Select sharing button</H1>
+            <P>Using <strong>Safari</strong>, select the sharing icon at the bottom of the screen.</P>
+        </ion-slide>
+        <ion-slide *ngIf="isIOS">
+            <img src="assets/images/preflight_slider/ios_2.png">
+            <H1>Add to Home Screen</H1>
+            <P>Scroll the icons until you find the option <strong>Add to Home Screen</strong>.</P>
+        </ion-slide>
+        <ion-slide *ngIf="isIOS">
+            <img src="assets/images/preflight_slider/ios_3.jpg">
+            <H1>Press Add</H1>
+            <P>Press <strong>Add</strong> to save the application to your home screen.</P>
+        </ion-slide>
+        <ion-slide *ngIf="isIOS">
+            <img src="assets/images/preflight_slider/ios_4.jpg">
+            <H1>Run from Home Screen</H1>
+            <P>The application will now be available from your home screen.
+                If you still want to use it through your web browser, press Continue.
+            </P>
+            <ion-button shape="round" (click)="runInBrowser()">Continue</ion-button>
+        </ion-slide>
+        <ion-slide *ngIf="isAndroid">
+            <img src="assets/images/preflight_slider/android_1.jpg">
+            <H1>Select options button</H1>
+            <P>Using Chrome, select the options button, which is shown above.
+            </P>
+        </ion-slide>
+        <ion-slide *ngIf="isAndroid">
+            <img src="assets/images/preflight_slider/android_2.jpg">
+            <H1>Press Add</H1>
+            <P>Press the <strong>Add to Home Screen</strong> button to add the application to your home screen.
+            </P>
+        </ion-slide>
+        <ion-slide *ngIf="isAndroid">
+            <img src="assets/images/preflight_slider/android_3.jpg">
+            <H1>Run from Home Screen</H1>
+            <P>The application will now be available from your home screen.
+                If you still want to use it through your web browser, press Continue.
+            </P>
+            <ion-button shape="round" (click)="continueToSplash()">Continue</ion-button>
+        </ion-slide>
+    </ion-slides>
+</ion-content>
