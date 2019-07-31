@@ -7,6 +7,7 @@ import {IonicModule} from '@ionic/angular';
 
 import {TeamDetailPage} from './team-detail.page';
 import {SharedModule} from '../../../components/shared.module';
+import {PipesModule} from '../../../pipes/pipes.module';
 
 const routes: Routes = [
     {
@@ -22,6 +23,7 @@ const routes: Routes = [
         IonicModule,
         RouterModule.forChild(routes),
         SharedModule,
+        PipesModule,
     ],
     declarations: [TeamDetailPage]
 })
