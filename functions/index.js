@@ -1,7 +1,6 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const nodemailer = require('nodemailer');
-const cors = require('cors')({origin: true});
 admin.initializeApp();
 
 // const gmailEmail = functions.config().gmail.email;
@@ -55,4 +54,22 @@ exports.sendCheckInMail = functions.firestore.document('registrations/{id}').onC
     // returning result
     mailTransport.sendMail(mailOptions);
     return null;
+});
+
+const express = require('express');
+const cors = require('cors');
+
+const app = express();
+
+// Automatically allow cross-origin requests
+app.use(cors({ origin: true }));
+
+// build multiple CRUD interfaces:
+app.get('/:id', (req, res) => res.send(Widgets.getById(req.params.id)));
+
+// Expose Express API as a single Cloud Function:
+exports.widgets = functions.https.onRequest(app);
+
+exports.updateTables = functions.https.onRequest((req, res) => {
+    // todo make this a function
 });
