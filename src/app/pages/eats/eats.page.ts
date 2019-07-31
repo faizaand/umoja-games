@@ -29,6 +29,10 @@ export class EatsPage implements OnInit {
 
     open(link) {
         Browser.open({url: link});
+        // // close it because we don't need it after the OS responds to it
+        // Browser.addListener("browserPageLoaded", () => {
+        //     Browser.close();
+        // });
     }
 
     haversine(lat1, lon1, lat2, lon2) {
