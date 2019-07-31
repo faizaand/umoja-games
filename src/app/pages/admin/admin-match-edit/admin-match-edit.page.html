@@ -15,7 +15,7 @@
     <ion-select [(ngModel)]="selectedMatch" placeholder="Select a match" (ionChange)="onMatchSelect()"
                 [disabled]="!selectedField">
         <ion-select-option *ngFor="let match of matches"
-                           [value]="match">{{ match.date | date:"medium" }}</ion-select-option>
+                           [value]="match">{{ match.date | date:"EEEE, h:mm a" }}</ion-select-option>
     </ion-select>
 
     <ion-list *ngIf="team1 && team2">
