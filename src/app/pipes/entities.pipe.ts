@@ -6,7 +6,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 export class EntitiesPipe implements PipeTransform {
 
     transform(item): any {
-        return item.replace("&#8217;", "'")
+        return item.replace("&#8217;", "'").replace("&#8211;", "–");
     }
 
 }

@@ -8,9 +8,9 @@
 
         <ion-row class="top">
             <ion-col class="team" style="float: left;" size="4">
-                <span class="team-town">{{ team1.subtitle }}</span>
+                <span class="team-town">{{ team1.subtitle | entities}}</span>
                 <br/>
-                <span class="team-name">{{ team1.title }}</span>
+                <span class="team-name">{{ team1.title | entities}}</span>
             </ion-col>
 
             <ion-col class="team-score" style="text-align: right;">
@@ -26,9 +26,9 @@
             </ion-col>
 
             <ion-col class="team" float-right style="text-align: right;" size="4">
-                <span class="team-town">{{ team2.subtitle }}</span>
+                <span class="team-town">{{ team2.subtitle | entities}}</span>
                 <br/>
-                <span class="team-name">{{ team2.title }}</span>
+                <span class="team-name">{{ team2.title | entities}}</span>
             </ion-col>
         </ion-row>
         <ion-row class="info-panel">

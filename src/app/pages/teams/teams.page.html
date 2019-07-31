@@ -23,8 +23,8 @@
 
   <ion-card *ngFor="let team of teams" routerLink="team/{{team.id}}">
     <ion-card-title style="background-color: transparent !important;">
-      <span class="subtitle">{{ team.subtitle }} </span>
-      <span class="title">{{ team.title }}</span>
+      <span class="subtitle">{{ team.subtitle | entities}} </span>
+      <span class="title">{{ team.title | entities}}</span>
     </ion-card-title>
 
   </ion-card>
