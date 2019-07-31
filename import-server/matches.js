@@ -1,11 +1,14 @@
 // Matches routes
-const { getAll, catMap, venueMap } = require('./utils');
+const {getAll, catMap, venueMap} = require('./utils');
 const axios = require('axios');
 
 module.exports.registerMatchRoutes = function (app, db) {
     app.get('/match/count', (req, res) => count(req, res, db));
     app.get('/match/import/all', (req, res) => importAll(req, res, db));
     app.get('/match/import/:id', (req, res) => importOne(req, res, db));
+
+    app.get('/table/import/all', (req, res) => importAllTables(req, res, db));
+    app.get('/table/import/:id', (req, res) => importOneTable(req, res, db));
 };
 
 function count(req, res, db) {
@@ -39,12 +42,12 @@ function importOne(req, res, db) {
 }
 
 function processMatch(data, db) {
-    if(!data.seasons.includes(76)) {
+    if (!data.seasons.includes(76)) {
         console.log("Skipping " + data.id + " because it's not in this season");
         return;
     }
 
-    const teams = [ data.teams[0].toString(), data.teams[1].toString() ];
+    const teams = [data.teams[0].toString(), data.teams[1].toString()];
     const team1Stats = data.results[data.teams[0]] || {};
     const team2Stats = data.results[data.teams[1]] || {};
     const categories = data.leagues.map(league => catMap[league] || 'Unknown');
@@ -82,4 +85,66 @@ function processMatch(data, db) {
     console.log(finalMatch);
     db.collection('matches').doc(String(finalMatch.id)).set(finalMatch);
     return finalMatch;
+}
+
+function importAllTables(req, res, db) {
+    getAll('https://umojaoutreach.org/wp-json/sportspress/v2/tables/')
+        .then(matches => {
+            matches.forEach(match => {
+                processTable(match, db);
+            });
+        });
+}
+
+function importOneTable(req, res, db) {
+    const id = req.params.id;
+    axios.get('https://umojaoutreach.org/wp-json/sportspress/v2/tables/' + id).then(response => {
+        const data = response.data;
+        processTable(data, db);
+    });
+}
+
+function processTable(data, db) {
+    if (!data.seasons.includes(76)) {
+        return;
+    }
+
+    const tableId = data.id;
+    const categories = data.leagues.map(league => catMap[league] || 'unknown');
+    const title = data.title.rendered;
+
+    const finalTeams = [];
+
+    const teamIds = Object.keys(data.data).filter(id => id !== '0');
+    teamIds.forEach(id => {
+        const teamData = data.data[id];
+        finalTeams.push({
+            pos: teamData.pos,
+            name: teamData.name,
+            gamesPlayed: teamData.gamesplayed,
+            wins: teamData.wins,
+            losses: teamData.loss,
+            draws: teamData.draw,
+            points: teamData.points,
+            ppg: teamData.ppg,
+            gf: teamData.gf,
+            gfpg: teamData.gfpg,
+            ga: teamData.ga,
+            gapg: teamData.gapg,
+            gd: teamData.gdpg,
+            gdpg: teamData.gdpg,
+            cards: teamData.cards,
+            cpg: teamData.cpg,
+            streak: teamData.strk
+        });
+    });
+
+    const finalValue = {
+        id: tableId,
+        categories: categories,
+        title: title,
+        teams: finalTeams
+    };
+
+    db.collection('tables').doc(String(tableId)).set(finalValue);
 }

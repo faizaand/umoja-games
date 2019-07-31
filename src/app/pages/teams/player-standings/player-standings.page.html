@@ -25,7 +25,7 @@
                 <ion-spinner></ion-spinner>
             </div>
 
-            <ion-item *ngFor="let player of players | goalkeepers:selectedTab" [routerLink]="'/tabs/teams/team/' + player.teamId + '/player/' + player.id" routerDirection="forward">
+            <ion-item *ngFor="let player of players | goalkeepers:selectedTab" [routerLink]="'/app/tabs/teams/team/' + player.teamId + '/player/' + player.id" routerDirection="forward">
                 <ion-avatar slot="start">
                     <ion-img src="{{player.imageUrl}}"></ion-img>
                 </ion-avatar>

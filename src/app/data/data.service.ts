@@ -9,6 +9,7 @@ import {Storage} from '@ionic/storage';
 import {Registration} from './registration';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {Place} from './place';
+import {Table} from './table';
 
 @Injectable({
     providedIn: 'root'
@@ -17,6 +18,10 @@ export class DataService {
 
     constructor(private db: AngularFirestore, private storage: Storage, private fireStorage: AngularFireStorage) {
     }
+
+    /*
+     * Matches
+     */
 
     getMatchById$(matchId: number) {
         const doc = this.db.doc<Match>('matches/' + matchId);
@@ -54,6 +59,22 @@ export class DataService {
         return doc.update(match);
     }
 
+    /*
+     * Standings
+     */
+
+    // these are different because they are updated remotely every so often
+    // as a result, we only need to GET them here
+
+    getLeagueTablesByCategory$(category: string) {
+        const col = this.db.collection<Table>('tables', ref => ref.where('categories', 'array-contains', category));
+        return col.valueChanges();
+    }
+
+    /*
+     * Teams
+     */
+
     getTeamsByCategory(category: string) {
         const col = this.db.collection<Team>(
             'teams',
@@ -72,6 +93,10 @@ export class DataService {
         const doc = this.db.doc<Team>('teams/' + team.id);
         return doc.set(team);
     }
+
+    /*
+     * Players
+     */
 
     getPlayerById$(player: number) {
         const doc = this.db.doc<Player>('players/' + player);
@@ -106,10 +131,9 @@ export class DataService {
         return doc.set(player);
     }
 
-    getMediaById$(mediaId: number) {
-        const doc = this.db.doc<Media>('media/' + mediaId);
-        return doc.valueChanges();
-    }
+    /*
+     * Other
+     */
 
     followedTeams: string[] = [];
 
