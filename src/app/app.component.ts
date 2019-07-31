@@ -25,11 +25,9 @@ export class AppComponent {
 
     initializeApp() {
         this.platform.ready().then(() => {
-            this.statusBar.styleDefault();
-            this.splashScreen.hide();
-
-            if(this.platform.is('ios')) {
-                
+            if(this.platform.is('ios') || this.platform.is('android')) {
+                this.statusBar.styleDefault();
+                this.splashScreen.hide();
             }
 
             this.db.getFollowedTeams();

@@ -27,6 +27,13 @@ export class MatchesPage implements OnInit {
     ionViewWillEnter() {
         // reload the timings
         this.loading = true;
+        if (!this.matches) {
+            this.matches = [];
+        }
+        if(!this.pastMatches) {
+            this.pastMatches = [];
+        }
+
         const all = this.matches.concat(this.pastMatches);
         this.matches = [];
         this.pastMatches = [];

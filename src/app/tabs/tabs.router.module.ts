@@ -55,11 +55,11 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'info',
+        path: 'eats',
         children: [
           {
             path: '',
-            loadChildren: '../pages/info/info.module#InfoPageModule'
+            loadChildren: '../pages/eats/eats.module#EatsPageModule'
           }
         ]
       },
