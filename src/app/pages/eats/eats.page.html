@@ -1,0 +1,46 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>uEats</ion-title>
+
+        <ion-buttons slot="end">
+            <ion-button slot="icon-only" (click)="getCurrentPosition()">
+                <ion-icon name="refresh"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content text-center>
+
+    <div style="margin-top: 20px; margin-bottom: 20px; padding: 20px;">
+        <ion-label>
+            A volunteer-curated list of the best Halal restaurants available in our vicinity.<br>Can you try them all?
+        </ion-label>
+    </div>
+
+    <ion-list>
+        <ion-list-header>uEats</ion-list-header>
+        <ion-item *ngFor="let place of eats">
+            <ion-label text-wrap>
+                <h1>{{ place.name }}</h1>
+                <h2>{{ place.desc }} •
+                    <ion-text color="primary" style="font-weight: bold;">{{ getDistanceFor(place.name).distance }} mi away</ion-text>
+                    <ion-text color="dark">&nbsp;({{getDistanceFor(place.name).distanceKm}}k)</ion-text>
+                </h2>
+                <p>{{ place.address }}</p>
+                <p>{{ place.hours }}</p>
+                <p>{{ place.phoneNumber }}</p>
+            </ion-label>
+
+            <ion-buttons slot="end">
+                <ion-button color="tertiary" (click)="open(place.mapLink)">
+                    <ion-icon name="navigate"></ion-icon>
+                </ion-button>
+                <ion-button color="primary" (click)="open('tel:' + place.phoneNumber)">
+                    <ion-icon name="call"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </ion-item>
+    </ion-list>
+
+</ion-content>

@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Team} from '../../data/team';
 import {DataService} from '../../data/data.service';
 import {Storage} from '@ionic/storage';
-import {AlertController} from '@ionic/angular';
+import {AlertController, Events} from '@ionic/angular';
 
 @Component({
     selector: 'app-home',
@@ -17,7 +17,7 @@ export class HomePage implements OnInit {
     clickIncrementor = 0;
     loadingFollows = true;
 
-    constructor(private db: DataService, private storage: Storage, private alertController: AlertController) {
+    constructor(private db: DataService, private storage: Storage, private alertController: AlertController, private events: Events) {
     }
 
     ngOnInit() {
@@ -79,11 +79,12 @@ export class HomePage implements OnInit {
                     text: 'Go',
                     handler: data => {
                         const pass = data.password;
-                        if (pass === 'Supersecretumojipassword2019') {
+                        if (pass === 'Umoji$2019') {
                             this.storage.set('umoji', true);
+                            this.events.publish('umoji:allow'); // notify the tabs that we can show admin now
                             this.alertController.create({
                                 header: 'Welcome!',
-                                message: 'Please restart the app all the way (go into multitasking and close it, then reopen) to get access to Umojis Only.',
+                                message: 'Thank you for volunteering. The admin tab is now available below.',
                                 buttons: ['OK']
                             }).then(res => res.present());
                         } else {

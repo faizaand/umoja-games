@@ -8,6 +8,7 @@ const routes: Routes = [
   { path: 'admin-match-edit', loadChildren: './pages/admin/admin-match-edit/admin-match-edit.module#AdminMatchEditPageModule' },
   { path: 'admin-team-edit', loadChildren: './pages/admin/admin-team-edit/admin-team-edit.module#AdminTeamEditPageModule' },
   { path: 'player-standings', loadChildren: './pages/teams/player-standings/player-standings.module#PlayerStandingsPageModule' },
+  { path: 'eats', loadChildren: './pages/eats/eats.module#EatsPageModule' },
 ];
 @NgModule({
   imports: [
