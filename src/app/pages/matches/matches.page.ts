@@ -3,6 +3,7 @@ import {categories} from '../../data/categories';
 import {DataService} from '../../data/data.service';
 import {Match} from '../../data/match';
 import * as moment from 'moment';
+import {CategorySegmentService} from '../../category-segment.service';
 
 @Component({
     selector: 'app-matches',
@@ -17,14 +18,17 @@ export class MatchesPage implements OnInit {
     pastMatches: Match[];
     loading = true;
 
-    constructor(private data: DataService) {
+    constructor(private data: DataService, private segmentService: CategorySegmentService) {
     }
 
     ngOnInit() {
+        this.selectedCategory = this.segmentService.getSegment();
         this.segmentChanged();
     }
 
     ionViewWillEnter() {
+        this.selectedCategory = this.segmentService.getSegment();
+
         // reload the timings
         this.loading = true;
         if (!this.matches) {
@@ -63,6 +67,8 @@ export class MatchesPage implements OnInit {
     }
 
     segmentChanged() {
+        this.segmentService.setSegment(this.selectedCategory);
+
         this.loading = true;
         this.data.getMatchesByCategory(this.selectedCategory).then(value => {
             this.matches = [];

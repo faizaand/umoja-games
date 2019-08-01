@@ -33,7 +33,7 @@ import {Network} from '@ionic-native/network/ngx';
         PipesModule,
         AngularFireModule.initializeApp(firebaseConfig),
         AngularFirestoreModule,
-        AngularFirestoreModule.enablePersistence(),
+        // AngularFirestoreModule.enablePersistence(),
         AngularFireStorageModule,
         IonicStorageModule.forRoot(),
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
