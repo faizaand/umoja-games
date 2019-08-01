@@ -33,10 +33,10 @@
             </ion-label>
 
             <ion-buttons slot="end">
-                <ion-button color="tertiary" (click)="open(place.mapLink)">
+                <ion-button color="tertiary" [href]="place.mapLink">
                     <ion-icon name="navigate"></ion-icon>
                 </ion-button>
-                <ion-button color="primary" (click)="open('tel:' + place.phoneNumber)">
+                <ion-button color="primary" [href]="'tel:' + place.phoneNumber">
                     <ion-icon name="call"></ion-icon>
                 </ion-button>
             </ion-buttons>
