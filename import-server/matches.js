@@ -86,6 +86,18 @@ function processMatch(data, db) {
     db.collection('matches').doc(String(finalMatch.id)).set(finalMatch);
     return finalMatch;
 }
+const catMap = {
+    87: "Boys' Under 12",
+    86: "Boys' Under 16",
+    88: "Boys' Under 8",
+    91: "Girls' Under 10",
+    90: "Girls' Under 14",
+    172: "Girls' Under 8",
+    84: "Men's Open",
+    85: "Men's Over 35",
+    89: "Women's Open",
+    92: "Toddlers",
+};
 
 function importAllTables(req, res, db) {
     getAll('https://umojaoutreach.org/wp-json/sportspress/v2/tables/')
