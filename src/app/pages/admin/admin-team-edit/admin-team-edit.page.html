@@ -1,0 +1,91 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Stats Editor</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-select [(ngModel)]="selectedPlayer" (ionChange)="onPlayerSelect()" placeholder="Select a player" [disabled]="loading">
+    <ion-select-option *ngFor="let player of players" [value]="player">({{player.jersey }}) {{ player.name }}</ion-select-option>
+  </ion-select>
+
+  <ion-list *ngIf="selectedPlayer">
+    <ion-list-header>{{ selectedPlayer.name }} Stats (ID {{ selectedPlayer.id }})</ion-list-header>
+    <ion-item>
+      Appearances: &nbsp; <b>{{ selectedPlayer.matches[matchId].appearances }}</b>
+      <ion-buttons slot="end">
+        <ion-button slot="icon-only" (click)="step('appearances', -1)">
+          <ion-icon name="remove"></ion-icon>
+        </ion-button>
+        <ion-button slot="icon-only" (click)="step('appearances', 1)">
+          <ion-icon name="add"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+
+    <ion-item>
+      Goals: &nbsp; <b>{{ selectedPlayer.matches[matchId].goals }}</b>
+      <ion-buttons slot="end">
+        <ion-button slot="icon-only" (click)="step('goals', -1)">
+          <ion-icon name="remove"></ion-icon>
+        </ion-button>
+        <ion-button slot="icon-only" (click)="step('goals', 1)">
+          <ion-icon name="add"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+
+    <ion-item *ngIf="selectedPlayer.position === 'Goalkeeper'">
+      Goals against: &nbsp; <b>{{ selectedPlayer.matches[matchId].goalsAgainst }}</b>
+      <ion-buttons slot="end">
+        <ion-button slot="icon-only" (click)="step('goalsAgainst', -1)">
+          <ion-icon name="remove"></ion-icon>
+        </ion-button>
+        <ion-button slot="icon-only" (click)="step('goalsAgainst', 1)">
+          <ion-icon name="add"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+
+    <ion-item>
+      Player of game: &nbsp; <b>{{ selectedPlayer.matches[matchId].pog }}</b>
+      <ion-buttons slot="end">
+        <ion-button slot="icon-only" (click)="step('pog', -1)">
+          <ion-icon name="remove"></ion-icon>
+        </ion-button>
+        <ion-button slot="icon-only" (click)="step('pog', 1)">
+          <ion-icon name="add"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+
+    <ion-item>
+      Yellow cards: &nbsp; <b>{{ selectedPlayer.matches[matchId].yellowCards }}</b>
+      <ion-buttons slot="end">
+        <ion-button slot="icon-only" (click)="step('yellowCards', -1)">
+          <ion-icon name="remove"></ion-icon>
+        </ion-button>
+        <ion-button slot="icon-only" (click)="step('yellowCards', 1)">
+          <ion-icon name="add"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+    
+    <ion-item>
+      Red cards: &nbsp; <b>{{ selectedPlayer.matches[matchId].redCards }}</b>
+      <ion-buttons slot="end">
+        <ion-button slot="icon-only" (click)="step('redCards', -1)">
+          <ion-icon name="remove"></ion-icon>
+        </ion-button>
+        <ion-button slot="icon-only" (click)="step('redCards', 1)">
+          <ion-icon name="add"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

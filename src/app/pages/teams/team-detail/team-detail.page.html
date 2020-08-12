@@ -1,0 +1,82 @@
+<!--suppress ALL -->
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Team Details</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="loading">
+    <div  style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%;">
+        <ion-spinner></ion-spinner>
+    </div>
+</ion-content>
+
+<ion-content *ngIf="!loading">
+
+    <ion-card style="padding: 20px;">
+        <div class="team-name-container">
+            <ion-card-title>
+                {{ team.name | entities}}
+            </ion-card-title>
+        </div>
+
+        <div class="info-panel">
+            <div class="panel-content">
+                <div class="panel-item">
+                    Captain: {{ team.captain }}
+                </div>
+            </div>
+        </div>
+    </ion-card>
+
+    <ion-button *ngIf="!following" expand="full" color="tertiary" (click)="follow()">
+        Follow
+    </ion-button>
+    <ion-button *ngIf="following" expand="full" color="danger" (click)="unfollow()">
+        Unfollow
+    </ion-button>
+
+    <ion-segment [(ngModel)]="selectedScreen">
+        <ion-segment-button value="players">Players</ion-segment-button>
+        <ion-segment-button value="matches">Matches</ion-segment-button>
+    </ion-segment>
+
+    <div *ngIf="selectedScreen === 'players'">
+        <ion-list>
+            <ion-list-header>
+                <ion-label>Players</ion-label>
+            </ion-list-header>
+            <ion-item *ngFor="let player of players" [routerLink]="'player/' + player.id" routerDirection="forward">
+                <ion-avatar slot="start">
+                    <ion-img src="{{player.imageUrl}}"></ion-img>
+                </ion-avatar>
+                <ion-label>
+                    <h2>
+                        <span style="color: var(--ion-color-primary); font-weight: bold;">{{ player.jersey }} </span>
+                        <span>{{ player.name | titlecase}}</span>
+                    </h2>
+                    <h3>
+                        <span>{{ player.position | titlecase}}</span>
+                    </h3>
+                    <p>
+                        App.: <b>{{player.appearances}}</b> • G.: <b>{{player.goals}}</b> • PoG: <b>{{player.pog}}</b>
+                        <span *ngIf="player.position === 'goalkeeper'">• GA.: <b>{{player.goalsAgainst}}</b></span>
+                    </p>
+                </ion-label>
+            </ion-item>
+        </ion-list>
+    </div>
+
+    <div *ngIf="selectedScreen === 'matches'">
+        <ion-list *ngIf="!loadingMatches">
+            <ion-list-header>
+                <ion-label>Matches</ion-label>
+            </ion-list-header>
+            <app-match-list-card *ngFor="let match of matches" [match]="match"></app-match-list-card>
+        </ion-list>
+    </div>
+
+</ion-content>

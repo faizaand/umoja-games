@@ -1,7 +1,9 @@
 {
   "name": "Umoja Games",
   "integrations": {
-    "cordova": {}
+    "cordova": {},
+    "capacitor": {}
   },
-  "type": "angular"
+  "type": "angular",
+  "id": "18907ae8"
 }

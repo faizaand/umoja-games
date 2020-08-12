@@ -1,0 +1,32 @@
+<!--suppress TypeScriptUnresolvedVariable -->
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Teams</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" routerLink="standings/{{selectedCategory}}" routerDirection="forward">
+    <ion-fab-button color="tertiary">
+      <ion-icon name="trophy"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <!-- Scrollable Segment -->
+  <!-- Apple styles just look bad for segments so I set it to MD -->
+  <ion-segment scrollable mode="md" [(ngModel)]="selectedCategory" (ionChange)="segmentChanged()">
+    <ion-segment-button mode="md" *ngFor="let category of categoryNames" [value]="category">
+      {{ category }}
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-card *ngFor="let team of teams" routerLink="team/{{team.id}}">
+    <ion-card-title style="background-color: transparent !important;">
+      <span class="subtitle">{{ team.subtitle | entities}} </span>
+      <span class="title">{{ team.title | entities}}</span>
+    </ion-card-title>
+
+  </ion-card>
+
+</ion-content>

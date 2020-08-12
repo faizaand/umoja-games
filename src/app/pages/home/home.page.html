@@ -1,0 +1,70 @@
+<ion-content>
+
+    <div text-center>
+        <ion-img src="assets/images/banner.png" (click)="onClick()"></ion-img>
+    </div>
+
+    <ion-text color="primary" text-center>
+        <h1>{{ date| date:"EEEE, MMMM d" }}</h1>
+    </ion-text>
+
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title>Your Teams</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <div *ngIf="loadingFollows" text-center>
+                <ion-spinner></ion-spinner>
+            </div>
+            <div *ngIf="!loadingFollows">
+                <div *ngIf="!followedTeams || followedTeams.length <= 0">
+                    <ion-text color="primary"><h2>You're not following any teams.</h2></ion-text>
+                    <p>Tap below to head to the Teams page, and select your favorite teams. Come back here, and they'll
+                        be just a tap away.</p>
+                    <br/>
+                    <ion-button color="tertiary" expand="block" routerLink="/app/tabs/teams" routerDirection="root">Take me
+                        to the teams list
+                    </ion-button>
+                </div>
+
+                <div *ngIf="followedTeams && followedTeams.length > 0">
+                    <ion-list>
+                        <ion-item *ngFor="let team of followedTeams" routerLink="/app/tabs/teams/team/{{team.id}}">
+                            {{ team.name }}
+                        </ion-item>
+                    </ion-list>
+                </div>
+            </div>
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+        <ion-card-header>
+            Quick Links
+        </ion-card-header>
+        <ion-list>
+            <ion-item *ngFor="let link of links" href="{{link.url}}">
+                <ion-label>
+                    <h2>{{ link.title }}</h2>
+                    <p>{{ link.description }}</p>
+                </ion-label>
+            </ion-item>
+        </ion-list>
+
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <ion-button expand="block" style="--background: #3C5A99" href="https://www.facebook.com/UmojaOutreach/"><ion-icon name="logo-facebook"></ion-icon> Facebook</ion-button>
+                </ion-col>
+                <ion-col>
+                    <ion-button expand="block" style="--background: #C13584" href="https://www.instagram.com/umojaoutreach/"><ion-icon name="logo-instagram"></ion-icon> Instagram</ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-card>
+
+    <div text-center style="font-size: 12px; margin-bottom: 10px;">
+        <ion-text color="dark">Built by Faizaan Datoo for the Umoja Outreach Foundation.</ion-text>
+    </div>
+
+</ion-content>

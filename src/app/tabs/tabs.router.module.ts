@@ -8,51 +8,96 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
+        path: 'home',
+        children: [
+          {
+            path: '',
+            loadChildren: '../pages/home/home.module#HomePageModule'
+          }
+        ]
+      },
+      {
         path: 'matches',
         children: [
           {
             path: '',
-            loadChildren: '../matches/matches.module#MatchesPageModule'
+            loadChildren: '../pages/matches/matches.module#MatchesPageModule'
+          },
+          {
+            path: ':id',
+            loadChildren: '../pages/matches/match-detail/match-detail.module#MatchDetailPageModule'
+          },
+          {
+            path: 'standings/:category',
+            loadChildren: '../pages/matches/league-standings/league-standings.module#LeagueStandingsPageModule'
           }
         ]
       },
       {
-        path: 'rosters',
+        path: 'teams',
         children: [
           {
             path: '',
-            loadChildren: '../rosters/rosters.module#RostersPageModule'
+            loadChildren: '../pages/teams/teams.module#TeamsPageModule'
+          },
+          {
+            path: 'team/:id',
+            loadChildren: '../pages/teams/team-detail/team-detail.module#TeamDetailPageModule'
+          },
+          {
+            path: 'team/:id/player/:playerId',
+            loadChildren: '../pages/teams/player-detail/player-detail.module#PlayerDetailPageModule'
+          },
+          {
+            path: 'standings/:category',
+            loadChildren: '../pages/teams/player-standings/player-standings.module#PlayerStandingsPageModule'
           }
         ]
       },
       {
-        path: 'nearby',
+        path: 'eats',
         children: [
           {
             path: '',
-            loadChildren: '../nearby/nearby.module#NearbyPageModule'
+            loadChildren: '../pages/eats/eats.module#EatsPageModule'
           }
         ]
       },
       {
-        path: 'info',
+        path: 'admin',
         children: [
           {
             path: '',
-            loadChildren: '../info/info.module#InfoPageModule'
+            loadChildren: '../pages/admin/admin.module#AdminPageModule'
+          },
+          {
+            path: 'check-in',
+            loadChildren: '../pages/admin/admin-check-in/admin-check-in.module#AdminCheckInPageModule'
+          },
+          {
+            path: 'match-edit',
+            loadChildren: '../pages/admin/admin-match-edit/admin-match-edit.module#AdminMatchEditPageModule'
+          },
+          {
+            path: 'team-edit/:matchId/:teamId',
+            loadChildren: '../pages/admin/admin-team-edit/admin-team-edit.module#AdminTeamEditPageModule'
           }
         ]
       },
       {
         path: '',
-        redirectTo: '/tabs/matches',
+        redirectTo: '/app/tabs/home',
         pathMatch: 'full'
+      },
+      {
+        path: 'preflight',
+        loadChildren: '../pages/preflight/preflight.module#PreflightPageModule'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/matches',
+    redirectTo: '/app/tabs/home',
     pathMatch: 'full'
   }
 ];

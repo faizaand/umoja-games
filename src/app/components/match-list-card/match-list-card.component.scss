@@ -1,0 +1,113 @@
+
+ion-grid {
+
+  border-bottom: 1px solid grey;
+  padding: 20px 10px;
+
+  .top {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
+  .team {
+    color: black;
+    display: block;
+    word-break: break-all;
+  }
+
+  .team-town {
+    //color: white;
+    font-size: 16px;
+    word-break: keep-all;
+    white-space: pre-wrap;
+    text-transform: capitalize;
+  }
+
+  .team-name {
+    //color: white;
+    text-transform: uppercase;
+    font-size: 20px;
+    white-space: pre-wrap;
+    word-break: keep-all;
+    font-weight: bold;
+    // font-family: 'Squada One', serif;
+  }
+
+  .team-score {
+    //color: white;
+    text-transform: uppercase;
+    font-size: 20px;
+    color: black;
+  }
+
+  div.sep {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: grey;
+    font-size: 30px;
+  }
+
+  .editing {
+    color: orange;
+    animation: flickerAnimation 3s infinite;
+  }
+
+}
+
+.info-panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  font-size: 14px;
+  margin-top: 10px;
+
+  .panel-content {
+    height: 100%;
+    color: white;
+    background-color: var(--ion-color-primary);
+    border-radius: 20px;
+    text-align: center;
+    padding: 10px;
+    display: block;
+  }
+
+  .panel-item {
+    margin: 0 5px;
+    padding-right: 10px;
+    align-items: center;
+    border-right: 1px solid #eee;
+    display: inline;
+
+    ion-icon {
+      display: inline-block;
+      vertical-align: middle;
+      padding-right: 5px;
+    }
+
+    ion-text {
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+
+  .panel-item:last-child {
+    border-right: none;
+  }
+}
+
+@keyframes flickerAnimation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.1;
+  }
+  100% {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,40 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>{{ category }} Standings</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div *ngIf="loading" style="text-align: center; margin-top: 20px;">
+        <ion-spinner></ion-spinner>
+    </div>
+
+    <ion-card *ngFor="let table of tables">
+        <ion-list>
+            <ion-list-header>
+                <ion-label>{{ table.title | entities | titlecase }}</ion-label>
+            </ion-list-header>
+            <ion-item *ngFor="let team of table.teams">
+                <ion-label>
+                    <h2>
+                        <ion-text color="primary">#{{team.pos}} </ion-text>
+                        {{ team.name }}</h2>
+                    <p>
+                        Gms Played: <b>{{team.gamesPlayed}}</b> • W: <b>{{team.wins}}</b> • L: <b>{{team.losses}}</b> • D: <b>{{team.draws}}</b>
+
+                        <span *ngIf="category === 'Women\'s Open' || category === 'Boys\' Under 12'; else normal">
+                             • PPG: <b>{{team.ppg}}</b> •<br>GFPG: <b>{{team.gfpg}}</b> • GAPG: <b>{{team.gapg}}</b> • GDPG: <b>{{team.gdpg}}</b>
+                        </span>
+                        <ng-template #normal>
+                            <br>Points: <b>{{team.points}}</b> • GF: <b>{{team.gf}}</b> • GA: <b>{{team.ga}}</b> • GD: <b>{{team.gd}}</b>
+                        </ng-template>
+                    </p>
+                </ion-label>
+            </ion-item>
+        </ion-list>
+    </ion-card>
+
+</ion-content>

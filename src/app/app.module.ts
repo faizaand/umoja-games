@@ -6,30 +6,48 @@ import {IonicModule, IonicRouteStrategy} from '@ionic/angular';
 import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
 
-import {IonicStorageModule} from '@ionic/storage';
-
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {MatchService} from './match.service';
-import {PipeModule} from './pipe/pipe.module';
+import {PipesModule} from './pipes/pipes.module';
+
+import {AngularFireModule} from 'angularfire2';
+import {AngularFirestoreModule} from 'angularfire2/firestore';
+import {firebaseConfig} from './credentials';
+
+import {Camera} from '@ionic-native/camera/ngx';
+import {EmailComposer} from '@ionic-native/email-composer/ngx';
+import {ServiceWorkerModule} from '@angular/service-worker';
+import {environment} from '../environments/environment';
+import {AngularFireStorageModule, StorageBucket} from '@angular/fire/storage';
+import {IonicStorageModule} from '@ionic/storage';
+import {InAppBrowser} from '@ionic-native/in-app-browser/ngx';
+import {Network} from '@ionic-native/network/ngx';
 
 @NgModule({
     declarations: [AppComponent],
-    entryComponents: [],
+    entryComponents: [ ],
     imports: [
         BrowserModule,
         IonicModule.forRoot(),
         AppRoutingModule,
-        PipeModule.forRoot(),
-        IonicStorageModule.forRoot()
+        PipesModule,
+        AngularFireModule.initializeApp(firebaseConfig),
+        AngularFirestoreModule,
+        // AngularFirestoreModule.enablePersistence(),
+        AngularFireStorageModule,
+        IonicStorageModule.forRoot(),
+        ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     ],
     providers: [
         StatusBar,
         SplashScreen,
-        MatchService,
-        {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
+        Camera,
+        EmailComposer,
+        InAppBrowser,
+        Network,
+        {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
+        {provide: StorageBucket, useValue: 'umoja-games-ab076.appspot.com'}
     ],
-    exports: [],
     bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Matches</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" routerLink="standings/{{selectedCategory}}" routerDirection="forward">
+    <ion-fab-button color="tertiary">
+      <ion-icon name="trophy"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <!-- Scrollable Segment -->
+  <!-- Apple styles just look bad for segments so I set it to MD -->
+  <ion-segment scrollable mode="md" [(ngModel)]="selectedCategory" (ionChange)="segmentChanged()">
+    <ion-segment-button mode="md" *ngFor="let category of categoryNames" [value]="category">
+      {{ category }}
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Match cards -->
+  <div *ngIf="loading" style="text-align: center; margin-top: 20px;">
+    <ion-spinner></ion-spinner>
+  </div>
+  <div *ngIf="!loading">
+    <ion-list-header>
+      Upcoming Matches
+    </ion-list-header>
+    <app-match-list-card *ngFor="let match of matches" [match]="match"></app-match-list-card>
+    <ion-list-header>
+      Past Matches
+    </ion-list-header>
+    <app-match-list-card *ngFor="let match of pastMatches" [match]="match"></app-match-list-card>
+  </div>
+</ion-content>

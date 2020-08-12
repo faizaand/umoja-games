@@ -1,0 +1,47 @@
+<ion-card (click)="onPress()">
+
+    <div *ngIf="loading" style="text-align: center; margin-top: 20px; height: 100px; vertical-align: middle;">
+        <ion-spinner></ion-spinner>
+    </div>
+
+    <ion-grid *ngIf="!loading">
+
+        <ion-row class="top">
+            <ion-col class="team" style="float: left;" size="4">
+                <span class="team-town">{{ team1.subtitle | entities}}</span>
+                <br/>
+                <span class="team-name">{{ team1.title | entities}}</span>
+            </ion-col>
+
+            <ion-col class="team-score" style="text-align: right;">
+                {{match.team1.goals}}
+            </ion-col>
+            <ion-col size="1">
+                <div class="sep">
+                    •
+                </div>
+            </ion-col>
+            <ion-col class="team-score">
+                {{match.team2.goals}}
+            </ion-col>
+
+            <ion-col class="team" float-right style="text-align: right;" size="4">
+                <span class="team-town">{{ team2.subtitle | entities}}</span>
+                <br/>
+                <span class="team-name">{{ team2.title | entities}}</span>
+            </ion-col>
+        </ion-row>
+        <ion-row class="info-panel">
+            <div class="panel-content">
+                <div class="panel-item">
+                    <ion-icon name="pin"></ion-icon>
+                    <ion-text>{{ match.field }}</ion-text>
+                </div>
+                <div class="panel-item">
+                    <ion-icon name="clock"></ion-icon>
+                    <ion-text>{{ match.momentDate }}</ion-text>
+                </div>
+            </div>
+        </ion-row>
+    </ion-grid>
+</ion-card>

@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Umoja Games</string>
+    <string name="title_activity_main">Umoja Games</string>
+    <string name="package_name">org.umojaoutreach.games</string>
+    <string name="fileprovider_authority">org.umojaoutreach.games.fileprovider</string>
+    <string name="custom_url_scheme">org.umojaoutreach.games</string>
+</resources>

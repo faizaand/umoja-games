@@ -1,0 +1,25 @@
+{
+  "name": "import-server",
+  "version": "1.0.0",
+  "description": "Imports data from the umoja site into Firebase",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Faizaan Datoo",
+  "license": "MIT",
+  "dependencies": {
+    "@google-cloud/firestore": "^2.2.4",
+    "@google-cloud/storage": "^3.0.3",
+    "express": "^4.17.1",
+    "firebase-admin": "^8.2.0",
+    "fs-extra": "^8.1.0",
+    "gm": "^1.23.1",
+    "image-downloader": "^3.4.2",
+    "image-thumbnail": "^1.0.4",
+    "imagemagick": "^0.1.3",
+    "lodash": "^4.17.15",
+    "request": "^2.88.0",
+    "sharp": "^0.22.1"
+  }
+}

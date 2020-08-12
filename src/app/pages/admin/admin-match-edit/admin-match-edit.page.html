@@ -1,0 +1,153 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Match Scorecard</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <ion-select [(ngModel)]="selectedField" placeholder="Select a field" (ionChange)="onFieldSelect()">
+        <ion-select-option *ngFor="let field of fields">{{ field }}</ion-select-option>
+    </ion-select>
+    <ion-select [(ngModel)]="selectedMatch" placeholder="Select a match" (ionChange)="onMatchSelect()"
+                [disabled]="!selectedField">
+        <ion-select-option *ngFor="let match of matches"
+                           [value]="match">{{ match.date | date:"EEEE, h:mm a" }}</ion-select-option>
+    </ion-select>
+
+    <ion-list *ngIf="team1 && team2">
+        <ion-list-header>{{ team1.name }}</ion-list-header>
+        <ion-item>
+            First half goals: &nbsp; <b>{{ selectedMatch.team1.firstHalf }}</b>
+            <ion-buttons slot="end">
+                <ion-button slot="icon-only" (click)="step('team1', 'firstHalf', -1)">
+                    <ion-icon name="remove"></ion-icon>
+                </ion-button>
+                <ion-button slot="icon-only" (click)="step('team1', 'firstHalf', 1)">
+                    <ion-icon name="add"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </ion-item>
+
+        <ion-item>
+            Second half goals: &nbsp; <b>{{ selectedMatch.team1.secondHalf }}</b>
+            <ion-buttons slot="end">
+                <ion-button slot="icon-only" (click)="step('team1', 'secondHalf', -1)">
+                    <ion-icon name="remove"></ion-icon>
+                </ion-button>
+                <ion-button slot="icon-only" (click)="step('team1', 'secondHalf', 1)">
+                    <ion-icon name="add"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </ion-item>
+
+        <ion-item>
+            Yellow cards: &nbsp; <b>{{ selectedMatch.team1.yellowCards }}</b>
+            <ion-buttons slot="end">
+                <ion-button slot="icon-only" (click)="step('team1', 'yellowCards', -1)">
+                    <ion-icon name="remove"></ion-icon>
+                </ion-button>
+                <ion-button slot="icon-only" (click)="step('team1', 'yellowCards', 1)">
+                    <ion-icon name="add"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </ion-item>
+
+        <ion-item>
+            Red cards: &nbsp; <b>{{ selectedMatch.team1.redCards }}</b>
+            <ion-buttons slot="end">
+                <ion-button slot="icon-only" (click)="step('team1', 'redCards', -1)">
+                    <ion-icon name="remove"></ion-icon>
+                </ion-button>
+                <ion-button slot="icon-only" (click)="step('team1', 'redCards', 1)">
+                    <ion-icon name="add"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </ion-item>
+
+        <ion-item>
+            Status: {{ selectedMatch.team1.outcome || 'none yet'}}
+            <ion-buttons slot="end">
+                <ion-button (click)="crownWinner('team1')">Make Winner
+                </ion-button>
+                <ion-button (click)="crownWinner('')">Reset</ion-button>
+            </ion-buttons>
+        </ion-item>
+
+        <ion-item routerLink="/app/tabs/admin/team-edit/{{ selectedMatch.id}}/{{team1.id}}" routerDirection="forward">
+            <ion-label>
+                Edit player stats
+            </ion-label>
+        </ion-item>
+
+
+        <ion-list-header>{{ team2.name }}</ion-list-header>
+        <ion-item>
+            First half goals: &nbsp; <b>{{ selectedMatch.team2.firstHalf }}</b>
+            <ion-buttons slot="end">
+                <ion-button slot="icon-only" (click)="step('team2', 'firstHalf', -1)">
+                    <ion-icon name="remove"></ion-icon>
+                </ion-button>
+                <ion-button slot="icon-only" (click)="step('team2', 'firstHalf', 1)">
+                    <ion-icon name="add"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </ion-item>
+
+        <ion-item>
+            Second half goals: &nbsp; <b>{{ selectedMatch.team2.secondHalf }}</b>
+            <ion-buttons slot="end">
+                <ion-button slot="icon-only" (click)="step('team2', 'secondHalf', -1)">
+                    <ion-icon name="remove"></ion-icon>
+                </ion-button>
+                <ion-button slot="icon-only" (click)="step('team2', 'secondHalf', 1)">
+                    <ion-icon name="add"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </ion-item>
+
+        <ion-item>
+            Yellow cards: &nbsp; <b>{{ selectedMatch.team2.yellowCards }}</b>
+            <ion-buttons slot="end">
+                <ion-button slot="icon-only" (click)="step('team2', 'yellowCards', -1)">
+                    <ion-icon name="remove"></ion-icon>
+                </ion-button>
+                <ion-button slot="icon-only" (click)="step('team2', 'yellowCards', 1)">
+                    <ion-icon name="add"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </ion-item>
+
+        <ion-item>
+            Red cards: &nbsp; <b>{{ selectedMatch.team2.redCards }}</b>
+            <ion-buttons slot="end">
+                <ion-button slot="icon-only" (click)="step('team2', 'redCards', -1)">
+                    <ion-icon name="remove"></ion-icon>
+                </ion-button>
+                <ion-button slot="icon-only" (click)="step('team2', 'redCards', 1)">
+                    <ion-icon name="add"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </ion-item>
+
+        <ion-item>
+            Status: {{ selectedMatch.team2.outcome || 'none yet'}}
+            <ion-buttons slot="end">
+                <ion-button (click)="crownWinner('team2');">Make Winner
+                </ion-button>
+                <ion-button (click)="crownWinner();">Reset</ion-button>
+            </ion-buttons>
+        </ion-item>
+
+        <ion-item routerLink="/app/tabs/admin/team-edit/{{selectedMatch.id}}/{{team2.id}}" routerDirection="forward">
+            <ion-label>
+                Edit player stats
+            </ion-label>
+        </ion-item>
+
+    </ion-list>
+
+</ion-content>
