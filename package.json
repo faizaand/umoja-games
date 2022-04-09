@@ -54,7 +54,7 @@
     "fix-orientation": "^1.0.0",
     "hyphenation.en-us": "^0.2.1",
     "hypher": "^0.2.5",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "ng-country-flags": "^1.0.7",
     "rxjs": "~6.5.1",
     "smartdate": "^0.9.1",
