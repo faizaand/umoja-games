@@ -11,7 +11,7 @@
   "dependencies": {
     "@google-cloud/firestore": "^2.2.4",
     "@google-cloud/storage": "^3.0.3",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "firebase-admin": "^8.2.0",
     "fs-extra": "^8.1.0",
     "gm": "^1.23.1",
