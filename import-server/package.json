@@ -12,7 +12,7 @@
     "@google-cloud/firestore": "^2.2.4",
     "@google-cloud/storage": "^3.0.3",
     "express": "^4.17.1",
-    "firebase-admin": "^8.2.0",
+    "firebase-admin": "^11.4.1",
     "fs-extra": "^8.1.0",
     "gm": "^1.23.1",
     "image-downloader": "^3.4.2",
